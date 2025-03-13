@@ -1,13 +1,18 @@
-import '../styles/globals.css';
+import { Poppins } from 'next/font/google'
+import '../styles/globals.css'
 
-const RootLayout = ({ children }) => (
-  <html lang="en">
-    <head>
-      <link rel="preconnect" href="https://stijndv.com" />
-      <link rel="stylesheet" href="https://stijndv.com/fonts/Eudoxus-Sans.css" />
-    </head>
-    <body>{children}</body>
-  </html>
-);
+const poppins = Poppins({ 
+  subsets: ['latin'], 
+  weight: ['400', '500', '600', '700'],
+  variable: '--font-poppins'
+})
 
-export default RootLayout;
+export default function RootLayout({ children }) {
+  return (
+    <html lang="en" className={poppins.variable}>
+      <body>
+        {children}
+      </body>
+    </html>
+  )
+}

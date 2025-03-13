@@ -1,13 +1,16 @@
+
 export const exploreWorlds = [
   {
-    id: 'world-1',
-    imgUrl: '/planet-01.png',
-    title: 'The Hogwarts',
+    id: 'project-1',
+    imgUrl: '/storeIt.png',
+    link: 'https://anubhav-storage-app.vercel.app',
+    title: 'Storage Management App',
   },
   {
-    id: 'world-2',
-    imgUrl: '/planet-02.png',
-    title: 'The Upside Down',
+    id: 'project-2',
+    imgUrl: '/reverseProxy.png',
+    link: 'https://github.com/anubhav126/reverse-proxy',
+    title: 'Reverse proxy from scratch using node',
   },
   {
     id: 'world-3',
@@ -49,23 +52,35 @@ export const newFeatures = [
 
 export const insights = [
   {
-    imgUrl: '/planet-06.png',
-    title: 'The launch of the Metaverse makes Elon musk ketar-ketir',
+    imgUrl: '/blog4.png',
+    title: `Google Drive System Design Deep Dive`,
     subtitle:
-        'Magna etiam tempor orci eu lobortis elementum nibh tellus molestie. Diam maecenas sed enim ut sem viverra alique.',
+        'This blog will be an attempt for me to design the system design path for google drive from scratch. This is going to be my first time making such a blog. I will try to keep it as simple and beginner friendly as possible. Let us begin. Everyone has used google drive (or one of its alternatives) at some point in our lives. We use it store and retrieve documents, edit them, move them and share them to other people among other things. Technical Specifications We need this service to be highly available at all times. We need this service to create a folder, upload and view files, rename files, delete and download files. When',
+    url: 'https://anubhav1206.hashnode.dev/google-drive-system-design-deep-dive',
   },
   {
-    imgUrl: '/planet-07.png',
-    title: '7 tips to easily master the madness of the Metaverse',
+    imgUrl: '/blog1.png',
+    title: 'JavaScript Prototypes',
     subtitle:
-        'Vitae congue eu consequat ac felis donec. Et magnis dis parturient montes nascetur ridiculus mus. Convallis tellus id interdum',
+        'Prototypes are the core of how JavaScript functions. Whether you are preparing for you next interview....',
+    url: 'https://anubhav1206.hashnode.dev/javascript-prototypes-your-one-stop-guide-for-understanding-this-core-javascript-concept',
+    preview: "Prototypes are the core of how JavaScript functions. Whether you're preparing for your next interview...",
   },
   {
-    imgUrl: '/planet-08.png',
-    title: 'With one platform you can explore the whole world virtually',
+    imgUrl: '/blog2.png',
+    title: 'Create your own Mail Server!',
     subtitle:
-        'Quam quisque id diam vel quam elementum. Viverra nam libero justo laoreet sit amet cursus sit. Mauris in aliquam sem',
+        'In this guide, we will learn about mail servers and how to create one from...',
+    url: 'https://anubhav1206.hashnode.dev/create-your-own-mail-server',
   },
+  {
+    imgUrl: '/blog3.png',
+    title: `The Reasons Behind React's Fast Performance`,
+    subtitle:
+        'React is a JavaScript library used by many developers, both junior and senior. React has become extremely..React is a JavaScript library used by many developers, both junior and senior. React has become extremely...React is a JavaScript library used by many developers, both junior and senior. React has become extremely....',
+    url: 'https://anubhav1206.hashnode.dev/the-reasons-behind-reacts-fast-performance',
+  },
+  
 ];
 
 export const socials = [
@@ -78,11 +93,11 @@ export const socials = [
     url: '/linkedin.svg',
   },
   {
-    name: 'instagram',
-    url: '/instagram.svg',
+    name: 'github',
+    url: '/github.svg',
   },
   {
-    name: 'facebook',
-    url: '/facebook.svg',
+    name: 'hashnode.svg',
+    url: '/hashnode.svg',
   },
 ];
