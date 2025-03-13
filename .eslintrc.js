@@ -7,7 +7,6 @@ module.exports = {
     'plugin:react/recommended',
     "next/core-web-vitals",
   ],
-  
   parserOptions: {
     ecmaFeatures: {
       jsx: true,
@@ -40,19 +39,15 @@ module.exports = {
     'react/jsx-props-no-spreading': 'off',
     'jsx-a11y/no-noninteractive-element-interactions': 'off',
     'react/function-component-definition': [
-      2,
+      2, // "error" level
       {
-        namedComponents: 'arrow-function',
+        namedComponents: 'arrow-function', // Enforce arrow functions
         unnamedComponents: 'arrow-function',
       },
     ],
     'max-len': [
       2,
       1050,
-    ],
-    "react/function-component-definition": [
-      "error",
-      { "namedComponents": "function-declaration" } // Allow function declarations
     ],
     'no-multiple-empty-lines': [
       'error',
