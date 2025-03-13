@@ -61,7 +61,7 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="relative w-full ">
+    <nav className="relative w-full">
       <div
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ease-in-out ${
           visible ? "translate-y-0" : "-translate-y-full"
@@ -84,7 +84,9 @@ const Navbar = () => {
               <a
                 key={item.label}
                 href={item.href}
-                className="nav-item relative text-gray-300 transition-colors duration-300 group"
+                className={`nav-item relative text-gray-300 transition-colors duration-300 group ${
+                  activeSection === item.href.substring(1) ? "text-neon-cyan" : ""
+                }`}
               >
                 {item.label}
               </a>
@@ -94,7 +96,6 @@ const Navbar = () => {
               className="cyber-glitch-button px-6 py-2 font-medium rounded-full shadow-lg shadow-neon-purple/20 relative group"
             >
               <div className="cyber-glitch-bg absolute inset-0 rounded-full"></div>
-              <div className="cyber-glitch-scanline absolute inset-0 overflow-hidden rounded-full opacity-0 group-hover:opacity-100"></div>
               <div className="cyber-glitch-text relative z-20 flex items-center text-white">
                 <FileText className="w-5 h-5 inline mr-2" /> Resume
               </div>
@@ -106,11 +107,6 @@ const Navbar = () => {
             className="md:hidden p-2 rounded-lg text-white hover:bg-neon-cyan/20 transition duration-300 relative overflow-hidden"
           >
             <Menu className="w-6 h-6 z-10 relative" />
-            <motion.div
-              className="absolute inset-0 bg-gradient-to-r from-neon-pink/20 to-neon-cyan/20 opacity-0"
-              whileHover={{ opacity: 1 }}
-              transition={{ duration: 0.2 }}
-            />
           </button>
         </div>
       </div>

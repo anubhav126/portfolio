@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react';
 import { FileText, Code, ArrowUp } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { Github, Linkedin, Twitter, X, Twitch } from 'lucide-react';
-
 // Social icons
 const socials = [
   { name: 'GitHub', url: '/github.svg', link: 'https://github.com/yourprofile', icon: Github },
@@ -12,12 +11,10 @@ const socials = [
   { name: 'Twitter', url: '/twitter.svg', link: 'https://twitter.com/yourprofile', icon: X },
   { name: 'Twitch', url: '/twitch.svg', link: 'https://twitch.tv/yourprofile', icon: Twitch },
 ];
-
 const styles = {
   paddings: 'sm:px-16 px-6',
   innerWidth: 'lg:w-[80%] w-[95%]',
 };
-
 const Footer = () => {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [isHovered, setIsHovered] = useState(false);
@@ -51,7 +48,6 @@ const Footer = () => {
       }
     }
   };
-
   const itemVariants = {
     hidden: { y: 20, opacity: 0 },
     visible: {
@@ -64,7 +60,6 @@ const Footer = () => {
       }
     }
   };
-
   return (
     <motion.footer 
       initial={{ opacity: 0, y: 30 }}
@@ -82,7 +77,6 @@ const Footer = () => {
         }}
         transition={{ duration: 1, ease: "easeOut" }}
       />
-      
       <motion.div 
         className="absolute -bottom-32 left-1/4 w-96 h-96 rounded-full bg-cyan-500/5 blur-3xl pointer-events-none"
         animate={{
@@ -91,8 +85,7 @@ const Footer = () => {
           opacity: isHovered ? 0.15 : 0.05,
         }}
         transition={{ duration: 1, ease: "easeOut" }}
-      />
-      
+      />    
       <motion.div 
         variants={containerVariants}
         initial="hidden"
@@ -109,7 +102,6 @@ const Footer = () => {
           >
             Let's Connect
           </motion.h2>
-
           <button
             onClick={openResume}
             className="cyber-glitch-button px-6 py-2 font-medium rounded-full shadow-lg shadow-purple-800/20 relative group"
@@ -140,7 +132,6 @@ const Footer = () => {
             }}
           />
         </motion.div>
-
         {/* Footer Bottom */}
         <motion.div className="flex flex-col md:flex-row items-center justify-between gap-6">
         <motion.div 
@@ -159,8 +150,6 @@ const Footer = () => {
             <Twitch className="w-6 h-6 sm:w-8 sm:h-8 text-purple-500 hover:text-purple-400 transition-colors" />
           </a>
         </motion.div>
-
-
           <motion.div 
             variants={itemVariants}
             className="flex flex-col md:flex-row items-center gap-6"
@@ -186,8 +175,7 @@ const Footer = () => {
               ))}
             </div>
           </motion.div>
-        </motion.div>
-        
+        </motion.div>        
         {/* Scroll to top button */}
         <motion.div 
           className="flex justify-center"
@@ -208,5 +196,4 @@ const Footer = () => {
     </motion.footer>
   );
 };
-
 export default Footer;

@@ -7,15 +7,11 @@ import GlitchButton from '../components/ui/glitch-button';
 import '../components/ui/RetroButton'
 import '../components/ui/CyberpunkButton'
 import '../components/ui/GalacticButton'
-
 import { staggerContainer } from '../utils/motion';
 import { InsightCard, TitleText, TypingText } from '../components';
 import RetroButton from '../components/ui/RetroButton';
 import CyberpunkButton from '../components/ui/CyberpunkButton';
 import CyberGlitchMotionButton from '../components/ui/CyberGlitchMotionButton';
-
-// In your Insights component:
-
 const Insights = () => (
   <section className={`${styles.paddings} relative z-10`}>
     <motion.div
@@ -57,5 +53,4 @@ const Insights = () => (
     </motion.div>
   </section>
 );
-
 export default Insights;

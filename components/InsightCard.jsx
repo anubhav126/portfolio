@@ -3,10 +3,8 @@ import React, { useState, useMemo } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import CyberGlitchMotionButton from "../components/ui/CyberGlitchMotionButton";
-
 const InsightCard = ({ imgUrl, title, subtitle, index, link }) => {
   const [isHovered, setIsHovered] = useState(false);
-
   // Memoized animation variants
   const cardVariants = useMemo(() => ({
     hidden: { opacity: 0, y: 50 },
@@ -81,8 +79,6 @@ const InsightCard = ({ imgUrl, title, subtitle, index, link }) => {
         </div>
         
       </div>
-      
-
       {/* Animated accent decoration */}
       {isHovered && (
         <motion.div
@@ -94,8 +90,6 @@ const InsightCard = ({ imgUrl, title, subtitle, index, link }) => {
         />
       )}
     </motion.div>
-    
   );
 };
-
 export default InsightCard;
