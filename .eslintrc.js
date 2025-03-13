@@ -50,6 +50,10 @@ module.exports = {
       2,
       1050,
     ],
+    "react/function-component-definition": [
+      "error",
+      { "namedComponents": "function-declaration" } // Allow function declarations
+    ],
     'no-multiple-empty-lines': [
       'error',
       {

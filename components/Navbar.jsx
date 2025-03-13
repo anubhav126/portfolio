@@ -1,7 +1,7 @@
 "use client";
 import { motion, AnimatePresence } from "framer-motion";
 import React, { useState, useEffect, useRef } from "react";
-import { Code, X, Menu, FileText, Twitch, Sun, Zap, Cpu, Send } from "lucide-react";
+import { Code, X, Menu, FileText, Sun, Zap, Cpu, Send } from "lucide-react";
 
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
@@ -40,7 +40,7 @@ const Navbar = () => {
 
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, [lastScrollY]);
+  }, [lastScrollY]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -72,7 +72,7 @@ const Navbar = () => {
         }`}
       >
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-          <a href="#" className="flex items-center group">
+          <a href="/" className="flex items-center group">
             <Code className="w-8 h-8 text-violet-400 group-hover:text-neon-cyan transition-colors duration-300" />
             <span className="ml-2 text-xl font-semibold text-white bg-gradient-to-r from-neon-pink to-neon-cyan bg-clip-text text-transparent">
               Portfolio
@@ -111,78 +111,77 @@ const Navbar = () => {
         </div>
       </div>
 
-      {/* Mobile Menu (unchanged for this fix) */}
+      {/* Mobile Menu (unchanged) */}
       <AnimatePresence>
-  {isOpen && (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      transition={{ duration: 0.4 }}
-      className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm overflow-y-auto flex items-center justify-center"
-    >
-      <motion.div
-        className="relative w-80 h-80"
-        initial={{ scale: 0, rotate: 90 }}
-        animate={{ scale: 1, rotate: 0 }}
-        exit={{ scale: 0, rotate: 90 }}
-        transition={{ type: "spring", stiffness: 150 }}
-      >
-        {/* Vortex Background */}
-        <motion.div
-          className="absolute inset-0 rounded-full bg-gradient-to-r from-neon-pink to-neon-cyan opacity-20 blur-3xl"
-          animate={{ rotate: 360 }}
-          transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
-        />
-        
-        {menuItems.map((item, index) => (
-          <motion.a
-            key={item.label}
-            href={item.href}
-            onClick={() => setIsOpen(false)}
-            className="absolute top-1/2 left-1/2"
-            initial={{ opacity: 0, scale: 0 }}
-            animate={{
-              opacity: 1,
-              scale: 1,
-              y: `${(index - (menuItems.length - 1) / 2) * 60}px`,
-              x: "-50%",
-            }}
-            transition={{ delay: index * 0.2, type: "spring" }}
+        {isOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.4 }}
+            className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm overflow-y-auto flex items-center justify-center"
           >
-            <div className="cyber-glitch-button px-6 py-3 rounded-full shadow-lg shadow-neon-purple/20 relative group">
-              <div className="cyber-glitch-text relative z-20 flex items-center text-white">
-                {item.icon}
-                <span className="ml-2">{item.label}</span>
-              </div>
-            </div>
-          </motion.a>
-        ))}
-        <motion.button
-          onClick={openResume}
-          className="absolute bottom-4 left-1/2 -translate-x-1/2 cyber-glitch-button px-6 py-3 rounded-full shadow-lg shadow-neon-purple/20"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: menuItems.length * 0.2 }}
-        >
-          <div className="cyber-glitch-text relative z-20 flex items-center text-white">
-            <FileText className="w-5 h-5 mr-2" /> Resume
-          </div>
-        </motion.button>
-        <button
-          onClick={() => setIsOpen(false)}
-          className="absolute top-4 right-4 p-2 text-white"
-        >
-          <X className="w-6 h-6" />
-        </button>
-      </motion.div>
-    </motion.div>
-  )}
-</AnimatePresence>
+            <motion.div
+              className="relative w-80 h-80"
+              initial={{ scale: 0, rotate: 90 }}
+              animate={{ scale: 1, rotate: 0 }}
+              exit={{ scale: 0, rotate: 90 }}
+              transition={{ type: "spring", stiffness: 150 }}
+            >
+              <motion.div
+                className="absolute inset-0 rounded-full bg-gradient-to-r from-neon-pink to-neon-cyan opacity-20 blur-3xl"
+                animate={{ rotate: 360 }}
+                transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
+              />
+              
+              {menuItems.map((item, index) => (
+                <motion.a
+                  key={item.label}
+                  href={item.href}
+                  onClick={() => setIsOpen(false)}
+                  className="absolute top-1/2 left-1/2"
+                  initial={{ opacity: 0, scale: 0 }}
+                  animate={{
+                    opacity: 1,
+                    scale: 1,
+                    y: `${(index - (menuItems.length - 1) / 2) * 60}px`,
+                    x: "-50%",
+                  }}
+                  transition={{ delay: index * 0.2, type: "spring" }}
+                >
+                  <div className="cyber-glitch-button px-6 py-3 rounded-full shadow-lg shadow-neon-purple/20 relative group">
+                    <div className="cyber-glitch-text relative z-20 flex items-center text-white">
+                      {item.icon}
+                      <span className="ml-2">{item.label}</span>
+                    </div>
+                  </div>
+                </motion.a>
+              ))}
+              <motion.button
+                onClick={openResume}
+                className="absolute bottom-4 left-1/2 -translate-x-1/2 cyber-glitch-button px-6 py-3 rounded-full shadow-lg shadow-neon-purple/20"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: menuItems.length * 0.2 }}
+              >
+                <div className="cyber-glitch-text relative z-20 flex items-center text-white">
+                  <FileText className="w-5 h-5 mr-2" /> Resume
+                </div>
+              </motion.button>
+              <button
+                onClick={() => setIsOpen(false)}
+                className="absolute top-4 right-4 p-2 text-white"
+              >
+                <X className="w-6 h-6" />
+              </button>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       <div className="h-20" />
 
-      {/* Global styles */}
+      {/* Global styles (unchanged) */}
       <style jsx global>{`
         /* Custom Colors */
         :root {

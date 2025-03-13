@@ -7,7 +7,7 @@ const poppins = Poppins({
   variable: '--font-poppins'
 })
 
-export default function RootLayout({ children }) {
+const RootLayout = ({ children }) =>{
   return (
     <html lang="en" className={poppins.variable}>
       <body>
@@ -16,3 +16,4 @@ export default function RootLayout({ children }) {
     </html>
   )
 }
+export default RootLayout
