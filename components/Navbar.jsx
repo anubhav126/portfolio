@@ -2,8 +2,6 @@
 import { motion, AnimatePresence } from "framer-motion";
 import React, { useState, useEffect, useRef } from "react";
 import { Code, X, Menu, FileText, Sun, Zap, Cpu, Send } from "lucide-react";
-
-
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
