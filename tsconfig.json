@@ -30,7 +30,7 @@
     ".next/types/**/*.ts",
     "**/*.ts",
     "**/*.tsx"
-, "app/layout.js", "sections/Hero.jsx"  ],
+, "app/layout.js", "sections/Hero.jsx", "sections/Explore.jsx", "sections/GetStarted.jsx", "components/Navbar.jsx"  ],
   "exclude": [
     "node_modules"
   ]

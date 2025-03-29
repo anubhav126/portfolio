@@ -1,82 +1,110 @@
 'use client';
 
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import Image from 'next/image';
+import clsx from 'clsx';
+import { Eye, Github, X } from 'lucide-react'; 
 import styles from '../styles';
 import { staggerContainer } from '../utils/motion';
 import { TitleText, TypingText } from '../components';
+import mobileAppHome from '../public/mobileAppHome.jpg';
+import profileHome from '../public/profileImage.jpg';
+import omen from '../public/omen.png';
+import blog from '../public/blog3.png';
+import StorageLogin from '../public/StorageLogin.png';
+import Storage1 from '../public/Storage1.png';
+import StorageHome from '../public/StorageHome .png';
+import Storage2 from '../public/Storage2.png';
+import AI1 from '../public/AI1.png';
+import AI2 from '../public/AI2.png';  
+import AI3 from '../public/AI3.png';
+import AI4 from '../public/AI4.png';
 
-// Sample project data with categories
+const CATEGORIES = ['All', 'Frontend', 'Backend', 'AI', 'Mobile'];
+
+const projectImages = {
+  'project-1': StorageLogin,
+  'project-2': blog,
+  'project-3': mobileAppHome,
+  'project-4': profileHome,
+  'project-5': omen,
+};
+
 const projectsData = [
   {
     id: 'project-1',
-    title: 'E-Commerce Dashboard',
-    description: 'A comprehensive dashboard for managing products, orders, and customers with real-time analytics and inventory tracking.',
-    imgUrl: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=2070&auto=format&fit=crop',
-    liveLink: 'https://example.com/dashboard',
-    repoLink: 'https://github.com/yourusername/ecommerce-dashboard',
-    technologies: ['React', 'Redux', 'Node.js', 'MongoDB', 'Chart.js'],
+    title: 'Storage Management App',
+    description: 'An application for storing, sharing and viewing files uploaded. Made with react and next on the frontend and appwrite for the backend.',
+    imgUrl: projectImages['project-1'],
+    liveLink: 'https://anubhav-storage-app.vercel.app/',
+    repoLink: 'https://github.com/anubhav126/storage-management-app',
+    technologies: ['React', 'Appwrite', 'Node.js', 'Tailwind'],
     category: 'Frontend',
     features: [
-      'Real-time sales analytics',
-      'Inventory management system',
-      'Customer behavior tracking',
-      'Responsive design for all devices'
-    ]
+      'Secure Login with Google or email',
+      'Upload files of various formats or extensions',
+      'Ability to download, view, rename and delete files',
+      'Sort files by multiple parameters',
+    ],
+    galleryImages: [StorageHome, Storage1, Storage2],
   },
   {
     id: 'project-2',
-    title: 'API Gateway Service',
-    description: 'A scalable API gateway that handles authentication, request routing, and rate limiting for microservices architecture.',
-    imgUrl: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?q=80&w=2034&auto=format&fit=crop',
-    liveLink: 'https://api.example.com',
-    repoLink: 'https://github.com/yourusername/api-gateway',
-    technologies: ['Node.js', 'Express', 'Redis', 'Docker', 'AWS Lambda'],
+    title: 'Node.js reverse proxy',
+    description: 'A high-performance, cluster-based load balancer and reverse proxy server implementation in Node.js.',
+    imgUrl: projectImages['project-2'],
+    repoLink: 'https://github.com/anubhav126/reverse-proxy',
+    technologies: ['Node.js', 'Typescript'],
     category: 'Backend',
     features: [
-      'JWT authentication and authorization',
-      'Request caching and rate limiting',
-      'Load balancing across services',
-      'Comprehensive logging and monitoring'
-    ]
+      'Multi-process architecture using Node.js cluster module',
+      'Round-robin load balancing across worker processes',
+      'Error handling and validation using schema validation',
+      'Configuration-based routing rules',
+      'Upstream server proxying'
+    ],
+    galleryImages: [blog, profileHome],
   },
   {
     id: 'project-3',
-    title: 'Health & Fitness App',
-    description: 'A mobile application for tracking workouts, nutrition, and health metrics with personalized recommendations.',
-    imgUrl: 'https://images.unsplash.com/photo-1526256262350-7da7584cf5eb?q=80&w=2070&auto=format&fit=crop',
+    title: 'Movie Recommendation App',
+    description: 'A beautifully crafted app aimed at recommending movies based on your mood and personality traits.',
+    imgUrl: projectImages['project-3'],
     liveLink: 'https://apps.apple.com/example',
     repoLink: 'https://github.com/yourusername/fitness-app',
-    technologies: ['React Native', 'Firebase', 'Redux', 'HealthKit', 'Google Fit'],
+    technologies: ['React Native', 'Appwrite', 'Expo', 'Nativewind', 'Google Fit'],
     category: 'Mobile',
     features: [
-      'Workout tracking with progress visualization',
-      'Meal planning and nutrition tracking',
-      'Health metrics dashboard',
-      'Social sharing and community features'
-    ]
+      'Login with either Google or your email to save progress',
+      'Search from a huge database of over 50,000 movies across genres',
+      'Save movies under different categories',
+      'Custom algorithm suggests movies based on mood and personality',
+    ],
+    galleryImages: [mobileAppHome, omen],
+    isMobile: true
   },
   {
     id: 'project-4',
-    title: 'Banking Portal Redesign',
-    description: 'Complete redesign of a banking portal focused on improving user experience, accessibility, and modern design principles.',
-    imgUrl: 'https://images.unsplash.com/photo-1563986768609-322da13575f3?q=80&w=1748&auto=format&fit=crop',
-    liveLink: 'https://banking.example.com',
-    repoLink: 'https://github.com/yourusername/banking-portal',
-    technologies: ['Figma', 'Adobe XD', 'Sketch', 'Principle', 'Zeplin'],
-    category: 'UI/UX',
+    title: 'AI Image Generator',
+    description: 'A fully responsive text-to-image AI web app built with React that generates 1024x1024 images based on the prompt provided with the help of the OpenAI API.',
+    imgUrl: AI1,
+    liveLink: 'https://anubhav-ai-image-generator.netlify.app',
+    repoLink: 'https://github.com/anubhav1206/AI-image-generator',
+    technologies: ['React', 'OpenAI API', 'Tailwind CSS', 'Node.js'],
+    category: 'AI',
     features: [
-      'User research and journey mapping',
-      'Accessibility compliance (WCAG 2.1)',
-      'Interactive prototypes',
-      'Design system creation'
-    ]
+      '50 carefully created prompts to get you started',
+      'Industry standard coding practices following best principles',
+      'Ability to share your creations to the community and option to download anyone else\'s',
+    ],
+    galleryImages: [AI1, AI4, AI2],
   },
   {
     id: 'project-5',
     title: 'Personal Portfolio',
     description: 'My personal developer portfolio showcasing projects, skills, and experience with an interactive and engaging design.',
-    imgUrl: 'https://images.unsplash.com/photo-1545665277-5937489579f2?q=80&w=2070&auto=format&fit=crop',
+    imgUrl: projectImages['project-5'],
     liveLink: 'https://yourportfolio.com',
     repoLink: 'https://github.com/yourusername/portfolio',
     technologies: ['Next.js', 'Framer Motion', 'Tailwind CSS', 'Three.js'],
@@ -85,54 +113,72 @@ const projectsData = [
       'Interactive 3D elements',
       'Smooth page transitions',
       'Dark/light mode toggle',
-      'Performance optimized animations'
-    ]
-  }
+      'Performance optimized animations',
+    ],
+    galleryImages: [omen, mobileAppHome],
+  },
 ];
+
+const TechTag = ({ tech }) => (
+  <span className="px-2 py-1 text-xs font-medium rounded-md bg-gray-800 text-gray-300">
+    {tech}
+  </span>
+);
+
+const MobileFrame = ({ children }) => (
+  <div className="relative mx-auto w-full max-w-[300px]">
+    <div className="relative mx-auto border-[12px] border-gray-900 rounded-[40px] shadow-xl overflow-hidden">
+      {/* Notch */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-1/3 h-6 bg-gray-900 rounded-b-xl z-10"></div>
+      {/* Screen Content */}
+      <div className="relative aspect-[9/19.5] bg-gray-900 overflow-hidden">
+        {children}
+      </div>
+      {/* Home Indicator */}
+      <div className="absolute bottom-2 left-1/2 -translate-x-1/2 w-1/3 h-1 bg-gray-700 rounded-full"></div>
+    </div>
+  </div>
+);
 
 const Explore = () => {
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [selectedProject, setSelectedProject] = useState(null);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const modalRef = useRef(null);
+  const projectModalRef = useRef(null);
 
-  // Filter projects based on selected category
-  const filteredProjects = selectedCategory === 'All'
-    ? projectsData
-    : projectsData.filter(project => project.category === selectedCategory);
+  const filteredProjects = useMemo(() => {
+    return selectedCategory === 'All'
+      ? projectsData
+      : projectsData.filter((project) => project.category === selectedCategory);
+  }, [selectedCategory]);
 
-  // Close modal when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (modalRef.current && !modalRef.current.contains(event.target)) {
         setSelectedProject(null);
       }
     };
-    
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  // Handle category selection
+  useEffect(() => {
+    if (selectedProject && modalRef.current) {
+      modalRef.current.focus();
+    }
+  }, [selectedProject]);
+
   const handleCategoryChange = (category) => {
     setSelectedCategory(category);
     setIsMenuOpen(false);
   };
 
-  // Get the selected project's data
-  const projectData = selectedProject ? 
-    projectsData.find(project => project.id === selectedProject) : null;
-
   return (
-    <section className={`${styles.paddings} relative`} id="explore">
-      {/* Background gradient */}
+    <main className={`${styles.paddings} relative`} id="explore">
       <div className="absolute inset-0 bg-gradient-to-b from-[#0D0D1D] to-[#0D0D2D] -z-10" />
-      
-      {/* Animated grid pattern */}
-      <div className="absolute inset-0 opacity-20 -z-10">
-        <div className="absolute inset-0 bg-[url('/grid-pattern.svg')] bg-repeat bg-center" />
-      </div>
-      
+      <div className="absolute inset-0 opacity-20 -z-10 bg-[url('/grid-pattern.svg')] bg-repeat bg-center" />
+
       <motion.div
         variants={staggerContainer}
         initial="hidden"
@@ -141,21 +187,17 @@ const Explore = () => {
         className={`${styles.innerWidth} mx-auto flex flex-col`}
       >
         <TypingText title="| My Portfolio" textStyles="text-center" />
-        
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
+          transition={{ duration: 0.8, ease: 'easeOut' }}
           className="text-center"
         >
-          <h1 className="text-4xl md:text-6xl font-bold text-white py-8
-                        bg-gradient-to-r from-violet-400 via-fuchsia-400 to-indigo-500 
-                        bg-clip-text text-transparent drop-shadow-[0_0_20px_rgba(147,51,234,0.5)]">
+          <h1 className="text-4xl md:text-6xl font-bold text-white py-8 bg-gradient-to-r from-violet-400 via-fuchsia-400 to-indigo-500 bg-clip-text text-transparent drop-shadow-[0_0_20px_rgba(147,51,234,0.5)]">
             Explore <br className="md:block hidden" /> My Projects
           </h1>
-          
           <p className="text-gray-400 max-w-xl mx-auto mt-4 mb-8 px-4 md:px-0">
-            Discover my latest work across web development, design, and creative coding. 
+            Discover my latest work across web development, design, and creative coding.
             Each project represents my passion for building innovative digital experiences.
           </p>
         </motion.div>
@@ -164,16 +206,14 @@ const Explore = () => {
         <div className="md:hidden px-4 mb-6">
           <button
             onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className="flex items-center justify-between w-full py-3 px-4 rounded-lg
-                     bg-gray-800/80 text-white border border-gray-700
-                     focus:outline-none"
+            className="flex items-center justify-between w-full py-3 px-4 rounded-lg bg-gray-800/80 text-white border border-gray-700 focus:outline-none focus:ring-2 focus:ring-violet-500"
+            aria-label="Select project category"
           >
             <span className="flex items-center gap-2">
               <span className="w-2 h-2 rounded-full bg-violet-500"></span>
               <span>{selectedCategory}</span>
             </span>
             <svg
-              xmlns="http://www.w3.org/2000/svg"
               className={`h-5 w-5 transition-transform ${isMenuOpen ? 'rotate-180' : ''}`}
               fill="none"
               viewBox="0 0 24 24"
@@ -182,24 +222,24 @@ const Explore = () => {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
             </svg>
           </button>
-          
           <AnimatePresence>
             {isMenuOpen && (
               <motion.div
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -10 }}
-                className="mt-2 py-2 rounded-lg bg-gray-800/90 backdrop-blur-sm 
-                         border border-gray-700 shadow-xl z-20 relative"
+                className="mt-2 py-2 rounded-lg bg-gray-800/90 backdrop-blur-sm border border-gray-700 shadow-xl z-20 relative"
               >
-                {['All', 'Frontend', 'Backend', 'UI/UX', 'Mobile'].map((category) => (
+                {CATEGORIES.map((category) => (
                   <button
                     key={category}
                     onClick={() => handleCategoryChange(category)}
-                    className={`w-full text-left px-4 py-2 text-sm
-                              ${selectedCategory === category 
-                                ? 'bg-violet-600/20 text-violet-300' 
-                                : 'text-gray-300 hover:bg-gray-700/50'}`}
+                    className={clsx(
+                      'w-full text-left px-4 py-2 text-sm',
+                      selectedCategory === category
+                        ? 'bg-violet-600/20 text-violet-300'
+                        : 'text-gray-300 hover:bg-gray-700/50'
+                    )}
                   >
                     {category}
                   </button>
@@ -209,30 +249,32 @@ const Explore = () => {
           </AnimatePresence>
         </div>
 
-        {/* Desktop Project filter tabs */}
-        <motion.div 
+        {/* Desktop Category Tabs */}
+        <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.3, ease: "easeOut" }}
+          transition={{ duration: 0.8, delay: 0.3, ease: 'easeOut' }}
           className="hidden md:flex flex-wrap justify-center gap-4 mb-12"
         >
-          {['All', 'Frontend', 'Backend', 'UI/UX', 'Mobile'].map((category, index) => (
+          {CATEGORIES.map((category) => (
             <motion.button
-              key={index}
-              whileHover={{ scale: 1.05, backgroundColor: 'rgba(147, 51, 234, 0.3)' }}
+              key={category}
+              whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={() => setSelectedCategory(category)}
-              className={`px-6 py-2 rounded-full text-sm font-medium transition-all duration-300
-                        ${selectedCategory === category ? 
-                          'bg-gradient-to-r from-violet-600 to-indigo-600 text-white shadow-lg shadow-violet-600/30' : 
-                          'bg-gray-800/30 text-gray-300 border border-gray-700'}`}
+              className={clsx(
+                'px-6 py-2 rounded-full text-sm font-medium transition-all duration-300',
+                selectedCategory === category
+                  ? 'bg-gradient-to-r from-violet-600 to-indigo-600 text-white shadow-lg shadow-violet-600/30'
+                  : 'bg-gray-800/30 text-gray-300 border border-gray-700'
+              )}
             >
               {category}
             </motion.button>
           ))}
         </motion.div>
 
-        {/* Project cards grid with responsive layout */}
+        {/* Project Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 px-4 md:px-0">
           <AnimatePresence mode="wait">
             {filteredProjects.map((project, index) => (
@@ -245,8 +287,8 @@ const Explore = () => {
             ))}
           </AnimatePresence>
         </div>
-        
-        {/* CTA for more projects */}
+
+        {/* CTA */}
         <motion.div
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
@@ -254,275 +296,346 @@ const Explore = () => {
           className="flex justify-center mt-12"
         >
           <button
-            className="cyber-glitch-button px-6 py-2 font-medium rounded-full shadow-lg shadow-purple-800/20 relative group"
+            className="cyber-glitch-button px-8 py-3 font-medium rounded-full shadow-lg shadow-neon-purple/20 relative group"
           >
             <div className="cyber-glitch-bg absolute inset-0 rounded-full"></div>
-            <div className="cyber-glitch-scanline absolute inset-0 overflow-hidden rounded-full opacity-0 group-hover:opacity-100"></div>
             <div className="cyber-glitch-text relative z-20 flex items-center text-white">
-               View all of them on github
+              <Github className="w-5 h-5 inline mr-2" /> View all on GitHub
             </div>
           </button>
         </motion.div>
       </motion.div>
-      
-      {/* Project modal - Full screen on mobile */}
+
+      {/* Project Modal */}
       <AnimatePresence>
         {selectedProject && (
           <ProjectModal 
-            project={projectData} 
-            onClose={() => setSelectedProject(null)}
+            project={projectsData.find(p => p.id === selectedProject)} 
+            onClose={() => setSelectedProject(null)} 
             modalRef={modalRef}
+            projectModalRef={projectModalRef}
           />
         )}
       </AnimatePresence>
-    </section>
+    </main>
   );
 };
 
-const ProjectCard = ({ id, imgUrl, title, description, technologies, category, index, setSelectedProject }) => {
+const ProjectCard = ({
+  id,
+  imgUrl,
+  title,
+  description,
+  technologies,
+  category,
+  index,
+  setSelectedProject,
+}) => {
+  const [isLoading, setIsLoading] = useState(true);
+
   return (
-    <motion.div
+    <motion.article
       layout
       initial={{ opacity: 0, y: 50 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, scale: 0.9 }}
       transition={{ duration: 0.5, delay: index * 0.1 }}
-      viewport={{ once: false, amount: 0.25 }}
       whileHover={{ y: -10, transition: { duration: 0.3 } }}
-      className="group relative rounded-xl overflow-hidden shadow-xl 
-                bg-gradient-to-br from-gray-900/90 to-gray-800/90
-                border border-gray-700/50 h-[350px] md:h-[400px]
-                hover:shadow-violet-600/20 hover:shadow-2xl
-                transition-all duration-500"
+      className="group relative rounded-xl overflow-hidden shadow-xl bg-gradient-to-br from-gray-900/90 to-gray-800/90 border border-gray-700/50 h-[350px] md:h-[400px] hover:shadow-violet-600/20 hover:shadow-2xl transition-all duration-500"
     >
-      {/* Image overlay with gradient */}
       <div className="absolute inset-0 overflow-hidden">
-        <img 
-          src={imgUrl} 
-          alt={title} 
-          className="w-full h-full object-cover object-center
-                    transition-all duration-700 ease-out
-                    group-hover:scale-110 group-hover:filter-none
-                    scale-105 brightness-[0.7] filter"
+        {isLoading && <div className="absolute inset-0 bg-gray-800 animate-pulse" />}
+        <Image
+          src={imgUrl}
+          alt={title}
+          width={800}
+          height={450}
+          onLoad={() => setIsLoading(false)}
+          onError={(e) => (e.currentTarget.src = '/fallback-image.jpg')}
+          className={clsx(
+            'w-full h-full object-cover object-center transition-all duration-700 ease-out',
+            'group-hover:scale-110 group-hover:filter-none scale-105 brightness-[0.7] filter',
+            isLoading ? 'opacity-0' : 'opacity-100'
+          )}
         />
-        <div className="absolute inset-0 bg-gradient-to-t 
-                      from-gray-900 via-gray-900/70 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-gray-900 via-gray-900/70 to-transparent" />
       </div>
-      
-      {/* Content overlay */}
+
       <div className="absolute inset-0 p-4 md:p-6 flex flex-col justify-end">
-        {/* Project category badge */}
         <div className="mb-auto">
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.2 + index * 0.1 }}
-            className="inline-block px-3 py-1 rounded-full 
-                     bg-violet-500/20 backdrop-blur-sm 
-                     text-violet-300 text-xs font-medium"
+            className="inline-block px-3 py-1 rounded-full bg-violet-500/20 backdrop-blur-sm text-violet-300 text-xs font-medium"
           >
             {category}
           </motion.div>
         </div>
-      
+
         <motion.div
           initial={{ y: 20, opacity: 0 }}
           whileInView={{ y: 0, opacity: 1 }}
           transition={{ delay: 0.3 + index * 0.1 }}
         >
-          <h3 className="text-xl md:text-2xl font-bold text-white mb-2 
-                       group-hover:text-violet-300 transition-colors duration-300">
+          <h3 className="text-xl md:text-2xl font-bold text-white mb-2 group-hover:text-violet-300 transition-colors duration-300">
             {title}
           </h3>
-          
-          <p className="text-gray-400 text-sm line-clamp-2 mb-4">
-            {description}
-          </p>
-          
-          {/* Technologies */}
+          <p className="text-gray-400 text-sm line-clamp-2 mb-4">{description}</p>
           <div className="flex flex-wrap gap-2 mb-4">
-            {technologies && technologies.slice(0, 3).map((tech, i) => (
-              <span key={i} className="px-2 py-1 text-xs font-medium rounded-md
-                                     bg-gray-800/80 text-gray-300">
-                {tech}
-              </span>
+            {technologies.slice(0, 3).map((tech, i) => (
+              <TechTag key={i} tech={tech} />
             ))}
-            {technologies && technologies.length > 3 && (
-              <span className="px-2 py-1 text-xs font-medium rounded-md
-                             bg-gray-800/80 text-gray-300">
-                +{technologies.length - 3}
-              </span>
-            )}
+            {technologies.length > 3 && <TechTag tech={`+${technologies.length - 3}`} />}
           </div>
-          
-          {/* Action button */}
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             onClick={() => setSelectedProject(id)}
-            className="w-full py-3 rounded-lg 
-                     bg-gradient-to-r from-violet-600 to-indigo-600
-                     text-white font-medium text-sm
-                     hover:shadow-lg hover:shadow-violet-600/30
-                     transition-all duration-300"
+            className="cyber-glitch-button w-full py-3 font-medium rounded-full shadow-lg shadow-neon-purple/20 relative group"
+            aria-label={`View details for ${title}`}
           >
-            View Project
+            <div className="cyber-glitch-bg absolute inset-0 rounded-full"></div>
+            <div className="cyber-glitch-text relative z-20 flex items-center justify-center text-white">
+              <Eye className="w-5 h-5 inline mr-2" /> View Project
+            </div>
           </motion.button>
         </motion.div>
       </div>
-    </motion.div>
+    </motion.article>
   );
 };
 
-const ProjectModal = ({ project, onClose, modalRef }) => {
+const ProjectModal = ({ project, onClose, modalRef, projectModalRef }) => {
+  const [zoomedImage, setZoomedImage] = useState(null);
+  const imageModalRef = useRef(null);
+  const [scrollPosition, setScrollPosition] = useState(0);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (imageModalRef.current && !imageModalRef.current.contains(event.target)) {
+        closeZoomedImage();
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  useEffect(() => {
+    if (zoomedImage) {
+      setScrollPosition(projectModalRef.current.scrollTop);
+    }
+  }, [zoomedImage, projectModalRef]);
+
+  const closeZoomedImage = () => {
+    setZoomedImage(null);
+    if (projectModalRef.current) {
+      setTimeout(() => {
+        projectModalRef.current.scrollTo({ top: scrollPosition, behavior: 'smooth' });
+      }, 100);
+    }
+  };
+
   if (!project) return null;
-  
+
   return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      className="fixed inset-0 z-50 flex items-center justify-center p-0 md:p-4 bg-black/80 backdrop-blur-sm overflow-hidden"
-    >
+    <>
       <motion.div
-        ref={modalRef}
-        initial={{ opacity: 0, y: 100 }}
-        animate={{ opacity: 1, y: 0 }}
-        exit={{ opacity: 0, y: 100 }}
-        transition={{ type: "spring", damping: 25, stiffness: 300 }}
-        className="relative bg-gradient-to-br from-gray-900 to-gray-800 
-                 overflow-hidden shadow-2xl border border-gray-700/50
-                 w-full h-full md:h-auto md:max-h-[90vh] md:rounded-2xl
-                 overflow-y-auto"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        className="fixed inset-0 z-50 flex items-center justify-center p-0 md:p-4 bg-black/80 backdrop-blur-sm overflow-hidden"
       >
-        {/* Close button - make it more visible on mobile */}
-        <button 
-          onClick={onClose}
-          className="fixed md:absolute top-4 right-4 z-50 p-3 rounded-full 
-                   bg-black/50 text-white
-                   backdrop-blur-md shadow-lg"
+        <motion.div
+          ref={modalRef}
+          tabIndex={-1}
+          initial={{ opacity: 0, y: 100 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: 100 }}
+          transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+          className="relative bg-gradient-to-br from-gray-900 to-gray-800 overflow-hidden shadow-2xl border border-gray-700/50 w-full h-full md:h-auto md:max-h-[90vh] md:rounded-2xl overflow-y-auto"
         >
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <line x1="18" y1="6" x2="6" y2="18"></line>
-            <line x1="6" y1="6" x2="18" y2="18"></line>
-          </svg>
-        </button>
-        
-        {/* Hero image */}
-        <div className="w-full h-56 sm:h-64 md:h-80 relative">
-          <img 
-            src={project.imgUrl} 
-            alt={project.title} 
-            className="w-full h-full object-cover" 
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-gray-900 to-transparent" />
-          
-          {/* Title overlay */}
-          <div className="absolute bottom-0 left-0 p-6 max-w-xl">
-            <div className="flex items-center gap-3 mb-2">
-              <span className="px-3 py-1 rounded-full bg-violet-500/20 backdrop-blur-sm text-violet-300 text-xs font-medium">
-                Featured Project
-              </span>
-              <span className="h-1 w-1 bg-gray-500 rounded-full"></span>
-              <span className="text-gray-400 text-sm">{project.category}</span>
+          <button
+            onClick={onClose}
+            aria-label="Close project modal"
+            className="fixed md:absolute top-4 right-4 z-50 p-3 rounded-full bg-black/50 text-white backdrop-blur-md shadow-lg focus:outline-none focus:ring-2 focus:ring-violet-500"
+          >
+            <X className="w-5 h-5" />
+          </button>
+
+          <div className="w-full h-56 sm:h-64 md:h-80 relative">
+            <Image
+              src={project.imgUrl}
+              alt={project.title}
+              width={1200}
+              height={675}
+              priority
+              className="w-full h-full object-cover"
+              onError={(e) => (e.currentTarget.src = '/fallback-image.jpg')}
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-gray-900 to-transparent" />
+            <div className="absolute bottom-0 left-0 p-6 max-w-xl">
+              <div className="flex items-center gap-3 mb-2">
+                <span className="px-3 py-1 rounded-full bg-violet-500/20 backdrop-blur-sm text-violet-300 text-xs font-medium">
+                  Featured Project
+                </span>
+                <span className="h-1 w-1 bg-gray-500 rounded-full"></span>
+                <span className="text-gray-400 text-sm">{project.category}</span>
+              </div>
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white">{project.title}</h2>
             </div>
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white">{project.title}</h2>
           </div>
-        </div>
-        
-        {/* Content with improved mobile layout */}
-        <div className="p-6 md:p-8">
-          <div className="flex flex-col md:flex-row gap-8">
-            {/* Main content */}
-            <div className="flex-1">
-              <h3 className="text-xl font-semibold text-gray-200 mb-4">Overview</h3>
-              <p className="text-gray-400 mb-6">
-                {project.description}
-              </p>
-              
-              <h3 className="text-xl font-semibold text-gray-200 mb-4">Key Features</h3>
-              <ul className="space-y-2 mb-6">
-                {project.features.map((feature, index) => (
-                  <li key={index} className="flex items-start gap-2">
-                    <span className="text-violet-400 mt-1">•</span>
-                    <span className="text-gray-400">{feature}</span>
-                  </li>
-                ))}
-              </ul>
+
+          <div ref={projectModalRef} className="p-6 md:p-8">
+            <div className="flex flex-col md:flex-row gap-8">
+              <div className="flex-1">
+                <h3 className="text-xl font-semibold text-gray-200 mb-4">Overview</h3>
+                <p className="text-gray-400 mb-6">{project.description}</p>
+                <h3 className="text-xl font-semibold text-gray-200 mb-4">Key Features</h3>
+                <ul className="space-y-2 mb-6">
+                  {project.features.map((feature, index) => (
+                    <li key={index} className="flex items-start gap-2">
+                      <span className="text-violet-400 mt-1">•</span>
+                      <span className="text-gray-400">{feature}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <div className="md:w-64 space-y-6 mt-6 md:mt-0">
+                <div>
+                  <h3 className="text-lg font-semibold text-gray-200 mb-3">Technologies</h3>
+                  <div className="flex flex-wrap gap-2">
+                    {project.technologies.map((tech, i) => (
+                      <TechTag key={i} tech={tech} />
+                    ))}
+                  </div>
+                </div>
+                <div className="space-y-3">
+                  {project.liveLink && (
+                    <a
+                      href={project.liveLink}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="modal-button w-full py-3 font-medium rounded-lg"
+                    >
+                      <Eye className="w-5 h-5 inline mr-2" /> Live Demo
+                    </a>
+                  )}
+                  <a
+                    href={project.repoLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="modal-button w-full py-3 font-medium rounded-lg"
+                  >
+                    <Github className="w-5 h-5 inline mr-2" /> GitHub Repo
+                  </a>
+                </div>
+              </div>
             </div>
-            
-            {/* Sidebar - stacks vertically on mobile */}
-            <div className="md:w-64 space-y-6 mt-6 md:mt-0">
-              {/* Technologies */}
-              <div>
-                <h3 className="text-lg font-semibold text-gray-200 mb-3">Technologies</h3>
-                <div className="flex flex-wrap gap-2">
-                  {project.technologies && project.technologies.map((tech, i) => (
-                    <span key={i} className="px-2 py-1 text-xs font-medium rounded-md
-                                           bg-gray-800 text-gray-300">
-                      {tech}
-                    </span>
+
+            {project.galleryImages && (
+              <div className="mt-10">
+                <h3 className="text-xl font-semibold text-gray-200 mb-4">Project Gallery</h3>
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                  {project.galleryImages.map((img, index) => (
+                    <motion.div 
+                      key={index} 
+                      className="relative rounded-lg overflow-hidden cursor-pointer"
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.1 * index }}
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                      onClick={() => setZoomedImage(img)}
+                    >
+                      {project.isMobile ? (
+                        <MobileFrame>
+                          <Image
+                            src={img}
+                            alt={`${project.title} screenshot ${index + 1}`}
+                            width={400}
+                            height={800}
+                            className="w-full h-full object-contain"
+                            onError={(e) => (e.currentTarget.src = '/fallback-image.jpg')}
+                          />
+                        </MobileFrame>
+                      ) : (
+                        <div className="relative aspect-video bg-gray-800">
+                          <Image
+                            src={img}
+                            alt={`${project.title} screenshot ${index + 1}`}
+                            width={800}
+                            height={450}
+                            className="w-full h-full object-cover"
+                            onError={(e) => (e.currentTarget.src = '/fallback-image.jpg')}
+                          />
+                          <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                            <div className="bg-black/50 p-2 rounded-full">
+                              <Eye className="w-5 h-5 text-white" />
+                            </div>
+                          </div>
+                        </div>
+                      )}
+                    </motion.div>
                   ))}
                 </div>
               </div>
-              
-              {/* Action buttons - full width on mobile */}
-              <div className="space-y-3">
-                <a 
-                  href={project.liveLink} 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="flex items-center justify-center w-full gap-2 py-3 rounded-lg
-                           bg-gradient-to-r from-violet-600 to-indigo-600
-                           text-white font-medium
-                           hover:shadow-lg hover:shadow-violet-600/30
-                           transition-all duration-300"
-                >
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
-                    <polyline points="15 3 21 3 21 9"></polyline>
-                    <line x1="10" y1="14" x2="21" y2="3"></line>
-                  </svg>
-                  Live Demo
-                </a>
-                
-                <a 
-                  href={project.repoLink} 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="flex items-center justify-center w-full gap-2 py-3 rounded-lg
-                           bg-gray-800 border border-gray-700
-                           text-white font-medium
-                           hover:bg-gray-700
-                           transition-all duration-300"
-                >
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
-                  </svg>
-                  GitHub Repo
-                </a>
-              </div>
-            </div>
+            )}
           </div>
-          
-          {/* Additional gallery section - responsive grid */}
-          <div className="mt-10">
-            <h3 className="text-xl font-semibold text-gray-200 mb-4">Project Gallery</h3>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-              {[1, 2, 3].map((item) => (
-                <div key={item} className="aspect-video rounded-lg overflow-hidden bg-gray-800">
-                  <img 
-                    src={`/api/placeholder/600/340`} 
-                    alt="Project screenshot" 
-                    className="w-full h-full object-cover" 
-                  />
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
+        </motion.div>
       </motion.div>
-    </motion.div>
+
+      {/* Zoomed Image Modal */}
+      <AnimatePresence>
+        {zoomedImage && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-black/90 backdrop-blur-sm"
+          >
+            <motion.div
+              ref={imageModalRef}
+              initial={{ scale: 0.9 }}
+              animate={{ scale: 1 }}
+              exit={{ scale: 0.9 }}
+              transition={{ type: 'spring', damping: 20, stiffness: 300 }}
+              className="relative max-w-4xl w-full max-h-[90vh]"
+            >
+              <button
+                onClick={closeZoomedImage}
+                className="absolute -top-12 right-0 z-50 p-2 rounded-full bg-gray-800 text-white hover:bg-gray-700 transition-colors"
+                aria-label="Close zoomed image"
+              >
+                <X className="w-6 h-6" />
+              </button>
+              <div className="relative w-full h-full rounded-xl overflow-hidden shadow-2xl">
+                {project.isMobile ? (
+                  <MobileFrame>
+                    <Image
+                      src={zoomedImage}
+                      alt="Zoomed project image"
+                      width={400}
+                      height={800}
+                      className="w-full h-full object-contain"
+                    />
+                  </MobileFrame>
+                ) : (
+                  <Image
+                    src={zoomedImage}
+                    alt="Zoomed project image"
+                    width={1200}
+                    height={800}
+                    className="w-full h-full object-contain"
+                  />
+                )}
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </>
   );
 };
 

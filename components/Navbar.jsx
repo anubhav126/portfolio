@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import React, { useState, useEffect, useRef } from "react";
 import { Code, X, Menu, FileText, Sun, Zap, Cpu, Send } from "lucide-react";
 
+
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
@@ -13,9 +14,9 @@ const Navbar = () => {
 
   const menuItems = [
     { label: "About", href: "#about", icon: <Sun className="w-5 h-5" /> },
-    { label: "Projects", href: "#projects", icon: <Cpu className="w-5 h-5" /> },
-    { label: "Skills", href: "#skills", icon: <Zap className="w-5 h-5" /> },
-    { label: "Contact", href: "#contact", icon: <Send className="w-5 h-5" /> },
+    { label: "Projects", href: "#explore", icon: <Cpu className="w-5 h-5" /> },
+    { label: "Blogs", href: "#blogs", icon: <Zap className="w-5 h-5" /> },
+    { label: "Contact", href: "#footer", icon: <Send className="w-5 h-5" /> },
   ];
 
   useEffect(() => {
@@ -31,7 +32,7 @@ const Navbar = () => {
         if (element) {
           const rect = element.getBoundingClientRect();
           if (rect.top <= 100 && rect.bottom >= 100) {
-            setActiveSection(section);
+            setActiveSection(section);                                                                                  
             break;
           }
         }
@@ -48,7 +49,6 @@ const Navbar = () => {
         setIsOpen(false);
       }
     };
-
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [isOpen]);
@@ -84,11 +84,20 @@ const Navbar = () => {
               <a
                 key={item.label}
                 href={item.href}
-                className={`nav-item relative text-gray-300 transition-colors duration-300 group ${
+                className={`nav-item relative text-gray-300 transition-colors duration-300 group flex items-center ${
                   activeSection === item.href.substring(1) ? "text-neon-cyan" : ""
                 }`}
               >
-                {item.label}
+                <span className="nav-icon-wrapper relative inline-block">
+                  {React.cloneElement(item.icon, {
+                    className: `w-5 h-5 nav-icon ${
+                      activeSection === item.href.substring(1) 
+                        ? "text-neon-cyan" 
+                        : "text-gray-300 group-hover:text-white"
+                    }`
+                  })}
+                </span>
+                <span className="ml-2">{item.label}</span>
               </a>
             ))}
             <button
@@ -111,7 +120,6 @@ const Navbar = () => {
         </div>
       </div>
 
-      {/* Mobile Menu (unchanged) */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
@@ -181,7 +189,6 @@ const Navbar = () => {
 
       <div className="h-20" />
 
-      {/* Global styles (unchanged) */}
       <style jsx global>{`
         /* Custom Colors */
         :root {
@@ -194,9 +201,10 @@ const Navbar = () => {
         .nav-item {
           position: relative;
           padding-bottom: 4px;
+          transition: all 0.3s ease;
         }
         .nav-item:hover {
-          color: var(--neon-cyan);
+          color: white;
         }
         .nav-item::after {
           content: '';
@@ -212,6 +220,30 @@ const Navbar = () => {
         }
         .nav-item:hover::after {
           transform: scaleX(1);
+        }
+
+        /* Nav Icon Hover Effects */
+        .nav-icon-wrapper {
+          position: relative;
+          display: inline-block;
+          transition: all 0.3s ease;
+        }
+        .nav-icon-wrapper::after {
+          content: '';
+          position: absolute;
+          bottom: -2px;
+          left: 0;
+          width: 100%;
+          height: 2px;
+          background: linear-gradient(to right, var(--neon-pink), var(--neon-cyan));
+          transform: scaleX(0);
+          transition: transform 0.3s ease;
+        }
+        .nav-item:hover .nav-icon-wrapper::after {
+          transform: scaleX(1);
+        }
+        .nav-icon {
+          transition: all 0.3s ease;
         }
 
         .cyber-glitch-button {
@@ -255,29 +287,7 @@ const Navbar = () => {
           animation: scanline 1.5s linear infinite;
         }
 
-        .pulsing-waves {
-          background: radial-gradient(circle, rgba(6, 246, 212, 0.2) 0%, transparent 70%);
-          filter: blur(20px);
-        }
-
-        .glowing-border {
-          position: relative;
-        }
-        .glowing-border::before {
-          content: '';
-          position: absolute;
-          inset: -2px;
-          border-radius: 12px;
-          background: linear-gradient(45deg, var(--neon-pink), var(--neon-cyan), var(--neon-purple));
-          filter: blur(8px);
-          opacity: 0.5;
-          animation: border-glow 4s linear infinite;
-        }
-
-        .glitch-logo {
-          animation: glitch-logo 2s infinite steps(2);
-        }
-
+        /* Rest of the previous animations remain the same */
         @keyframes glitch {
           0% { transform: translate(0); }
           20% { transform: translate(-1px, 1px); }

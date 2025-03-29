@@ -168,10 +168,63 @@ body {
   .popUpAnimation {
     @apply transition delay-150 hover:-translate-y-1 hover:text-white hover:scale-110 hover:bg-indigo-500 duration-300 hover:cursor-pointer;
   }
+  .cyber-glitch-button {
+    @apply relative px-6 py-3 rounded-full font-medium transition-all duration-300;
+  }
+  .cyber-glitch-bg {
+    @apply absolute inset-0 rounded-full;
+    background: linear-gradient(90deg, #7B3FE4, #3B82F6);
+    opacity: 0.8;
+    animation: glitch 1s linear infinite;
+  }
+  .cyber-glitch-text {
+    @apply relative z-20 flex items-center justify-center text-white;
+    text-shadow: 0 0 5px rgba(147, 51, 234, 0.8), 0 0 10px rgba(147, 51, 234, 0.5);
+  }
+  .cyber-glitch-button:hover .cyber-glitch-bg {
+    @apply scale-105;
+    opacity: 1;
+    animation: glitch 0.5s linear infinite;
+  }
+  .cyber-glitch-button:active {
+    @apply scale-95;
+  }
+
+  /* Modal Button Styles (for Live Demo and GitHub Repo) */
+  .modal-button {
+    @apply flex items-center justify-center w-full py-3 rounded-lg font-medium text-white transition-all duration-300;
+    background: linear-gradient(90deg, #7B3FE4 0%, #3B82F6 100%);
+    box-shadow: 0 4px 15px rgba(123, 63, 228, 0.3);
+  }
+  .modal-button:hover {
+    @apply scale-105;
+    box-shadow: 0 6px 20px rgba(123, 63, 228, 0.5);
+    background: linear-gradient(90deg, #9333EA 0%, #60A5FA 100%);
+  }
+  .modal-button:active {
+    @apply scale-95;
+  }
+  .yearButton {
+    @apply px-2 md:px-3 py-1 rounded-full bg-gradient-to-r from-cyan-500/30 to-blue-500/30 text-cyan-300 text-xs md:text-sm
+  }
 }
 
 @layer utilities {
   .ease-in-out {
     transition-timing-function: ease-in-out;
+  }
+  .shadow-neon-purple {
+    box-shadow: 0 0 10px rgba(147, 51, 234, 0.5), 0 0 20px rgba(147, 51, 234, 0.3);
+  }
+}
+@keyframes glitch {
+  2%, 64% {
+    transform: translate(2px, 0) skew(0deg);
+  }
+  4%, 60% {
+    transform: translate(-2px, 0) skew(0deg);
+  }
+  62% {
+    transform: translate(0, 0) skew(5deg);
   }
 }

@@ -1,4 +1,32 @@
+const blog1 = `This blog will be an attempt for me to design the system design path for google drive from scratch. This is going to be my first time making such a blog. I will try to keep it as simple and beginner friendly as possible. Let us begin.
+Everyone has used google drive (or one of its alternatives) at some point in our lives. We use it store and retrieve documents, edit them, move them and share them to other people among other things.
+Technical Specifications
+We need this service to be highly available at all times.
+We need this service to create a folder, upload and view files, rename files, delete and download files. When i say files in this blog, I am generalizing the term to include documents of all file formats and extensions.
+User should be able to download any of their files at any point of time.
+The user should be able to move the files to any folder they want to.
+Google Drive provides 15 GB of space in its free tier. We will be using the same metric for all of our assumptions here.
+Let us understand the scaling aspect of our service.
+Since we are dealing with a lot of users with a lot of storage (keep note that user purchasing different plans will have higher storage), managing all of that data in real-time is a pain.
+Let us try to visualize using a rough estimation.`
+const blog2 = `Prototypes are the core of how JavaScript functions work. Whether you are preparing for you next interview, or you just want to dive deep into the world of JavaScript, this guide should give you a solid grasp on prototypes in JavaScript. Let us begin.`
+const blog3 = `In this guide, we will learn about mail servers and how to create one from scratch. We will go through the intricacies it takes for sending and receiving e-mails, understand what DNS lookup is, how SMTP server and the underlying protocol works and so much more. The curiosity for this blog came from this video by Piyush Garg. Highly recommended. Now without further wait, let’s begin.
+But what even is a mail server?
+Simply put, it’s just a server that facilitates sending and receiving of emails via the SMTP protocol.
 
+Let us first see how does an SMTP server work.
+
+An email client like Gmail or Outlook connects to the local SMTP server and submits the data.
+
+The local SMTP server adds information such as message boundaries, timestamps and formats the message in accordance with SMTP standards.
+
+The local SMTP server then looks up the receiver’s email domain via DNS and finds out the mail server for that domain.
+
+The SMTP server opens a connection with the receiver’s mail server and transfers the email.`
+const blog4 = `React is a JavaScript library used by many developers, both junior and senior. React has become extremely popular over the years because of its blazing-fast performance. But many developers might not know the reason behind this speed. I will demystify React in this article and uncover what makes it so fast. Let's begin! Let us begin with what reconciliation is. In react, whenever the state of a component changes, that component needs to update its UI to show the updated state. This process is known as reconciliation in react. React performs this using a virtual DOM, which is simply a representation of your actual DOM. When the state of a component changes, React compares the virtual DOM with the actual DOM and then updates the nodes of the DOM tree based on the difference between the two DOMs. This comparison is done with the help of a diffing algorithm.
+
+The Diffing Algorithm
+This is the algorithm behind React's fast updation of the virtual DOM. Similar algorithms that perform tree diff have a time complexity of O(n^3) where "n" represents the number of elements in the DOM tree. As the number of elements inside the DOM tree increases, the time complexity of these algorithms can get unbearably large. On the other hand, the diffing algorithm performs tree diffing in O(n)`
 export const exploreWorlds = [
   {
     id: 'project-1',
@@ -30,9 +58,9 @@ export const exploreWorlds = [
 ];
 
 export const startingFeatures = [
-  'Find a world that suits you and you want to enter',
-  'Enter the world by reading basmalah to be safe',
-  'No need to beat around the bush, just stay on the gas and have fun',
+  `Working in HCLTech as a software engineer building scalable applications`,
+  `Working on a mobile app that recommends movies based on your personality traits`,
+  `Writing detailed tech blogs on Hashnode`,
 ];
 
 export const newFeatures = [
@@ -54,30 +82,27 @@ export const insights = [
   {
     imgUrl: '/blog4.png',
     title: `Google Drive System Design Deep Dive`,
-    subtitle:
-        'This blog will be an attempt for me to design the system design path for google drive from scratch. This is going to be my first time making such a blog. I will try to keep it as simple and beginner friendly as possible. Let us begin. Everyone has used google drive (or one of its alternatives) at some point in our lives. We use it store and retrieve documents, edit them, move them and share them to other people among other things. Technical Specifications We need this service to be highly available at all times. We need this service to create a folder, upload and view files, rename files, delete and download files. When',
+    subtitle: blog2,
+        
     url: 'https://anubhav1206.hashnode.dev/google-drive-system-design-deep-dive',
   },
   {
     imgUrl: '/blog1.png',
     title: 'JavaScript Prototypes',
-    subtitle:
-        'Prototypes are the core of how JavaScript functions. Whether you are preparing for you next interview....',
+    subtitle: blog1,
     url: 'https://anubhav1206.hashnode.dev/javascript-prototypes-your-one-stop-guide-for-understanding-this-core-javascript-concept',
     preview: "Prototypes are the core of how JavaScript functions. Whether you're preparing for your next interview...",
   },
   {
     imgUrl: '/blog2.png',
     title: 'Create your own Mail Server!',
-    subtitle:
-        'In this guide, we will learn about mail servers and how to create one from...',
+    subtitle: blog3,
     url: 'https://anubhav1206.hashnode.dev/create-your-own-mail-server',
   },
   {
     imgUrl: '/blog3.png',
     title: `The Reasons Behind React's Fast Performance`,
-    subtitle:
-        'React is a JavaScript library used by many developers, both junior and senior. React has become extremely..React is a JavaScript library used by many developers, both junior and senior. React has become extremely...React is a JavaScript library used by many developers, both junior and senior. React has become extremely....',
+    subtitle: blog4,
     url: 'https://anubhav1206.hashnode.dev/the-reasons-behind-reacts-fast-performance',
   },
   

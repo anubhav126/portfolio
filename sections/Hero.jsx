@@ -33,14 +33,14 @@ const Hero = () => {
       { Icon: SiTailwindcss, name: 'Tailwind', info: 'Styled UI using utility-first approach', color: 'text-teal-400' },
     ],
     backend: [
-      { Icon: FaNodeJs, name: 'Node.js', info: 'Developed backend services with Express.js', color: 'text-green-500' },
+      { Icon: FaNodeJs, name: 'Node.js', info: 'Developed backend stuffs like a reverse proxy server and a custom deployement pipeline', color: 'text-green-500' },
       { Icon: FaJava, name: 'Java', info: 'Worked on Spring Boot applications', color: 'text-red-500' },
-      { Icon: SiMongodb, name: 'MongoDB', info: 'Designed NoSQL databases', color: 'text-green-600' },
+      { Icon: SiMongodb, name: 'MongoDB', info: 'Used mongoDB as the go-to NoSQL database for mulitple small-scale applications', color: 'text-green-600' },
     ],
     languages: [
-      { Icon: SiC, name: 'C', info: 'Implemented data structures and algorithms', color: 'text-blue-600' },
-      { Icon: SiPython, name: 'Python', info: 'Worked on AI/ML and automation projects', color: 'text-yellow-400' },
-      { Icon: PiPackageThin, name: 'Packages', info: 'Managed dependencies with npm and pip', color: 'text-gray-300' },
+      { Icon: SiC, name: 'C', info: 'Worked on low level testing complying with aerospace grade safety standards.', color: 'text-blue-600' },
+      { Icon: SiPython, name: 'Python', info: 'Worked on writing scripts in order to automate testing and workflows', color: 'text-yellow-400' },
+      { Icon: PiPackageThin, name: 'Packages', info: 'Currently working on an npm package that scans your node modules and checks up with package.json file to remove unused node package.', color: 'text-gray-300' },
     ]
   };
 
@@ -50,10 +50,11 @@ const Hero = () => {
     ...techCategories.languages
   ];
 
+  // Updated desktop positions: last two icons moved slightly up
   const desktopPositions = [
-    'top-4 left-4', 'top-4 right-4', 'bottom-4 left-4', 'bottom-4 right-4',
-    'top-1/3 left-10', 'top-1/3 right-12', 'bottom-1/3 left-12', 'bottom-1/3 right-12',
-    'top-1/2 right-4'
+    'top-4 left-20', 'top-4 right-28', 'bottom-12 left-20', 'bottom-1/4 right-32',
+    'top-1/3 left-24', 'top-1/3 right-32', 'bottom-1/3 left-24', 'bottom-1/5 right-28',
+    'top-1/2 right-28'
   ];
 
   return (
@@ -78,46 +79,46 @@ const Hero = () => {
       </div>
 
       {isMobile ? (
-        <div className="flex flex-col items-center min-h-screen py-8 px-4">
-          <div className="relative w-32 h-32 rounded-full overflow-hidden border-4 border-purple-500/50 shadow-lg animate-holoGlow">
+        <div className="flex flex-col items-center min-h-screen py-12 px-6">
+          {/* Profile Section: Removed halo effect */}
+          <div className="relative w-48 h-48 rounded-full overflow-hidden border-4 border-gray-700 shadow-xl animate-glow">
             <img src="/profile.png" alt="Profile" className="w-full h-full object-cover" />
-            <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/50"></div>
+            <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/40"></div>
           </div>
-          <div className="mt-4 text-center">
-            <h2 className="text-lg font-semibold text-white animate-textReveal">Full-Stack Developer</h2>
-            <p className="text-sm text-gray-300 animate-textReveal" style={{ animationDelay: '0.2s' }}>
+          <div className="mt-6 text-center">
+            <h2 className="text-2xl font-bold text-white animate-slideUp">Full-Stack Developer</h2>
+            <p className="text-base text-gray-300 mt-2 animate-slideUp" style={{ animationDelay: '0.2s' }}>
               Crafting intuitive experiences
             </p>
-            <span className="text-xs text-white bg-black/80 px-2 py-1 rounded-full mt-2 inline-block">24, India</span>
+            <span className="text-sm text-white bg-gray-800/60 backdrop-blur-md px-3 py-1 rounded-full mt-3 inline-block animate-slideUp" style={{ animationDelay: '0.4s' }}>
+              24, India
+            </span>
           </div>
-          <div className="mt-8 w-full space-y-6">
+
+          {/* Tech Categories */}
+          <div className="mt-10 w-full space-y-4">
             {Object.entries(techCategories).map(([category, techs], index) => (
               <div
                 key={category}
-                className={`relative w-full bg-gray-900/60 backdrop-blur-xl rounded-xl p-4 shadow-2xl transform transition-all duration-500 ${
-                  hoveredTech === category ? 'rotate-y-180' : ''
-                }`}
-                onClick={() => setHoveredTech(hoveredTech === category ? null : category)}
+                className="relative w-full bg-gray-900/30 backdrop-blur-lg rounded-xl p-5 shadow-xl border border-gray-700/50 animate-slideUp"
+                style={{ animationDelay: `${index * 0.2}s` }}
               >
-                <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/20 to-purple-500/20 rounded-xl animate-holoShift"></div>
-                <div className="relative backface-hidden">
-                  {hoveredTech !== category ? (
-                    <h3 className="text-lg font-semibold text-white text-center">
-                      {category.charAt(0).toUpperCase() + category.slice(1)}
-                    </h3>
-                  ) : (
-                    <div className="rotate-y-180 flex flex-col gap-4">
-                      {techs.map(({ Icon, name, info, color }) => (
-                        <div key={name} className="flex items-center gap-3">
-                          <Icon className={`${color} text-3xl`} />
-                          <div>
-                            <h4 className={`text-sm font-semibold ${color}`}>{name}</h4>
-                            <p className="text-xs text-gray-300">{info}</p>
-                          </div>
-                        </div>
-                      ))}
+                <h3 className="text-lg font-semibold text-white mb-4">
+                  {category.charAt(0).toUpperCase() + category.slice(1)}
+                </h3>
+                <div className="space-y-3">
+                  {techs.map(({ Icon, name, info, color }) => (
+                    <div
+                      key={name}
+                      className="flex items-center gap-4 p-3 rounded-lg bg-gray-800/40 hover:bg-gray-800/60 transition-all duration-300 transform hover:scale-[1.02]"
+                    >
+                      <Icon className={`${color} text-3xl`} />
+                      <div>
+                        <h4 className={`text-sm font-semibold ${color}`}>{name}</h4>
+                        <p className="text-xs text-gray-400">{info}</p>
+                      </div>
                     </div>
-                  )}
+                  ))}
                 </div>
               </div>
             ))}
@@ -132,7 +133,7 @@ const Hero = () => {
             <div className="relative rounded-2xl overflow-hidden bg-[#1e1f2e] p-1 transform group-hover:scale-[1.02] transition-all duration-500 shadow-xl">
               <div className="absolute inset-0 bg-gradient-to-br from-black/30 via-transparent to-cyan-900/20 z-10"></div>
               <div className="absolute top-4 right-4 md:top-6 md:right-6 bg-black/80 backdrop-blur-md px-3 py-1 rounded-full text-xs md:text-sm font-medium text-white border border-cyan-500/50 shadow-lg transform translate-y-1 group-hover:translate-y-0 opacity-90 group-hover:opacity-100 transition-all duration-500 z-20">
-                24, India
+                23, India
               </div>
               <button
                 className="absolute top-4 left-4 bg-black/80 p-2 rounded-full text-white shadow-md sm:hidden z-30"
@@ -170,7 +171,9 @@ const Hero = () => {
                   <Icon />
                   <div className="absolute inset-0 rounded-full bg-white/5 scale-0 group-hover:scale-150 opacity-0 group-hover:opacity-100 transition-all duration-300 -z-10"></div>
                   {hoveredTech === name && (
-                    <div className="absolute left-1/2 transform -translate-x-1/2 mt-3 px-4 py-2 bg-black/90 backdrop-blur-sm text-white text-sm rounded-lg shadow-lg whitespace-nowrap z-10 border border-gray-700 animate-fadeIn">
+                    <div className={`absolute mt-3 px-4 py-2 bg-black/90 backdrop-blur-sm text-white text-sm rounded-lg shadow-lg whitespace-nowrap z-10 border border-gray-700 animate-fadeIn ${
+                      desktopPositions[index].includes('right') ? 'right-0 transform translate-x-0' : 'left-1/2 transform -translate-x-1/2'
+                    }`}>
                       {info}
                     </div>
                   )}
@@ -194,25 +197,20 @@ const Hero = () => {
           from { opacity: 0; transform: translateY(10px); }
           to { opacity: 1; transform: translateY(0); }
         }
-        @keyframes textReveal {
+        @keyframes slideUp {
           from { opacity: 0; transform: translateY(20px); }
           to { opacity: 1; transform: translateY(0); }
         }
-        @keyframes holoGlow {
+        @keyframes glow {
           0% { box-shadow: 0 0 15px rgba(147, 51, 234, 0.5); }
           50% { box-shadow: 0 0 25px rgba(147, 51, 234, 0.8); }
           100% { box-shadow: 0 0 15px rgba(147, 51, 234, 0.5); }
         }
-        @keyframes holoShift {
-          0% { transform: translateX(-100%); }
-          100% { transform: translateX(100%); }
-        }
         .animate-float { animation: float 8s ease-in-out infinite; }
         .animate-pulse { animation: pulse 4s ease-in-out infinite; }
         .animate-fadeIn { animation: fadeIn 0.3s ease-out forwards; }
-        .animate-textReveal { animation: textReveal 0.5s ease-out forwards; }
-        .animate-holoGlow { animation: holoGlow 2s infinite ease-in-out; }
-        .animate-holoShift { animation: holoShift 5s infinite linear; }
+        .animate-slideUp { animation: slideUp 0.5s ease-out forwards; }
+        .animate-glow { animation: glow 2s infinite ease-in-out; }
         .rotate-y-180 { transform: rotateY(180deg); }
         .backface-hidden { backface-visibility: hidden; }
         .perspective { perspective: 1000px; }
