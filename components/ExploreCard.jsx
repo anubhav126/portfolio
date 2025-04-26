@@ -128,6 +128,9 @@ const ExploreCard = ({
       }}
       onClick={() => handleClick(id)}
     >
+      {/* Grid overlay pattern to match with footer */}
+      <div className="absolute inset-0 opacity-10 z-0 bg-[url('/grid-pattern.svg')] bg-repeat bg-center pointer-events-none" />
+      
       <div className="absolute inset-0 bg-gradient-to-r from-violet-600/50 via-cyan-400/50 to-blue-600/50 rounded-3xl opacity-0 transition-opacity duration-300 z-0" 
            style={{ opacity: isHovering ? 0.4 : 0 }} />
            
@@ -236,7 +239,7 @@ const ExploreCard = ({
                 }}
                 transition={{ duration: 0.3, delay: 0.2 }}
                 className="absolute top-4 right-4 px-2 py-1 rounded-full 
-                           bg-gradient-to-r from-emerald-500 to-teal-600 
+                           bg-gradient-to-r from-violet-500 to-fuchsia-600 
                            text-white text-xs font-semibold"
               >
                 Project
@@ -269,7 +272,7 @@ const ExploreCard = ({
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
               className="absolute top-8 right-8 px-3 py-1 rounded-full 
-                         bg-gradient-to-r from-emerald-500 to-teal-600 
+                         bg-gradient-to-r from-violet-500 to-fuchsia-600 
                          text-white text-xs font-semibold"
             >
               Project
@@ -293,7 +296,7 @@ const ExploreCard = ({
                 variants={textVariants}
                 className="mt-2 font-bold text-[28px] 
                         md:text-[36px] text-white leading-tight
-                        bg-gradient-to-r from-white via-purple-200 to-white bg-clip-text text-transparent"
+                        bg-gradient-to-r from-violet-300 via-fuchsia-200 to-indigo-300 bg-clip-text text-transparent"
               >
                 {title}
               </motion.h2>
@@ -313,7 +316,7 @@ const ExploreCard = ({
                   <motion.span
                     key={index}
                     className="px-3 py-1 rounded-full text-xs 
-                              bg-white/10 text-gray-200 backdrop-blur-md"
+                              bg-white/10 text-gray-200 backdrop-blur-md border border-white/5"
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.3 + (index * 0.1) }}
@@ -331,7 +334,7 @@ const ExploreCard = ({
                   variants={buttonVariants}
                   whileHover="hover"
                   whileTap="tap"
-                  className="flex items-center justify-center gap-2 px-5 py-3 
+                  className="cyber-glitch-button flex items-center justify-center gap-2 px-5 py-3 
                           bg-gradient-to-br from-purple-600 to-blue-500 
                           rounded-full font-medium text-white
                           cursor-pointer transition-all shadow-lg shadow-purple-700/30"
@@ -340,17 +343,20 @@ const ExploreCard = ({
                     window.open(liveLink, '_blank');
                   }}
                 >
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clipRule="evenodd" />
-                  </svg>
-                  Live Demo
+                  <div className="cyber-glitch-bg absolute inset-0 rounded-full"></div>
+                  <div className="cyber-glitch-text relative z-20 flex items-center text-white">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                      <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clipRule="evenodd" />
+                    </svg>
+                    Live Demo
+                  </div>
                 </motion.button>
 
                 <motion.button
                   variants={buttonVariants}
                   whileHover="hover"
                   whileTap="tap"
-                  className="flex items-center justify-center gap-2 px-5 py-3 
+                  className="cyber-glitch-button flex items-center justify-center gap-2 px-5 py-3
                           bg-gray-800 border border-gray-700
                           rounded-full font-medium text-white
                           cursor-pointer transition-all shadow-lg shadow-black/30"
@@ -359,10 +365,13 @@ const ExploreCard = ({
                     window.open(repoLink, '_blank');
                   }}
                 >
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
-                  </svg>
-                  GitHub
+                  <div className="cyber-glitch-bg absolute inset-0 rounded-full opacity-40"></div>
+                  <div className="cyber-glitch-text relative z-20 flex items-center text-white">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
+                    </svg>
+                    GitHub
+                  </div>
                 </motion.button>
               </motion.div>
               

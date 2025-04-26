@@ -6,10 +6,13 @@
   box-shadow: 0 10px 15px -3px rgba(147, 51, 234, 0.2);
   overflow: hidden;
   transition: transform 0.2s ease;
+  isolation: isolate;
+  transform-style: preserve-3d;
+  perspective: 1000px;
 }
 
 .cyber-glitch-button:hover {
-  transform: translateY(-2px);
+  transform: translateY(-2px) translateZ(10px);
 }
 
 /* Background effect */
@@ -31,19 +34,23 @@
   inset: 0;
   border-radius: 9999px;
   overflow: hidden;
+  mix-blend-mode: overlay;
+  pointer-events: none;
   background: linear-gradient(
     to bottom,
-    transparent,
-    rgba(255, 255, 255, 0.1),
-    transparent
+    transparent 0%,
+    rgba(255, 255, 255, 0.2) 50%,
+    transparent 100%
   );
   opacity: 0;
   transition: opacity 0.3s ease;
+  height: 100%;
+  width: 100%;
 }
 
 .cyber-glitch-button:hover .cyber-glitch-scanline {
   opacity: 1;
-  animation: scanline-move 2s infinite linear;
+  animation: scanline-move 1.5s linear infinite;
 }
 
 /* Text & icon styling */
@@ -58,13 +65,24 @@
 /* Scanline animation */
 @keyframes scanline-move {
   0% {
-    transform: translateY(-100%);
+    transform: translateY(-100%) skewY(4deg);
   }
   100% {
-    transform: translateY(100%);
+    transform: translateY(100%) skewY(4deg);
   }
 }
 
+/* Focus styles for accessibility */
+.cyber-glitch-button:focus-visible {
+  outline: 2px solid rgba(147, 51, 234, 0.5);
+  outline-offset: 4px;
+}
+
+/* Active state enhancement */
+.cyber-glitch-button:active {
+  transform: translateY(1px) translateZ(0);
+  transition-duration: 0.1s;
+}
 
 .cyber-glitch-button {
   position: relative;

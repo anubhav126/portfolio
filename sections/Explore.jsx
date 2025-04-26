@@ -120,7 +120,7 @@ const projectsData = [
 ];
 
 const TechTag = ({ tech }) => (
-  <span className="px-2 py-1 text-xs font-medium rounded-md bg-gray-800 text-gray-300">
+  <span className="px-2 py-1 text-xs font-medium rounded-md bg-gray-800/80 text-gray-300 border border-gray-700/50 backdrop-blur-sm hover:bg-gray-700/80 hover:text-violet-300 transition-colors duration-200 cursor-default whitespace-nowrap">
     {tech}
   </span>
 );
@@ -130,13 +130,26 @@ const MobileFrame = ({ children }) => (
     <div className="relative mx-auto border-[12px] border-gray-900 rounded-[40px] shadow-xl overflow-hidden">
       {/* Notch */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-1/3 h-6 bg-gray-900 rounded-b-xl z-10"></div>
-      {/* Screen Content */}
-      <div className="relative aspect-[9/19.5] bg-gray-900 overflow-hidden">
+      
+      {/* Power Button */}
+      <div className="absolute top-20 right-[-12px] w-[3px] h-10 bg-gray-800 rounded-r-lg"></div>
+      
+      {/* Volume Buttons */}
+      <div className="absolute top-32 left-[-12px] w-[3px] h-8 bg-gray-800 rounded-l-lg"></div>
+      <div className="absolute top-44 left-[-12px] w-[3px] h-8 bg-gray-800 rounded-l-lg"></div>
+      
+      {/* Screen Content with subtle inner shadow */}
+      <div className="relative aspect-[9/19.5] bg-gray-900 overflow-hidden shadow-inner">
+        <div className="absolute inset-0 shadow-[inset_0_0_20px_rgba(0,0,0,0.5)]"></div>
         {children}
       </div>
+      
       {/* Home Indicator */}
       <div className="absolute bottom-2 left-1/2 -translate-x-1/2 w-1/3 h-1 bg-gray-700 rounded-full"></div>
     </div>
+    
+    {/* Phone Reflection */}
+    <div className="absolute -bottom-4 left-1/2 -translate-x-1/2 w-3/4 h-4 bg-black/20 blur-md rounded-full"></div>
   </div>
 );
 
@@ -144,14 +157,24 @@ const Explore = () => {
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [selectedProject, setSelectedProject] = useState(null);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
   const modalRef = useRef(null);
   const projectModalRef = useRef(null);
 
   const filteredProjects = useMemo(() => {
-    return selectedCategory === 'All'
+    const categoryFiltered = selectedCategory === 'All'
       ? projectsData
       : projectsData.filter((project) => project.category === selectedCategory);
-  }, [selectedCategory]);
+    
+    if (!searchQuery.trim()) return categoryFiltered;
+    
+    const query = searchQuery.toLowerCase().trim();
+    return categoryFiltered.filter(project => 
+      project.title.toLowerCase().includes(query) || 
+      project.description.toLowerCase().includes(query) ||
+      project.technologies.some(tech => tech.toLowerCase().includes(query))
+    );
+  }, [selectedCategory, searchQuery]);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -200,6 +223,38 @@ const Explore = () => {
             Discover my latest work across web development, design, and creative coding.
             Each project represents my passion for building innovative digital experiences.
           </p>
+        </motion.div>
+
+        {/* Search Bar */}
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4, delay: 0.2 }}
+          className="relative max-w-md mx-auto mb-8 px-4 md:px-0 w-full"
+        >
+          <div className="relative group">
+            <div className="absolute inset-0 bg-gradient-to-r from-violet-500 to-indigo-500 rounded-full opacity-70 blur-md group-hover:opacity-100 transition-opacity duration-300 -z-10"></div>
+            <input
+              type="text"
+              placeholder="Search projects..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-full py-3 pl-12 pr-4 bg-gray-800/70 backdrop-blur-md text-white rounded-full border border-gray-700 focus:outline-none focus:ring-2 focus:ring-violet-500 transition-all"
+            />
+            <div className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+              </svg>
+            </div>
+            {searchQuery && (
+              <button
+                onClick={() => setSearchQuery('')}
+                className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white"
+              >
+                <X className="h-4 w-4" />
+              </button>
+            )}
+          </div>
         </motion.div>
 
         {/* Mobile Category Dropdown */}
@@ -256,37 +311,87 @@ const Explore = () => {
           transition={{ duration: 0.8, delay: 0.3, ease: 'easeOut' }}
           className="hidden md:flex flex-wrap justify-center gap-4 mb-12"
         >
-          {CATEGORIES.map((category) => (
+          {CATEGORIES.map((category, index) => (
             <motion.button
               key={category}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={() => setSelectedCategory(category)}
               className={clsx(
-                'px-6 py-2 rounded-full text-sm font-medium transition-all duration-300',
+                'relative px-6 py-2 rounded-full text-sm font-medium transition-all duration-300 overflow-hidden',
                 selectedCategory === category
-                  ? 'bg-gradient-to-r from-violet-600 to-indigo-600 text-white shadow-lg shadow-violet-600/30'
-                  : 'bg-gray-800/30 text-gray-300 border border-gray-700'
+                  ? 'text-white'
+                  : 'bg-gray-800/30 text-gray-300 border border-gray-700 hover:border-gray-600'
               )}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2 + index * 0.1 }}
             >
-              {category}
+              {selectedCategory === category && (
+                <motion.div
+                  layoutId="activeCategoryBackground"
+                  className="absolute inset-0 bg-gradient-to-r from-violet-600 to-indigo-600 rounded-full"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.3 }}
+                />
+              )}
+              <span className="relative z-10">{category}</span>
             </motion.button>
           ))}
         </motion.div>
 
+        {/* Project Count */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          className="px-4 md:px-0 mb-6 text-center text-gray-400"
+        >
+          Showing {filteredProjects.length} {filteredProjects.length === 1 ? 'project' : 'projects'}
+          {selectedCategory !== 'All' && ` in ${selectedCategory}`}
+          {searchQuery && ` matching "${searchQuery}"`}
+        </motion.div>
+
         {/* Project Cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 px-4 md:px-0">
-          <AnimatePresence mode="wait">
-            {filteredProjects.map((project, index) => (
-              <ProjectCard
-                key={project.id}
-                {...project}
-                index={index}
-                setSelectedProject={setSelectedProject}
-              />
-            ))}
-          </AnimatePresence>
-        </div>
+        {filteredProjects.length > 0 ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 px-4 md:px-0">
+            <AnimatePresence mode="wait">
+              {filteredProjects.map((project, index) => (
+                <ProjectCard
+                  key={project.id}
+                  {...project}
+                  index={index}
+                  setSelectedProject={setSelectedProject}
+                />
+              ))}
+            </AnimatePresence>
+          </div>
+        ) : (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="flex flex-col items-center justify-center py-16 px-4"
+          >
+            <div className="w-16 h-16 mb-6 rounded-full bg-gray-800 flex items-center justify-center">
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+              </svg>
+            </div>
+            <h3 className="text-xl text-white font-medium mb-2">No projects found</h3>
+            <p className="text-gray-400 text-center max-w-md">
+              No projects match your current filters. Try changing your search query or selecting a different category.
+            </p>
+            <button
+              onClick={() => {
+                setSearchQuery('');
+                setSelectedCategory('All');
+              }}
+              className="mt-6 px-6 py-2 bg-violet-600 text-white rounded-full font-medium hover:bg-violet-700 transition-colors"
+            >
+              Reset Filters
+            </button>
+          </motion.div>
+        )}
 
         {/* CTA */}
         <motion.div
@@ -295,14 +400,24 @@ const Explore = () => {
           transition={{ delay: 0.6 }}
           className="flex justify-center mt-12"
         >
-          <button
-            className="cyber-glitch-button px-8 py-3 font-medium rounded-full shadow-lg shadow-neon-purple/20 relative group"
+          <motion.a
+            href="https://github.com/anubhav126"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="relative overflow-hidden rounded-full group"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
           >
-            <div className="cyber-glitch-bg absolute inset-0 rounded-full"></div>
-            <div className="cyber-glitch-text relative z-20 flex items-center text-white">
+            <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-violet-600 to-indigo-600 rounded-full"></span>
+            <span className="absolute inset-0 w-full h-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-gradient-to-r from-fuchsia-600 to-violet-600 rounded-full"></span>
+            
+            {/* Animated shimmer effect */}
+            <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-in-out"></span>
+            
+            <span className="relative block px-8 py-3 font-medium text-white z-10 flex items-center">
               <Github className="w-5 h-5 inline mr-2" /> View all on GitHub
-            </div>
-          </button>
+            </span>
+          </motion.a>
         </motion.div>
       </motion.div>
 
@@ -332,6 +447,7 @@ const ProjectCard = ({
   setSelectedProject,
 }) => {
   const [isLoading, setIsLoading] = useState(true);
+  const [isHovered, setIsHovered] = useState(false);
 
   return (
     <motion.article
@@ -341,6 +457,8 @@ const ProjectCard = ({
       exit={{ opacity: 0, scale: 0.9 }}
       transition={{ duration: 0.5, delay: index * 0.1 }}
       whileHover={{ y: -10, transition: { duration: 0.3 } }}
+      onHoverStart={() => setIsHovered(true)}
+      onHoverEnd={() => setIsHovered(false)}
       className="group relative rounded-xl overflow-hidden shadow-xl bg-gradient-to-br from-gray-900/90 to-gray-800/90 border border-gray-700/50 h-[350px] md:h-[400px] hover:shadow-violet-600/20 hover:shadow-2xl transition-all duration-500"
     >
       <div className="absolute inset-0 overflow-hidden">
@@ -359,6 +477,13 @@ const ProjectCard = ({
           )}
         />
         <div className="absolute inset-0 bg-gradient-to-t from-gray-900 via-gray-900/70 to-transparent" />
+        
+        {/* Animated glow effect on hover */}
+        <motion.div 
+          className="absolute inset-0 opacity-0 bg-gradient-to-r from-violet-600/20 to-blue-600/20"
+          animate={{ opacity: isHovered ? 1 : 0 }}
+          transition={{ duration: 0.4 }}
+        />
       </div>
 
       <div className="absolute inset-0 p-4 md:p-6 flex flex-col justify-end">
@@ -378,27 +503,52 @@ const ProjectCard = ({
           whileInView={{ y: 0, opacity: 1 }}
           transition={{ delay: 0.3 + index * 0.1 }}
         >
-          <h3 className="text-xl md:text-2xl font-bold text-white mb-2 group-hover:text-violet-300 transition-colors duration-300">
+          <motion.h3 
+            className="text-xl md:text-2xl font-bold mb-2 transition-colors duration-300"
+            animate={{ 
+              color: isHovered ? '#c4b5fd' : '#ffffff',
+              textShadow: isHovered ? '0 0 8px rgba(139, 92, 246, 0.5)' : 'none' 
+            }}
+          >
             {title}
-          </h3>
+          </motion.h3>
           <p className="text-gray-400 text-sm line-clamp-2 mb-4">{description}</p>
           <div className="flex flex-wrap gap-2 mb-4">
             {technologies.slice(0, 3).map((tech, i) => (
-              <TechTag key={i} tech={tech} />
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 0.4 + i * 0.1 }}
+              >
+                <TechTag tech={tech} />
+              </motion.div>
             ))}
-            {technologies.length > 3 && <TechTag tech={`+${technologies.length - 3}`} />}
+            {technologies.length > 3 && (
+              <motion.div
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 0.7 }}
+              >
+                <TechTag tech={`+${technologies.length - 3}`} />
+              </motion.div>
+            )}
           </div>
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            onClick={() => setSelectedProject(id)}
-            className="cyber-glitch-button w-full py-3 font-medium rounded-full shadow-lg shadow-neon-purple/20 relative group"
+            onClick={(e) => {
+              e.stopPropagation();
+              setSelectedProject(id);
+            }}
+            className="relative w-full py-3 font-medium rounded-full overflow-hidden group"
             aria-label={`View details for ${title}`}
           >
-            <div className="cyber-glitch-bg absolute inset-0 rounded-full"></div>
-            <div className="cyber-glitch-text relative z-20 flex items-center justify-center text-white">
+            <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-violet-600 to-indigo-600 rounded-full"></span>
+            <span className="absolute inset-0 w-full h-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-gradient-to-r from-fuchsia-600 to-violet-600 rounded-full"></span>
+            <span className="relative z-20 flex items-center justify-center text-white">
               <Eye className="w-5 h-5 inline mr-2" /> View Project
-            </div>
+            </span>
           </motion.button>
         </motion.div>
       </div>
@@ -410,6 +560,7 @@ const ProjectModal = ({ project, onClose, modalRef, projectModalRef }) => {
   const [zoomedImage, setZoomedImage] = useState(null);
   const imageModalRef = useRef(null);
   const [scrollPosition, setScrollPosition] = useState(0);
+  const [activeTab, setActiveTab] = useState('overview');
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -438,6 +589,12 @@ const ProjectModal = ({ project, onClose, modalRef, projectModalRef }) => {
 
   if (!project) return null;
 
+  const tabs = [
+    { id: 'overview', label: 'Overview' },
+    { id: 'features', label: 'Features' },
+    { id: 'gallery', label: 'Gallery' }
+  ];
+
   return (
     <>
       <motion.div
@@ -458,7 +615,7 @@ const ProjectModal = ({ project, onClose, modalRef, projectModalRef }) => {
           <button
             onClick={onClose}
             aria-label="Close project modal"
-            className="fixed md:absolute top-4 right-4 z-50 p-3 rounded-full bg-black/50 text-white backdrop-blur-md shadow-lg focus:outline-none focus:ring-2 focus:ring-violet-500"
+            className="fixed md:absolute top-4 right-4 z-50 p-3 rounded-full bg-black/50 text-white backdrop-blur-md shadow-lg focus:outline-none focus:ring-2 focus:ring-violet-500 hover:bg-black/70 transition-colors"
           >
             <X className="w-5 h-5" />
           </button>
@@ -474,114 +631,262 @@ const ProjectModal = ({ project, onClose, modalRef, projectModalRef }) => {
               onError={(e) => (e.currentTarget.src = '/fallback-image.jpg')}
             />
             <div className="absolute inset-0 bg-gradient-to-t from-gray-900 to-transparent" />
+            
+            {/* Animated particles effect */}
+            <div className="absolute inset-0 overflow-hidden pointer-events-none">
+              {Array.from({ length: 15 }).map((_, i) => (
+                <motion.div
+                  key={i}
+                  className="absolute w-1 h-1 bg-violet-400 rounded-full"
+                  initial={{ 
+                    x: Math.random() * 100 + '%', 
+                    y: Math.random() * 100 + '%',
+                    opacity: Math.random() * 0.5 + 0.3
+                  }}
+                  animate={{ 
+                    y: [null, Math.random() * 30 - 15 + '%'],
+                    x: [null, Math.random() * 20 - 10 + '%'],
+                    opacity: [null, Math.random() * 0.3 + 0.1]
+                  }}
+                  transition={{ 
+                    duration: Math.random() * 10 + 5,
+                    repeat: Infinity,
+                    repeatType: 'reverse'
+                  }}
+                />
+              ))}
+            </div>
+            
             <div className="absolute bottom-0 left-0 p-6 max-w-xl">
               <div className="flex items-center gap-3 mb-2">
-                <span className="px-3 py-1 rounded-full bg-violet-500/20 backdrop-blur-sm text-violet-300 text-xs font-medium">
+                <motion.span 
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.2 }}
+                  className="px-3 py-1 rounded-full bg-violet-500/20 backdrop-blur-sm text-violet-300 text-xs font-medium"
+                >
                   Featured Project
-                </span>
+                </motion.span>
                 <span className="h-1 w-1 bg-gray-500 rounded-full"></span>
-                <span className="text-gray-400 text-sm">{project.category}</span>
+                <motion.span 
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.3 }}
+                  className="text-gray-400 text-sm"
+                >
+                  {project.category}
+                </motion.span>
               </div>
-              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white">{project.title}</h2>
+              <motion.h2 
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.4 }}
+                className="text-2xl sm:text-3xl md:text-4xl font-bold bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent"
+              >
+                {project.title}
+              </motion.h2>
             </div>
           </div>
 
-          <div ref={projectModalRef} className="p-6 md:p-8">
-            <div className="flex flex-col md:flex-row gap-8">
-              <div className="flex-1">
-                <h3 className="text-xl font-semibold text-gray-200 mb-4">Overview</h3>
-                <p className="text-gray-400 mb-6">{project.description}</p>
-                <h3 className="text-xl font-semibold text-gray-200 mb-4">Key Features</h3>
-                <ul className="space-y-2 mb-6">
-                  {project.features.map((feature, index) => (
-                    <li key={index} className="flex items-start gap-2">
-                      <span className="text-violet-400 mt-1">•</span>
-                      <span className="text-gray-400">{feature}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
+          <div className="flex border-b border-gray-700/50 px-6 pt-4">
+            {tabs.map((tab) => (
+              <button
+                key={tab.id}
+                onClick={() => setActiveTab(tab.id)}
+                className={`px-4 py-2 font-medium text-sm relative ${
+                  activeTab === tab.id ? 'text-violet-300' : 'text-gray-400 hover:text-gray-300'
+                }`}
+              >
+                {tab.label}
+                {activeTab === tab.id && (
+                  <motion.div
+                    layoutId="activeTab"
+                    className="absolute bottom-0 left-0 right-0 h-0.5 bg-violet-500"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: 0.3 }}
+                  />
+                )}
+              </button>
+            ))}
+          </div>
 
-              <div className="md:w-64 space-y-6 mt-6 md:mt-0">
-                <div>
-                  <h3 className="text-lg font-semibold text-gray-200 mb-3">Technologies</h3>
-                  <div className="flex flex-wrap gap-2">
-                    {project.technologies.map((tech, i) => (
-                      <TechTag key={i} tech={tech} />
+          <div ref={projectModalRef} className="p-6 md:p-8">
+            <AnimatePresence mode="wait">
+              {activeTab === 'overview' && (
+                <motion.div
+                  key="overview"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  transition={{ duration: 0.3 }}
+                  className="flex flex-col md:flex-row gap-8"
+                >
+                  <div className="flex-1">
+                    <h3 className="text-xl font-semibold text-gray-200 mb-4">Overview</h3>
+                    <p className="text-gray-400 mb-6">{project.description}</p>
+                    
+                    <div className="md:hidden">
+                      <h3 className="text-lg font-semibold text-gray-200 mb-3">Technologies</h3>
+                      <div className="flex flex-wrap gap-2 mb-6">
+                        {project.technologies.map((tech, i) => (
+                          <motion.div
+                            key={i}
+                            initial={{ opacity: 0, scale: 0.8 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            transition={{ delay: 0.1 * i }}
+                          >
+                            <TechTag tech={tech} />
+                          </motion.div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="md:w-64 space-y-6 mt-6 md:mt-0">
+                    <div className="hidden md:block">
+                      <h3 className="text-lg font-semibold text-gray-200 mb-3">Technologies</h3>
+                      <div className="flex flex-wrap gap-2">
+                        {project.technologies.map((tech, i) => (
+                          <motion.div
+                            key={i}
+                            initial={{ opacity: 0, scale: 0.8 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            transition={{ delay: 0.1 * i }}
+                          >
+                            <TechTag tech={tech} />
+                          </motion.div>
+                        ))}
+                      </div>
+                    </div>
+                    <div className="space-y-3">
+                      {project.liveLink && (
+                        <motion.a
+                          href={project.liveLink}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="relative w-full py-3 font-medium rounded-lg flex items-center justify-center overflow-hidden group"
+                          whileHover={{ scale: 1.05 }}
+                          whileTap={{ scale: 0.95 }}
+                        >
+                          <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-violet-600 to-indigo-600 rounded-lg"></span>
+                          <span className="absolute inset-0 w-full h-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-gradient-to-r from-fuchsia-600 to-violet-600 rounded-lg"></span>
+                          <span className="relative z-20 flex items-center justify-center text-white">
+                            <Eye className="w-5 h-5 inline mr-2" /> Live Demo
+                          </span>
+                        </motion.a>
+                      )}
+                      <motion.a
+                        href={project.repoLink}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="relative w-full py-3 font-medium rounded-lg flex items-center justify-center overflow-hidden group"
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
+                      >
+                        <span className="absolute inset-0 w-full h-full bg-gray-800 border border-gray-700 rounded-lg"></span>
+                        <span className="absolute inset-0 w-full h-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-gray-700 rounded-lg"></span>
+                        <span className="relative z-20 flex items-center justify-center text-white">
+                          <Github className="w-5 h-5 inline mr-2" /> GitHub Repo
+                        </span>
+                      </motion.a>
+                    </div>
+                  </div>
+                </motion.div>
+              )}
+
+              {activeTab === 'features' && (
+                <motion.div
+                  key="features"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <h3 className="text-xl font-semibold text-gray-200 mb-4">Key Features</h3>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {project.features.map((feature, index) => (
+                      <motion.div
+                        key={index}
+                        initial={{ opacity: 0, x: -20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: index * 0.1 }}
+                        className="flex items-start gap-3 p-4 rounded-lg bg-gray-800/50 border border-gray-700/50"
+                      >
+                        <div className="w-8 h-8 rounded-full bg-violet-500/20 flex items-center justify-center flex-shrink-0">
+                          <span className="text-violet-400 text-lg">•</span>
+                        </div>
+                        <span className="text-gray-300">{feature}</span>
+                      </motion.div>
                     ))}
                   </div>
-                </div>
-                <div className="space-y-3">
-                  {project.liveLink && (
-                    <a
-                      href={project.liveLink}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="modal-button w-full py-3 font-medium rounded-lg"
-                    >
-                      <Eye className="w-5 h-5 inline mr-2" /> Live Demo
-                    </a>
-                  )}
-                  <a
-                    href={project.repoLink}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="modal-button w-full py-3 font-medium rounded-lg"
-                  >
-                    <Github className="w-5 h-5 inline mr-2" /> GitHub Repo
-                  </a>
-                </div>
-              </div>
-            </div>
+                </motion.div>
+              )}
 
-            {project.galleryImages && (
-              <div className="mt-10">
-                <h3 className="text-xl font-semibold text-gray-200 mb-4">Project Gallery</h3>
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-                  {project.galleryImages.map((img, index) => (
-                    <motion.div 
-                      key={index} 
-                      className="relative rounded-lg overflow-hidden cursor-pointer"
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: 0.1 * index }}
-                      whileHover={{ scale: 1.02 }}
-                      whileTap={{ scale: 0.98 }}
-                      onClick={() => setZoomedImage(img)}
-                    >
-                      {project.isMobile ? (
-                        <MobileFrame>
-                          <Image
-                            src={img}
-                            alt={`${project.title} screenshot ${index + 1}`}
-                            width={400}
-                            height={800}
-                            className="w-full h-full object-contain"
-                            onError={(e) => (e.currentTarget.src = '/fallback-image.jpg')}
-                          />
-                        </MobileFrame>
-                      ) : (
-                        <div className="relative aspect-video bg-gray-800">
-                          <Image
-                            src={img}
-                            alt={`${project.title} screenshot ${index + 1}`}
-                            width={800}
-                            height={450}
-                            className="w-full h-full object-cover"
-                            onError={(e) => (e.currentTarget.src = '/fallback-image.jpg')}
-                          />
-                          <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                            <div className="bg-black/50 p-2 rounded-full">
-                              <Eye className="w-5 h-5 text-white" />
-                            </div>
+              {activeTab === 'gallery' && project.galleryImages && (
+                <motion.div
+                  key="gallery"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <h3 className="text-xl font-semibold text-gray-200 mb-4">Project Gallery</h3>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                    {project.galleryImages.map((img, index) => (
+                      <motion.div 
+                        key={index} 
+                        className="relative rounded-lg overflow-hidden cursor-pointer"
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.1 * index }}
+                        whileHover={{ scale: 1.02 }}
+                        whileTap={{ scale: 0.98 }}
+                        onClick={() => setZoomedImage(img)}
+                      >
+                        {project.isMobile ? (
+                          <MobileFrame>
+                            <Image
+                              src={img}
+                              alt={`${project.title} screenshot ${index + 1}`}
+                              width={400}
+                              height={800}
+                              className="w-full h-full object-contain"
+                              onError={(e) => (e.currentTarget.src = '/fallback-image.jpg')}
+                            />
+                          </MobileFrame>
+                        ) : (
+                          <div className="relative aspect-video bg-gray-800 group">
+                            <Image
+                              src={img}
+                              alt={`${project.title} screenshot ${index + 1}`}
+                              width={800}
+                              height={450}
+                              className="w-full h-full object-cover"
+                              onError={(e) => (e.currentTarget.src = '/fallback-image.jpg')}
+                            />
+                            <motion.div 
+                              initial={{ opacity: 0 }}
+                              whileHover={{ opacity: 1 }}
+                              transition={{ duration: 0.2 }}
+                              className="absolute inset-0 bg-gradient-to-t from-violet-900/70 via-gray-900/50 to-transparent flex items-center justify-center"
+                            >
+                              <motion.div 
+                                initial={{ scale: 0 }}
+                                whileHover={{ scale: 1 }}
+                                className="bg-black/50 p-2 rounded-full backdrop-blur-sm"
+                              >
+                                <Eye className="w-5 h-5 text-white" />
+                              </motion.div>
+                            </motion.div>
                           </div>
-                        </div>
-                      )}
-                    </motion.div>
-                  ))}
-                </div>
-              </div>
-            )}
+                        )}
+                      </motion.div>
+                    ))}
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
         </motion.div>
       </motion.div>
@@ -610,7 +915,7 @@ const ProjectModal = ({ project, onClose, modalRef, projectModalRef }) => {
               >
                 <X className="w-6 h-6" />
               </button>
-              <div className="relative w-full h-full rounded-xl overflow-hidden shadow-2xl">
+              <div className="relative w-full h-full rounded-xl overflow-hidden shadow-2xl border border-gray-700/30">
                 {project.isMobile ? (
                   <MobileFrame>
                     <Image
