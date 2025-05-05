@@ -1,5 +1,6 @@
 import { Footer, Navbar } from '../components';
 import { About, Explore, Feedback, GetStarted, Hero, Insights, WhatsNew, World } from '../sections';
+import SearchDialog from '../components/SearchDialog.jsx'; // Import the new component
 
 const Page = () => (
   <div className="bg-primary-black overflow-hidden">
@@ -24,6 +25,9 @@ const Page = () => (
       {/* <Feedback /> */}
     </div>
     <Footer />
+    
+    {/* Add the search dialog component */}
+    <SearchDialog />
   </div>
 );
 

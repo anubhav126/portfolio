@@ -17,7 +17,7 @@ const socials = [
   },
   {
     name: "LinkedIn",
-    link: "https://linkedin.com/in/yourprofile",
+    link: "https://linkedin.com/in/anubhav-adhikari-a3565b176",
     icon: Linkedin,
     color: "from-blue-700 to-blue-800",
     hoverColor: "linear-gradient(45deg, #0077b5, #00a0dc)",
