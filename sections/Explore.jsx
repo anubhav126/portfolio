@@ -85,7 +85,7 @@ const projectsData = [
     title: 'Movie Recommendation App',
     description: 'Personalized movie suggestions based on mood and preferences with social sharing features.',
     coverImage: projectImages['movie-app'][0],
-    liveLink: 'https://apps.apple.com/example',
+    liveLink: 'https://drive.google.com/file/d/1LmnVa7fA13hzaxp9MMk_i7HeeLG5so1i/view?usp=drive_link',
     repoLink: 'https://github.com/yourusername/fitness-app',
     technologies: ['React Native', 'Expo', 'TMDB API', 'Firebase'],
     category: 'Mobile',

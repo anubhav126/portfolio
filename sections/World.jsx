@@ -97,7 +97,7 @@ const TimeLineData = [
   },
   { 
     year: 2023, 
-    text: 'Graduated with a degree in Computer Science', 
+    text: 'Graduated with a degree in Computer Science and Engineering', 
     icon: '🎓', 
     details: <>Started working at <span className="yearButton inline-block px-2 py-0.5 mx-1 rounded-md bg-gradient-to-r from-cyan-500/20 to-blue-500/20 text-cyan-300 text-sm">HCLTech</span> as a Software Engineer</> 
   },
