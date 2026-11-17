@@ -1,331 +1,337 @@
 'use client';
 
-import { useState, useRef, useEffect, useMemo, useCallback } from 'react';
-import { FaReact, FaNodeJs, FaJava } from 'react-icons/fa';
-import { SiNextdotjs, SiTailwindcss, SiC, SiPython, SiMongodb } from 'react-icons/si';
-import { PiPackageThin } from 'react-icons/pi';
-import '../styles/hero.css';
-import { Info } from "lucide-react";
-import PortfolioHeader from '../components/ui/PortfolioHeader';
-import Image from 'next/image';
-import '../styles/globals.css';
+import React, { useState, useRef } from 'react';
+import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
+import {
+  ArrowRight,
+  FileText,
+  MapPin,
+  CheckCircle2,
+  ExternalLink,
+  ShieldCheck,
+  Sparkles,
+  Plane,
+} from 'lucide-react';
+import { personalInfo, stats } from '../constants';
 
-// Memoize tech categories to prevent unnecessary re-renders
-const techCategories = {
-  frontend: [
-    { Icon: FaReact, name: 'React', info: 'Built dynamic UIs with React and Next.js', color: 'text-blue-400' },
-    { Icon: SiNextdotjs, name: 'Next.js', info: 'Built SEO-friendly applications', color: 'text-white' },
-    { Icon: SiTailwindcss, name: 'Tailwind', info: 'Styled UI using utility-first approach', color: 'text-teal-400' },
-  ],
-  backend: [
-    { Icon: FaNodeJs, name: 'Node.js', info: 'Developed backend stuffs like a reverse proxy server and a custom deployement pipeline', color: 'text-green-500' },
-    { Icon: FaJava, name: 'Java', info: 'Worked on Spring Boot applications', color: 'text-red-500' },
-    { Icon: SiMongodb, name: 'MongoDB', info: 'Used mongoDB as the go-to NoSQL database for mulitple small-scale applications', color: 'text-green-600' },
-  ],
-  languages: [
-    { Icon: SiC, name: 'C', info: 'Worked on low level testing complying with aerospace grade safety standards.', color: 'text-blue-600' },
-    { Icon: SiPython, name: 'Python', info: 'Worked on writing scripts in order to automate testing and workflows', color: 'text-yellow-400' },
-    { Icon: PiPackageThin, name: 'Packages', info: 'Currently working on an npm package that scans your node modules and checks up with package.json file to remove unused node package.', color: 'text-gray-300' },
-  ]
-};
-
-// Predefine positions instead of random assignments
-const desktopPositions = [
-  'top-4 left-20', 'top-4 right-28', 'bottom-12 left-20', 'bottom-1/4 right-32',
-  'top-1/3 left-24', 'top-1/3 right-32', 'bottom-1/3 left-24', 'bottom-1/5 right-28',
-  'top-1/2 right-28'
+const techBadges = [
+  { name: 'React 19 & Next.js', color: '#F97316' },
+  { name: 'TypeScript', color: '#3178C6' },
+  { name: 'Node.js & Express', color: '#68A063' },
+  { name: 'Python Automation', color: '#3776AB' },
+  { name: 'C Systems', color: '#659AD2' },
+  { name: 'Tailwind CSS', color: '#06B6D4' },
+  { name: 'Appwrite & Cloud', color: '#FD366E' },
+  { name: 'MongoDB', color: '#47A248' },
 ];
 
-// Predefine limited number of particles for better performance
-const particles = Array.from({ length: 8 }, (_, i) => ({ 
-  size: Math.floor(Math.random() * 4) + 2,
-  top: `${Math.floor(Math.random() * 100)}%`,
-  left: `${Math.floor(Math.random() * 100)}%`,
-  delay: `${Math.floor(Math.random() * 5)}s`,
-  duration: `${Math.floor(Math.random() * 10) + 10}s`
-}));
-
 const Hero = () => {
-  const [hoveredTech, setHoveredTech] = useState(null);
-  const [showInfo, setShowInfo] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
-  const [imageLoaded, setImageLoaded] = useState(false);
-  const [error, setError] = useState(null);
-  
-  // Memoize all tech icons to prevent unnecessary recalculations
-  const allTechIcons = useMemo(() => [
-    ...techCategories.frontend,
-    ...techCategories.backend,
-    ...techCategories.languages
-  ], []);
+  const cardRef = useRef(null);
+  const [glarePos, setGlarePos] = useState({ x: 50, y: 50, opacity: 0 });
 
-  // Check mobile only once on initial render and when resized
-  useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
-    
-    // Initial check
-    checkMobile();
-    
-    // Throttled resize handler using requestAnimationFrame
-    let rafId;
-    const handleResize = () => {
-      cancelAnimationFrame(rafId);
-      rafId = requestAnimationFrame(checkMobile);
-    };
-    
-    window.addEventListener('resize', handleResize, { passive: true });
-    
-    return () => {
-      window.removeEventListener('resize', handleResize);
-      cancelAnimationFrame(rafId);
-    };
-  }, []);
+  // 3D Tilt Physics for Profile Card
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
+  const springX = useSpring(mouseX, { stiffness: 260, damping: 20 });
+  const springY = useSpring(mouseY, { stiffness: 260, damping: 20 });
+  const rotateX = useTransform(springY, [-0.5, 0.5], [10, -10]);
+  const rotateY = useTransform(springX, [-0.5, 0.5], [-10, 10]);
 
-  // Memoize handlers to prevent unnecessary re-renders
-  const handleTechHover = useCallback((name) => {
-    setHoveredTech(name);
-  }, []);
+  const handleMouseMove = (e) => {
+    if (!cardRef.current) return;
+    const rect = cardRef.current.getBoundingClientRect();
+    const x = (e.clientX - rect.left) / rect.width;
+    const y = (e.clientY - rect.top) / rect.height;
+    mouseX.set(x - 0.5);
+    mouseY.set(y - 0.5);
+    setGlarePos({ x: x * 100, y: y * 100, opacity: 1 });
+  };
 
-  const handleTechLeave = useCallback(() => {
-    setHoveredTech(null);
-  }, []);
+  const handleMouseLeave = () => {
+    mouseX.set(0);
+    mouseY.set(0);
+    setGlarePos((prev) => ({ ...prev, opacity: 0 }));
+  };
 
-  const handleImageLoad = useCallback(() => {
-    setImageLoaded(true);
-  }, []);
-
-  const handleImageError = useCallback(() => {
-    setError('Failed to load profile image');
-  }, []);
+  const openResume = () => {
+    window.open(personalInfo.resumeUrl, '_blank', 'noopener,noreferrer');
+  };
 
   return (
-    <section 
-      className="min-h-screen w-full relative overflow-hidden py-6 md:py-16 px-4 md:px-8"
-      aria-label="Hero section"
+    <section
+      id="about"
+      className="relative pt-10 pb-16 md:pt-16 md:pb-24 bg-gradient-to-b from-white via-neutral-50 to-neutral-50 overflow-hidden"
     >
-      {/* Optimized background effects */}
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-cyan-500/5 to-transparent" />
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-blue-900/20 via-transparent to-transparent opacity-70" />
+      {/* Subtle interactive background grid */}
+      <div className="absolute inset-0 grid-bg-pattern opacity-35 pointer-events-none" />
 
-      {/* Reduced particles count for better performance */}
-      <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
-        {particles.map((particle, i) => (
-          <div 
-            key={i}
-            className="absolute rounded-full bg-cyan-500/20 will-change-transform"
-            style={{
-              width: `${particle.size}px`,
-              height: `${particle.size}px`,
-              top: particle.top,
-              left: particle.left,
-              animation: `float ${particle.duration} linear infinite`,
-              animationDelay: particle.delay
-            }}
-          />
-        ))}
-      </div>
+      {/* Creative floating background orb */}
+      <motion.div
+        animate={{
+          x: [0, 25, -20, 0],
+          y: [0, -30, 15, 0],
+          scale: [1, 1.08, 0.95, 1],
+        }}
+        transition={{
+          duration: 14,
+          repeat: Infinity,
+          ease: 'easeInOut',
+        }}
+        className="absolute -top-10 right-1/4 w-[420px] h-[260px] bg-gradient-to-br from-primary-100/60 to-primary-200/30 rounded-full blur-3xl pointer-events-none -z-0"
+      />
 
-      {isMobile ? (
-        <div className="flex flex-col items-center min-h-screen py-12 px-6">
-          <div className="relative w-48 h-48 rounded-full overflow-hidden border-4 border-gray-700 shadow-xl animate-glow">
-            <div className="absolute inset-0">
-              <Image 
-                src="/profile.png" 
-                alt="Profile" 
-                width={192}
-                height={192}
-                quality={65}
-                loading="eager"
-                className={`object-cover transition-opacity duration-300 ${imageLoaded ? 'opacity-100' : 'opacity-0'}`}
-                onLoadingComplete={handleImageLoad}
-                onError={handleImageError}
-                placeholder="blur"
-                blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg=="
-              />
-            </div>
-            {!imageLoaded && !error && (
-              <div className="absolute inset-0 bg-gray-800 animate-pulse" />
-            )}
-            {error && (
-              <div className="absolute inset-0 flex items-center justify-center bg-gray-800 text-white text-sm">
-                {error}
-              </div>
-            )}
-            <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/40" />
-          </div>
-          
-          <div className="mt-6 text-center">
-            <h2 className="text-2xl font-bold text-white animate-slideUp">Full-Stack Developer</h2>
-            <p className="text-base text-gray-300 mt-2 animate-slideUp" style={{ animationDelay: '0.2s' }}>
-              Crafting intuitive experiences
-            </p>
-            <span className="text-sm text-white bg-gray-800/60 backdrop-blur-md px-3 py-1 rounded-full mt-3 inline-block animate-slideUp" style={{ animationDelay: '0.4s' }}>
-              24, India
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Availability Badge */}
+        <motion.div
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4 }}
+          className="flex flex-wrap items-center gap-3 mb-6"
+        >
+          <motion.div
+            whileHover={{ scale: 1.03 }}
+            className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-50 border border-emerald-200/80 text-emerald-700 text-xs font-medium shadow-sm cursor-default"
+          >
+            <span className="relative flex h-2 w-2">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
             </span>
+            <span>Available for high-impact engineering roles</span>
+          </motion.div>
+
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white border border-neutral-200 text-neutral-600 text-xs font-medium shadow-sm">
+            <MapPin className="w-3.5 h-3.5 text-primary-500" />
+            <span>Bengaluru, India</span>
+          </div>
+        </motion.div>
+
+        {/* Main Display Headline */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+          <div className="lg:col-span-7">
+            <motion.h1
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+              className="font-display-1 text-neutral-900 tracking-tight mb-5"
+            >
+              Engineering scalable systems with{' '}
+              <span className="relative inline-block text-primary-500">
+                <span className="relative z-10">clarity</span>
+                <motion.span
+                  initial={{ width: 0 }}
+                  animate={{ width: '100%' }}
+                  transition={{ duration: 0.8, delay: 0.6, ease: 'easeOut' }}
+                  className="absolute bottom-1.5 left-0 h-3 bg-primary-100 -z-0 rounded-sm"
+                />
+              </span>
+              , precision & speed.
+            </motion.h1>
+
+            <motion.p
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              className="font-body-lg text-neutral-700 leading-relaxed mb-8 max-w-2xl"
+            >
+              Hello! I'm <strong className="text-neutral-900 font-semibold">{personalInfo.name}</strong>, a Software Engineer at{' '}
+              <motion.span
+                whileHover={{ scale: 1.05 }}
+                className="inline-flex items-center gap-1 font-semibold text-primary-600 bg-primary-100/90 px-2.5 py-0.5 rounded-md cursor-default transition-all shadow-sm shadow-primary-500/10"
+              >
+                HCLTech
+              </motion.span>
+              . I architect production-grade web applications, reverse proxies, and mission-critical avionics control software for the{' '}
+              <strong className="text-neutral-900 font-semibold">Airbus A350-1000F</strong>.
+            </motion.p>
+
+            {/* CTA Action Buttons */}
+            <motion.div
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.3 }}
+              className="flex flex-wrap items-center gap-3.5 mb-10"
+            >
+              <motion.a
+                whileHover={{ scale: 1.04, y: -2 }}
+                whileTap={{ scale: 0.96 }}
+                href="#projects"
+                className="btn-primary shadow-sm shadow-primary-500/25 group"
+              >
+                <span>Explore Projects</span>
+                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+              </motion.a>
+
+              <motion.button
+                whileHover={{ scale: 1.04, y: -2 }}
+                whileTap={{ scale: 0.96 }}
+                onClick={openResume}
+                className="btn-secondary group"
+              >
+                <FileText className="w-4 h-4 group-hover:rotate-6 transition-transform" />
+                <span>View Resume</span>
+              </motion.button>
+            </motion.div>
+
+            {/* Quick Tech Highlights with playful physics */}
+            <div>
+              <p className="text-xs uppercase tracking-wider text-neutral-400 font-semibold mb-3">
+                Core Engineering Stack
+              </p>
+              <div className="flex flex-wrap gap-2">
+                {techBadges.map((t, idx) => (
+                  <motion.span
+                    key={t.name}
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.3, delay: 0.35 + idx * 0.04 }}
+                    whileHover={{
+                      scale: 1.08,
+                      y: -3,
+                      boxShadow: `0 6px 16px -2px ${t.color}33`,
+                    }}
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium bg-white border border-neutral-200 text-neutral-700 shadow-sm cursor-default transition-colors hover:border-neutral-300"
+                  >
+                    <span
+                      className="w-2 h-2 rounded-full animate-pulse"
+                      style={{ backgroundColor: t.color }}
+                    />
+                    {t.name}
+                  </motion.span>
+                ))}
+              </div>
+            </div>
           </div>
 
-          {/* Virtualized tech cards for mobile to improve performance */}
-          <div className="mt-10 w-full space-y-4">
-            {Object.entries(techCategories).map(([category, techs], index) => (
+          {/* Right Card: 3D Perspective Tilt Card */}
+          <div className="lg:col-span-5 perspective-[1000px]">
+            <motion.div
+              ref={cardRef}
+              style={{
+                rotateX,
+                rotateY,
+                transformStyle: 'preserve-3d',
+              }}
+              onMouseMove={handleMouseMove}
+              onMouseLeave={handleMouseLeave}
+              className="portfolio-card p-6 md:p-8 bg-white relative overflow-hidden cursor-pointer group shadow-md hover:shadow-xl transition-shadow duration-300"
+            >
+              {/* Dynamic Interactive Cursor Glare Effect */}
               <div
-                key={category}
-                className="relative w-full bg-gray-900/30 backdrop-blur-lg rounded-xl p-5 shadow-xl border border-gray-700/50 animate-slideUp transform hover:scale-[1.02] transition-transform duration-300"
-                style={{ animationDelay: `${index * 0.2}s` }}
+                className="absolute inset-0 pointer-events-none transition-opacity duration-300"
+                style={{
+                  background: `radial-gradient(circle 280px at ${glarePos.x}% ${glarePos.y}%, rgba(249, 115, 22, 0.12), transparent 70%)`,
+                  opacity: glarePos.opacity,
+                }}
+              />
+
+              {/* Card Header Badge */}
+              <div className="flex items-center justify-between pb-4 border-b border-neutral-100 mb-5 relative z-10">
+                <div className="flex items-center gap-2.5">
+                  <motion.div
+                    whileHover={{ rotate: 360 }}
+                    transition={{ duration: 0.6 }}
+                    className="w-10 h-10 rounded-xl bg-gradient-to-tr from-primary-500 to-primary-400 text-white flex items-center justify-center font-bold text-sm shadow-sm"
+                  >
+                    AA
+                  </motion.div>
+                  <div>
+                    <h3 className="text-sm font-semibold text-neutral-900 leading-tight">
+                      Software Engineer
+                    </h3>
+                    <p className="text-xs text-neutral-500">HCLTech • Full-Stack & Systems</p>
+                  </div>
+                </div>
+                <span className="badge-orange flex items-center gap-1">
+                  <Sparkles className="w-3 h-3 animate-spin" />
+                  Active 2026
+                </span>
+              </div>
+
+              {/* Aerospace Focus Box with subtle floating aircraft icon */}
+              <motion.div
+                whileHover={{ scale: 1.02 }}
+                className="bg-neutral-50 rounded-xl p-4 border border-neutral-200/80 mb-5 relative z-10 overflow-hidden"
               >
-                <h3 className="text-lg font-semibold text-white mb-4">
-                  {category.charAt(0).toUpperCase() + category.slice(1)}
-                </h3>
-                <div className="space-y-3">
-                  {techs.map(({ Icon, name, info, color }) => (
-                    <div
-                      key={name}
-                      className="flex items-center gap-4 p-3 rounded-lg bg-gray-800/40 hover:bg-gray-800/60 transition-all duration-300"
-                    >
-                      <Icon className={`${color} text-3xl`} />
-                      <div>
-                        <h4 className={`text-sm font-semibold ${color}`}>{name}</h4>
-                        <p className="text-xs text-gray-400">{info}</p>
-                      </div>
-                    </div>
-                  ))}
+                <div className="flex items-start gap-3">
+                  <div className="w-8 h-8 rounded-lg bg-primary-500 text-white flex items-center justify-center flex-shrink-0 mt-0.5 shadow-sm">
+                    <Plane className="w-4 h-4 animate-bounce" />
+                  </div>
+                  <div>
+                    <h4 className="text-xs font-bold uppercase tracking-wider text-primary-600 mb-0.5">
+                      Aerospace Highlight
+                    </h4>
+                    <p className="text-xs font-semibold text-neutral-900">
+                      Airbus A350-1000F Cargo Avionics
+                    </p>
+                    <p className="text-xs text-neutral-600 mt-1 leading-relaxed">
+                      Engineered embedded C modules for automated cargo loading/unloading control panels under strict aviation safety compliance.
+                    </p>
+                  </div>
+                </div>
+              </motion.div>
+
+              {/* Key Competencies List */}
+              <div className="space-y-2.5 mb-6 text-xs text-neutral-700 relative z-10">
+                <div className="flex items-center gap-2">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-500 flex-shrink-0" />
+                  <span>Next.js 15 App Router & React 19 Ecosystem</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-500 flex-shrink-0" />
+                  <span>High-Throughput Node.js Cluster Load Balancers</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-500 flex-shrink-0" />
+                  <span>Python Automated Verification Harness (10x Productivity)</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-500 flex-shrink-0" />
+                  <span>Technical Author with 10+ Deep-Dive Systems Articles</span>
                 </div>
               </div>
-            ))}
+
+              {/* Card Footer action */}
+              <div className="pt-4 border-t border-neutral-100 flex items-center justify-between relative z-10">
+                <span className="text-xs text-neutral-500">Hashnode Engineering Blog</span>
+                <a
+                  href="https://anubhav1206.hashnode.dev"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn-text group/link"
+                >
+                  <span>Read Articles</span>
+                  <ExternalLink className="w-3.5 h-3.5 group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5 transition-transform" />
+                </a>
+              </div>
+            </motion.div>
           </div>
         </div>
-      ) : (
-        <>
-          <PortfolioHeader headerText="Welcome to my Portfolio" />
-          <div className="relative w-full max-w-xs sm:max-w-sm md:max-w-2xl lg:max-w-3xl mx-auto mb-8 md:mb-12 px-2 group perspective">
-            <div className="absolute inset-0 bg-gradient-to-r from-purple-500 via-cyan-400 to-indigo-500 rounded-2xl blur-lg opacity-60 transform scale-105 group-hover:scale-110 transition-transform duration-500" />
-            <div className="absolute inset-0 bg-gradient-to-r from-pink-500 via-blue-500 to-purple-500 rounded-2xl blur-md opacity-40 transform scale-103 animate-pulse" />
-            <div className="relative rounded-2xl overflow-hidden bg-[#1e1f2e] p-1 transform group-hover:scale-[1.02] transition-all duration-500 shadow-xl">
-              <div className="absolute inset-0 bg-gradient-to-br from-black/30 via-transparent to-cyan-900/20 z-10" />
-              <div className="absolute top-4 right-4 md:top-6 md:right-6 bg-black/80 backdrop-blur-md px-3 py-1 rounded-full text-xs md:text-sm font-medium text-white border border-cyan-500/50 shadow-lg transform translate-y-1 group-hover:translate-y-0 opacity-90 group-hover:opacity-100 transition-all duration-500 z-20">
-                23, India
-              </div>
-              <button
-                className="absolute top-4 left-4 bg-black/80 p-2 rounded-full text-white shadow-md sm:hidden z-30 hover:bg-black/90 transition-colors duration-300"
-                onClick={() => setShowInfo(!showInfo)}
-                aria-label={showInfo ? "Hide info" : "Show info"}
-              >
-                <Info className="w-5 h-5" />
-              </button>
-              <div className="relative w-full aspect-[16/9]">
-                <Image 
-                  src="/profile.png" 
-                  alt="Profile" 
-                  fill
-                  sizes="(max-width: 640px) 320px, (max-width: 768px) 512px, 800px"
-                  quality={75}
-                  priority={true}
-                  className={`object-cover rounded-xl transform group-hover:scale-[1.03] transition-all duration-700 ${imageLoaded ? 'opacity-100' : 'opacity-0'}`}
-                  onLoadingComplete={handleImageLoad}
-                  onError={handleImageError}
-                  placeholder="blur"
-                  blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg=="
-                />
-              </div>
-              {!imageLoaded && !error && (
-                <div className="absolute inset-0 bg-gray-800 animate-pulse rounded-xl" />
-              )}
-              {error && (
-                <div className="absolute inset-0 flex items-center justify-center bg-gray-800 text-white text-sm rounded-xl">
-                  {error}
-                </div>
-              )}
-              <div className="absolute bottom-4 left-4 md:bottom-6 md:left-6 bg-black/50 backdrop-blur-sm px-3 py-1 md:px-4 md:py-2 rounded-lg text-xs sm:text-sm md:text-base text-white font-medium z-20 hidden sm:block">
-                A full-stack developer crafting intuitive and visually compelling digital experiences.
-              </div>
-              {showInfo && (
-                <div className="absolute inset-0 flex items-center justify-center bg-black/80 text-white text-sm sm:hidden p-4 rounded-xl z-40">
-                  A full-stack developer crafting intuitive and visually compelling digital experiences.
-                </div>
-              )}
-            </div>
-          </div>
-          <div className="hidden md:block">
-            {allTechIcons.slice(0, 9).map(({ Icon, name, info, color }, index) => (
-              <div 
-                key={index} 
-                className={`absolute text-4xl lg:text-5xl opacity-80 ${color} ${desktopPositions[index]} transform hover:scale-125 transition-transform duration-300 animate-float will-change-transform`}
-                style={{ animationDelay: `${index * 0.2}s` }}
-              >
-                <div
-                  className="relative group cursor-pointer p-2"
-                  onMouseEnter={() => handleTechHover(name)}
-                  onMouseLeave={handleTechLeave}
-                >
-                  <Icon />
-                  <div className="absolute inset-0 rounded-full bg-white/5 scale-0 group-hover:scale-150 opacity-0 group-hover:opacity-100 transition-all duration-300 -z-10" />
-                  {hoveredTech === name && (
-                    <div 
-                      className={`absolute mt-3 px-4 py-2 bg-black/90 backdrop-blur-sm text-white text-sm rounded-lg shadow-lg whitespace-nowrap z-10 border border-gray-700 animate-fadeIn ${
-                        desktopPositions[index].includes('right') ? 'right-0 transform translate-x-0' : 'left-1/2 transform -translate-x-1/2'
-                      }`}
-                      role="tooltip"
-                    >
-                      {info}
-                    </div>
-                  )}
-                </div>
-              </div>
-            ))}
-          </div>
-        </>
-      )}
 
-      <style jsx global>{`
-        @keyframes float {
-          0%, 100% { transform: translateY(0px); }
-          50% { transform: translateY(-15px); }
-        }
-        @keyframes pulse {
-          0%, 100% { opacity: 0.8; }
-          50% { opacity: 0.4; }
-        }
-        @keyframes fadeIn {
-          from { opacity: 0; transform: translateY(10px); }
-          to { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes slideUp {
-          from { opacity: 0; transform: translateY(20px); }
-          to { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes glow {
-          0% { box-shadow: 0 0 15px rgba(147, 51, 234, 0.5); }
-          50% { box-shadow: 0 0 25px rgba(147, 51, 234, 0.8); }
-          100% { box-shadow: 0 0 15px rgba(147, 51, 234, 0.5); }
-        }
-        .animate-float { animation: float 8s ease-in-out infinite; }
-        .animate-pulse { animation: pulse 4s ease-in-out infinite; }
-        .animate-fadeIn { animation: fadeIn 0.3s ease-out forwards; }
-        .animate-slideUp { animation: slideUp 0.5s ease-out forwards; }
-        .animate-glow { animation: glow 2s infinite ease-in-out; }
-        .perspective { perspective: 1000px; }
-
-        @media (max-width: 767px) {
-          section { padding-bottom: 10rem; }
-        }
-
-        /* Add smooth scrolling to the page */
-        html {
-          scroll-behavior: smooth;
-        }
-
-        /* Optimize animations for users who prefer reduced motion */
-        @media (prefers-reduced-motion: reduce) {
-          .animate-float,
-          .animate-pulse,
-          .animate-fadeIn,
-          .animate-slideUp,
-          .animate-glow {
-            animation: none;
-          }
-        }
-      `}</style>
+        {/* Stats Row with interactive hover bounce */}
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mt-12">
+          {stats.map((s, index) => (
+            <motion.div
+              key={index}
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4, delay: 0.4 + index * 0.08 }}
+              whileHover={{ y: -4, scale: 1.02 }}
+              className="portfolio-card p-5 bg-white text-left hover:border-primary-300 relative overflow-hidden group shadow-sm hover:shadow-md transition-all"
+            >
+              <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-primary-500 to-primary-400 opacity-0 group-hover:opacity-100 transition-opacity" />
+              <div className="text-2xl sm:text-3xl font-bold font-serif text-neutral-900 mb-1">
+                <span className="text-primary-500">{s.value}</span>
+              </div>
+              <div className="text-xs sm:text-sm font-semibold text-neutral-800">
+                {s.label}
+              </div>
+              <div className="text-[11px] text-neutral-500 mt-0.5">
+                {s.hint}
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      </div>
     </section>
   );
 };

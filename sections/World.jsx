@@ -1,452 +1,169 @@
-"use client";
-import React, { useState, useRef, useEffect, useCallback, memo } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import '../styles/globals.css';
+'use client';
 
-// Memoized timeline item component for better performance
-const TimelineItem = memo(({ item, index, isActive, onClick, rotation, isMobile }) => (
-  <motion.div
-    key={index}
-    initial={{ opacity: 0, y: 50 }}
-    animate={{ 
-      opacity: isActive ? 1 : 0.3,
-      y: 0,
-      scale: isActive ? 1 : 0.85,
-      rotateX: rotation.x,
-      rotateY: rotation.y,
-      z: isActive ? 100 : 0
-    }}
-    transition={{ 
-      duration: 0.5,
-      rotateX: { duration: 0.1 },
-      rotateY: { duration: 0.1 }
-    }}
-    className="perspective-1000 w-full md:w-[calc(50%-1.5rem)] lg:w-[calc(33.33%-1.5rem)]"
-    style={{ transformStyle: 'preserve-3d' }}
-    whileHover={{ scale: isActive ? 1.05 : 0.9 }}
-    onClick={onClick}
-  >
-    <div 
-      className={`w-full p-4 md:p-8 rounded-2xl backdrop-blur-sm border overflow-hidden ${
-        isActive 
-          ? 'border-cyan-500/50 shadow-xl shadow-cyan-500/20 bg-gradient-to-br from-white/15 to-white/5' 
-          : 'border-white/10 bg-white/5'
-      } transition-all duration-300 cursor-pointer h-full`}
-      style={{ transform: 'translateZ(20px)' }}
-    >
-      {isActive && (
-        <>
-          <div className="absolute -top-2 -left-2 w-16 h-16 rounded-full bg-cyan-500/30 blur-xl" />
-          <div className="absolute -bottom-2 -right-2 w-16 h-16 rounded-full bg-blue-500/30 blur-xl" />
-        </>
-      )}
-      
-      <div className="relative">
-        <div className="flex items-start justify-between mb-4 md:mb-6">
-          <div className="flex-grow">
-            <h3 className="text-xl md:text-2xl font-bold text-white mb-2">{item.text}</h3>
-            <div className="inline-flex items-center gap-2">
-              <div className="yearButton px-3 py-1 rounded-full bg-gradient-to-r from-cyan-500/20 to-blue-500/20 text-cyan-300 text-sm">
-                {item.year}
-              </div>
-            </div>
-          </div>
-          <div className="flex-shrink-0 w-10 h-10 md:w-12 md:h-12 flex items-center justify-center rounded-full bg-gradient-to-br from-cyan-500/30 to-blue-500/10 backdrop-blur-sm border border-cyan-500/30 text-xl md:text-2xl">
-            {item.icon}
-          </div>
-        </div>
-        
-        <p className="text-gray-300 text-sm md:text-base leading-relaxed">
-          {item.details}
-        </p>
-        
-        {isActive && (
-          <motion.div 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            className="absolute top-0 right-0 -mt-2 -mr-2"
-          >
-            <svg width="40" height="40" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <circle cx="10" cy="10" r="2" fill="#06B6D4" fillOpacity="0.5" />
-              <circle cx="20" cy="5" r="1.5" fill="#0EA5E9" fillOpacity="0.4" />
-              <circle cx="35" cy="15" r="1" fill="#06B6D4" fillOpacity="0.3" />
-              <circle cx="50" cy="30" r="1.5" fill="#0EA5E9" fillOpacity="0.4" />
-              <circle cx="40" cy="40" r="2" fill="#06B6D4" fillOpacity="0.3" />
-              <circle cx="15" cy="35" r="1" fill="#0EA5E9" fillOpacity="0.5" />
-            </svg>
-          </motion.div>
-        )}
-      </div>
-    </div>
-  </motion.div>
-));
+import React from 'react';
+import { motion } from 'framer-motion';
+import {
+  Building2,
+  MapPin,
+  CheckCircle2,
+  Plane,
+  Terminal,
+  GraduationCap,
+  GitPullRequest,
+  BookOpen,
+  Sparkles,
+} from 'lucide-react';
+import { journeyTimeline } from '../constants';
 
-// Fixed typo in the timeline data
-const TimeLineData = [
-  { 
-    year: 2019, 
-    text: 'Started my journey in Computer Science', 
-    icon: '🎓', 
-    details: 'Began my undergraduate studies and discovered my passion for building digital experiences.' 
-  },
-  { 
-    year: 2022, 
-    text: 'Started writing articles and contributing to open source projects', 
-    icon: '💻', 
-    details: <>Began publishing tech blogs on <span className="yearButton inline-block px-2 py-0.5 mx-1 rounded-md bg-gradient-to-r from-cyan-500/20 to-blue-500/20 text-cyan-300 text-sm">Hashnode</span>, and contributing to open source projects like Jenkins and eddieHub</>
-  },
-  { 
-    year: 2023, 
-    text: 'Graduated with a degree in Computer Science and Engineering', 
-    icon: '🎓', 
-    details: <>Started working at <span className="yearButton inline-block px-2 py-0.5 mx-1 rounded-md bg-gradient-to-r from-cyan-500/20 to-blue-500/20 text-cyan-300 text-sm">HCLTech</span> as a Software Engineer</> 
-  },
-  { 
-    year: 2024, 
-    text: 'Started working in Python', 
-    icon: '🐍', 
-    details: 'Got tasked with writing scripts in Python that help automate the testing process, enhancing productivity over 10-fold.' 
-  },
-  { 
-    year: 2025, 
-    text: 'Started working on Embedded Systems', 
-    icon: '✈️', 
-    details: <>Worked on the control panel module of the <span className="yearButton inline-block px-2 py-0.5 mx-1 rounded-md bg-gradient-to-r from-cyan-500/20 to-blue-500/20 text-cyan-300 text-sm">Airbus A350-1000F</span>, responsible for cargo loading and unloading.</>
-  }
-];
+const yearIcons = {
+  '2025 - Present': Plane,
+  '2024': Terminal,
+  '2023': GraduationCap,
+  '2022': GitPullRequest,
+  '2019': BookOpen,
+};
 
-const Timeline = () => {
-  const [activeCard, setActiveCard] = useState(0);
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  const [isMobile, setIsMobile] = useState(false);
-  const [isAutoPlaying, setIsAutoPlaying] = useState(false);
-  const [showAll, setShowAll] = useState(false);
-  const cardsRef = useRef([]);
-  const autoplayTimerRef = useRef(null);
-
-  // Throttled mouse move handler for better performance
-  const handleMouseMove = useCallback((e) => {
-    if (isMobile) return;
-    
-    // Use requestAnimationFrame for smooth performance
-    requestAnimationFrame(() => {
-      setMousePosition({ x: e.clientX, y: e.clientY });
-    });
-  }, [isMobile]);
-
-  // Optimize resize handler with debounce
-  useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
-
-    handleResize();
-    
-    let resizeTimer;
-    const debouncedResize = () => {
-      clearTimeout(resizeTimer);
-      resizeTimer = setTimeout(handleResize, 100);
-    };
-
-    window.addEventListener('resize', debouncedResize);
-    window.addEventListener('mousemove', handleMouseMove);
-    
-    return () => {
-      window.removeEventListener('resize', debouncedResize);
-      window.removeEventListener('mousemove', handleMouseMove);
-      clearTimeout(resizeTimer);
-      if (autoplayTimerRef.current) {
-        clearInterval(autoplayTimerRef.current);
-      }
-    };
-  }, [handleMouseMove]);
-
-  // Autoplay functionality
-  useEffect(() => {
-    if (isAutoPlaying) {
-      autoplayTimerRef.current = setInterval(() => {
-        setActiveCard(prev => {
-          const next = (prev + 1) % TimeLineData.length;
-          return next;
-        });
-      }, 3000);
-    } else if (autoplayTimerRef.current) {
-      clearInterval(autoplayTimerRef.current);
-      autoplayTimerRef.current = null;
-    }
-    
-    return () => {
-      if (autoplayTimerRef.current) {
-        clearInterval(autoplayTimerRef.current);
-      }
-    };
-  }, [isAutoPlaying]);
-
-  const calculateRotation = useCallback((element, index) => {
-    if (isMobile || !element || activeCard !== index) return { x: 0, y: 0 };
-    
-    const rect = element.getBoundingClientRect();
-    const centerX = rect.left + rect.width / 2;
-    const centerY = rect.top + rect.height / 2;
-    const maxRotation = 8;
-    const rotateY = ((mousePosition.x - centerX) / (rect.width / 2)) * maxRotation;
-    const rotateX = ((centerY - mousePosition.y) / (rect.height / 2)) * maxRotation;
-    
-    return { x: rotateX, y: rotateY };
-  }, [activeCard, isMobile, mousePosition]);
-
-  // Adjust the left position to inset the first and last icons
-  const getAdjustedLeftPosition = useCallback((index, totalItems) => {
-    const paddingPercentage = isMobile ? 10 : 0; // 10% padding on each side for mobile
-    const range = 100 - 2 * paddingPercentage; // Adjusted range after padding
-    const position = (index / (totalItems - 1)) * range + paddingPercentage;
-    return `${position}%`;
-  }, [isMobile]);
-
-  const toggleAutoPlay = () => {
-    setIsAutoPlaying(prev => !prev);
-  };
-
-  const toggleShowAll = () => {
-    setShowAll(prev => !prev);
-  };
-
+const World = () => {
   return (
-    <section className="py-20 relative overflow-hidden" id='about'>
-      {/* Animated background gradients */}
-      <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute inset-0 opacity-30">
-          <motion.div 
-            animate={{
-              scale: [1, 1.2, 1],
-              opacity: [0.2, 0.3, 0.2],
-            }}
-            transition={{
-              duration: 8,
-              repeat: Infinity,
-              repeatType: "reverse"
-            }}
-            className="absolute -top-20 -right-20 w-96 h-96 rounded-full bg-cyan-500/20 blur-3xl" 
-          />
-          <motion.div 
-            animate={{
-              scale: [1, 1.3, 1],
-              opacity: [0.2, 0.3, 0.2],
-            }}
-            transition={{
-              duration: 10,
-              repeat: Infinity,
-              repeatType: "reverse",
-              delay: 1
-            }}
-            className="absolute bottom-20 -left-20 w-96 h-96 rounded-full bg-blue-500/20 blur-3xl" 
-          />
-        </div>
-        <div className="absolute inset-0 backdrop-blur-3xl"></div>
-      </div>
-      
-      <div className="max-w-7xl mx-auto px-4 relative z-10">
-        <motion.div 
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          className="text-center mb-16"
-        >
-          <h2 className="text-4xl md:text-6xl font-bold mb-6">
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500">My Journey</span>
+    <section id="journey" className="py-16 md:py-24 bg-white border-y border-neutral-200/80 relative overflow-hidden">
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Section Header */}
+        <div className="text-center max-w-3xl mx-auto mb-16">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary-100 text-primary-500 text-xs font-semibold uppercase tracking-wider mb-3">
+            <Sparkles className="w-3.5 h-3.5" />
+            <span>02 • Career Timeline & Milestones</span>
+          </div>
+          <h2 className="font-display-2 text-neutral-900 tracking-tight">
+            The Engineering Journey.
           </h2>
-          <p className="text-gray-300 max-w-2xl mx-auto text-lg">
-            Software engineer based in Bengaluru, India with 1.5 years of industry experience.
-            Passionate about frontend development, building websites and mobile apps.
+          <p className="font-body-lg text-neutral-600 mt-2">
+            From algorithmic foundations and open-source contributions to safety-critical commercial avionics software.
           </p>
-        </motion.div>
+        </div>
 
-        <div className="flex flex-col items-center">
-          {/* Year slider with interactive controls */}
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3 }}
-            className="mb-12 w-full timeline-container"
-          >
-            <div className="relative h-1 bg-gradient-to-r from-cyan-500/20 via-blue-500/20 to-purple-500/20 rounded-full">
-              <motion.div 
-                className="absolute top-0 left-0 h-full bg-gradient-to-r from-cyan-400 to-blue-500 rounded-full"
-                initial={{ width: 0 }}
-                animate={{ width: `${(activeCard / (TimeLineData.length - 1)) * 100}%` }}
-                transition={{ duration: 0.5 }}
-              />
-              {TimeLineData.map((item, index) => (
-                <button
-                  key={index}
-                  onClick={() => {
-                    setActiveCard(index);
-                    if (isAutoPlaying) setIsAutoPlaying(false);
-                  }}
-                  className="absolute top-0 transform -translate-y-1/2 -translate-x-1/2 focus:outline-none group timeline-button"
-                  style={{ left: getAdjustedLeftPosition(index, TimeLineData.length) }}
-                >
-                  <motion.div 
-                    whileHover={{ scale: 1.2 }}
-                    whileTap={{ scale: 0.9 }}
-                    className={`w-8 h-8 md:w-10 md:h-10 rounded-full flex items-center justify-center transition-all duration-300 ${
-                      activeCard === index 
-                        ? 'bg-gradient-to-r from-cyan-500 to-blue-500 scale-110 ring-2 ring-white/20' 
-                        : 'bg-gray-800 hover:bg-gray-700'
-                    }`}
-                  >
-                    <span className="text-base md:text-xl">{item.icon}</span>
-                  </motion.div>
-                  <div className={`absolute left-1/2 transform -translate-x-1/2 whitespace-nowrap font-bold transition-opacity duration-300 year-label ${
-                    activeCard === index ? 'opacity-100' : 'opacity-0 group-hover:opacity-70'
-                  }`}>
-                    <span className="text-xs md:text-base text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-400">{item.year}</span>
+        {/* Timeline Stream with animated vertical beam */}
+        <div className="relative ml-4 sm:ml-32 pl-6 sm:pl-10 space-y-12">
+          {/* Animated vertical gradient track */}
+          <div className="absolute left-0 sm:left-0 top-3 bottom-3 w-[2px] bg-gradient-to-b from-primary-500 via-primary-300 to-neutral-200" />
+
+          {journeyTimeline.map((item, idx) => {
+            const Icon = yearIcons[item.year] || Building2;
+            const isInProgress = item.status === 'In Progress';
+            const isAirbus = item.year.includes('2025');
+
+            return (
+              <motion.div
+                key={idx}
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true, amount: 0.2 }}
+                transition={{ duration: 0.4, delay: idx * 0.08 }}
+                className="relative group"
+              >
+                {/* Year Marker on Left (Desktop) */}
+                <div className="hidden sm:block absolute -left-[180px] top-1 text-right w-32">
+                  <span className="font-serif font-bold text-base text-neutral-900 group-hover:text-primary-500 transition-colors">
+                    {item.year}
+                  </span>
+                  <div className="text-[11px] font-medium text-neutral-400">
+                    {item.badge}
                   </div>
-                </button>
-              ))}
-            </div>
-          </motion.div>
+                </div>
 
-          {/* Control buttons */}
-          <div className="flex justify-center gap-3 mb-8">
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={toggleAutoPlay}
-              className={`px-3 py-1.5 rounded-full ${isAutoPlaying ? 'bg-blue-500/40 text-blue-100' : 'bg-gray-800/60 text-gray-300'} border border-cyan-500/30 text-sm flex items-center gap-1.5 transition-colors`}
-            >
-              {isAutoPlaying ? (
-                <>
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <rect x="6" y="4" width="4" height="16"></rect>
-                    <rect x="14" y="4" width="4" height="16"></rect>
-                  </svg>
-                  Pause
-                </>
-              ) : (
-                <>
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <polygon points="5 3 19 12 5 21 5 3"></polygon>
-                  </svg>
-                  Auto Play
-                </>
-              )}
-            </motion.button>
-            
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={toggleShowAll}
-              className={`px-3 py-1.5 rounded-full ${showAll ? 'bg-blue-500/40 text-blue-100' : 'bg-gray-800/60 text-gray-300'} border border-cyan-500/30 text-sm flex items-center gap-1.5 transition-colors`}
-            >
-              {showAll ? (
-                <>
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <path d="M8 3v3a2 2 0 0 1-2 2H3m18 0h-3a2 2 0 0 1-2-2V3m0 18v-3a2 2 0 0 1 2-2h3M3 16h3a2 2 0 0 1 2 2v3"></path>
-                  </svg>
-                  Focus View
-                </>
-              ) : (
-                <>
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path>
-                  </svg>
-                  Show All
-                </>
-              )}
-            </motion.button>
-          </div>
+                {/* Animated Timeline Node Point */}
+                <div
+                  className={`absolute -left-[31px] sm:-left-[47px] top-1 w-6 h-6 rounded-full border-2 bg-white flex items-center justify-center transition-all duration-300 group-hover:scale-125 z-10 ${
+                    isInProgress
+                      ? 'border-primary-500 text-primary-500 shadow-sm shadow-primary-500/30'
+                      : 'border-neutral-300 text-neutral-500 group-hover:border-primary-400 group-hover:text-primary-500'
+                  }`}
+                >
+                  {isInProgress ? (
+                    <span className="relative flex h-2.5 w-2.5">
+                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary-400 opacity-75" />
+                      <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-primary-500" />
+                    </span>
+                  ) : (
+                    <div className="w-2 h-2 rounded-full bg-neutral-400 group-hover:bg-primary-500 transition-colors" />
+                  )}
+                </div>
 
-          {/* 3D Cards */}
-          <div className="relative w-full">
-            <div className="flex flex-col md:flex-wrap md:flex-row justify-center gap-6">
-              {TimeLineData.map((item, index) => {
-                // Skip rendering non-active cards when not in showAll mode
-                if (!showAll && activeCard !== index) return null;
-                
-                return (
-                  <TimelineItem
-                    key={index}
-                    item={item}
-                    index={index}
-                    isActive={activeCard === index}
-                    onClick={() => {
-                      setActiveCard(index);
-                      if (isAutoPlaying) setIsAutoPlaying(false);
-                    }}
-                    rotation={calculateRotation(cardsRef.current[index], index)}
-                    isMobile={isMobile}
-                  />
-                );
-              })}
-            </div>
-          </div>
-          
-          {/* Navigation buttons */}
-          <div className="flex justify-center gap-4 mt-12">
-            <motion.button 
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.95 }}
-              className="px-4 md:px-5 py-2 rounded-full bg-gradient-to-r from-cyan-500/20 to-blue-500/20 hover:from-cyan-500/30 hover:to-blue-500/30 border border-cyan-500/30 text-cyan-300 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 flex items-center gap-2 text-sm md:text-base"
-              onClick={() => {
-                setActiveCard(Math.max(0, activeCard - 1));
-                if (isAutoPlaying) setIsAutoPlaying(false);
-              }}
-              disabled={activeCard === 0}
-              style={{ opacity: activeCard === 0 ? 0.5 : 1 }}
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M15 18l-6-6 6-6" />
-              </svg>
-              Previous
-            </motion.button>
-            <motion.button 
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.95 }}
-              className="px-4 md:px-5 py-2 rounded-full bg-gradient-to-r from-cyan-500/20 to-blue-500/20 hover:from-cyan-500/30 hover:to-blue-500/30 border border-cyan-500/30 text-cyan-300 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 flex items-center gap-2 text-sm md:text-base"
-              onClick={() => {
-                setActiveCard(Math.min(TimeLineData.length - 1, activeCard + 1));
-                if (isAutoPlaying) setIsAutoPlaying(false);
-              }}
-              disabled={activeCard === TimeLineData.length - 1}
-              style={{ opacity: activeCard === TimeLineData.length - 1 ? 0.5 : 1 }}
-            >
-              Next
-              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M9 18l6-6-6-6" />
-              </svg>
-            </motion.button>
-          </div>
+                {/* Milestone Card with interactive hover */}
+                <motion.div
+                  whileHover={{ y: -4, x: 2 }}
+                  transition={{ type: 'spring', stiffness: 350, damping: 25 }}
+                  className="portfolio-card p-6 bg-neutral-50/70 hover:bg-white border border-neutral-200 relative overflow-hidden group/card shadow-sm hover:shadow-md transition-all"
+                >
+                  {/* Left accent bar on hover */}
+                  <div className="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-primary-500 to-primary-400 opacity-0 group-hover/card:opacity-100 transition-opacity" />
+
+                  <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
+                    {/* Mobile year badge */}
+                    <span className="sm:hidden badge-orange">{item.year}</span>
+
+                    {/* Status indicator */}
+                    {isInProgress ? (
+                      <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-primary-100 text-primary-600">
+                        <span className="w-1.5 h-1.5 rounded-full bg-primary-500 animate-pulse" />
+                        In Progress
+                      </span>
+                    ) : (
+                      <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-50 text-emerald-700 border border-emerald-200/60">
+                        <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" />
+                        Completed
+                      </span>
+                    )}
+
+                    <div className="flex items-center gap-3 text-xs text-neutral-500">
+                      <span className="flex items-center gap-1">
+                        <Building2 className="w-3.5 h-3.5" />
+                        {item.organization}
+                      </span>
+                      <span>•</span>
+                      <span className="flex items-center gap-1">
+                        <MapPin className="w-3.5 h-3.5" />
+                        {item.location}
+                      </span>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center gap-2.5 mb-2">
+                    <h3 className="font-heading-2 text-neutral-900 group-hover/card:text-primary-600 transition-colors">
+                      {item.title}
+                    </h3>
+                    {isAirbus && (
+                      <motion.div
+                        animate={{ x: [0, 4, 0] }}
+                        transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
+                      >
+                        <Plane className="w-4 h-4 text-primary-500" />
+                      </motion.div>
+                    )}
+                  </div>
+
+                  <p className="font-body text-neutral-600 text-sm leading-relaxed mb-4">
+                    {item.description}
+                  </p>
+
+                  {/* Skills / Tech Tags with hover pop */}
+                  <div className="flex flex-wrap gap-1.5">
+                    {item.tags.map((t) => (
+                      <span
+                        key={t}
+                        className="badge-neutral text-[11px] !py-0.5 !px-2 group-hover/card:border-neutral-300 transition-colors"
+                      >
+                        {t}
+                      </span>
+                    ))}
+                  </div>
+                </motion.div>
+              </motion.div>
+            );
+          })}
         </div>
       </div>
-
-      <style jsx>{`
-        .perspective-1000 {
-          perspective: 1000px;
-        }
-        .timeline-container {
-          max-width: 100%;
-          padding-left: 1rem;
-          padding-right: 1rem;
-        }
-        .year-label {
-          bottom: -2rem; /* Default for desktop */
-        }
-        @media (max-width: 767px) {
-          .timeline-container {
-            padding-left: 2rem;
-            padding-right: 2rem;
-          }
-          .year-label {
-            bottom: -1.5rem; /* Closer to the icon on mobile */
-          }
-          .year-label span {
-            font-size: 0.75rem; /* Smaller year text */
-          }
-        }
-      `}</style>
     </section>
   );
 };
 
-export default Timeline;
+export default World;

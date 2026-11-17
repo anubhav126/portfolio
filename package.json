@@ -1,6 +1,7 @@
 {
-  "name": "metaverse13",
-  "version": "0.1.0",
+  "name": "anubhav-adhikari-portfolio",
+  "version": "2.0.0",
+  "description": "Anubhav Adhikari Portfolio built with Next.js 15, React 19, and the Vertex Design System",
   "private": true,
   "scripts": {
     "dev": "next dev",

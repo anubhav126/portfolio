@@ -1,326 +1,223 @@
-"use client";
-import { motion, AnimatePresence } from "framer-motion";
-import React, { useState, useEffect, useRef } from "react";
-import { Code, X, Menu, FileText, Sun, Zap, Cpu, Send } from "lucide-react";
+'use client';
 
-const Navbar = () => {
+import React, { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import {
+  Search,
+  Menu,
+  X,
+  FileText,
+  Code2,
+  ExternalLink,
+  Sparkles,
+  Milestone,
+  BookOpen,
+} from 'lucide-react';
+import { personalInfo } from '../constants';
+
+const navItems = [
+  { label: 'About', href: '#about', icon: Sparkles },
+  { label: 'Projects', href: '#projects', icon: Code2 },
+  { label: 'Journey', href: '#journey', icon: Milestone },
+  { label: 'Articles', href: '#articles', icon: BookOpen },
+];
+
+const Navbar = ({ onOpenSearch }) => {
   const [scrolled, setScrolled] = useState(false);
-  const [isOpen, setIsOpen] = useState(false);
-  const [visible, setVisible] = useState(true);
-  const [lastScrollY, setLastScrollY] = useState(0);
-  const [activeSection, setActiveSection] = useState("about");
-  const menuRef = useRef(null);
-
-  const menuItems = [
-    { label: "About", href: "#about", icon: <Sun className="w-5 h-5" /> },
-    { label: "Projects", href: "#explore", icon: <Cpu className="w-5 h-5" /> },
-    { label: "Blogs", href: "#blogs", icon: <Zap className="w-5 h-5" /> },
-    { label: "Contact", href: "#footer", icon: <Send className="w-5 h-5" /> },
-  ];
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState('about');
 
   useEffect(() => {
     const handleScroll = () => {
-      const currentScrollY = window.scrollY;
-      setVisible(currentScrollY < lastScrollY || currentScrollY < 20);
-      setScrolled(currentScrollY > 20);
-      setLastScrollY(currentScrollY);
-      
-      const sections = menuItems.map(item => item.href.substring(1));
+      setScrolled(window.scrollY > 15);
+
+      const sections = navItems.map((item) => item.href.substring(1));
       for (const section of sections) {
-        const element = document.getElementById(section);
-        if (element) {
-          const rect = element.getBoundingClientRect();
-          if (rect.top <= 100 && rect.bottom >= 100) {
-            setActiveSection(section);                                                                                  
+        const el = document.getElementById(section);
+        if (el) {
+          const rect = el.getBoundingClientRect();
+          if (rect.top <= 140 && rect.bottom >= 140) {
+            setActiveSection(section);
             break;
           }
         }
       }
     };
 
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, [lastScrollY]); // eslint-disable-line react-hooks/exhaustive-deps
-
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (menuRef.current && !menuRef.current.contains(event.target) && isOpen) {
-        setIsOpen(false);
-      }
-    };
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, [isOpen]);
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   const openResume = () => {
-    window.open(
-      "https://drive.google.com/file/d/1ekLqeqXB_DeZUAu1nXtVNGyvkdCr1SRq/view?usp=sharing",
-      "_blank"
-    );
+    window.open(personalInfo.resumeUrl, '_blank', 'noopener,noreferrer');
   };
 
   return (
-    <nav className="relative w-full">
+    <header className="sticky top-0 left-0 right-0 z-40">
       <div
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ease-in-out ${
-          visible ? "translate-y-0" : "-translate-y-full"
-        } ${
+        className={`w-full transition-all duration-300 ${
           scrolled
-            ? "backdrop-blur-md bg-black/40 border-b border-cyan-500/20 shadow-lg shadow-cyan-500/10"
-            : "bg-transparent"
+            ? 'bg-white/95 border-b border-neutral-200/80 shadow-sm py-3'
+            : 'bg-white/80 border-b border-neutral-200/40 py-4'
         }`}
       >
-        <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-          <a href="/" className="flex items-center group">
-            <div className="relative">
-              <Code className="w-8 h-8 text-cyan-400 group-hover:text-cyan-300 transition-colors duration-300" />
-              <div className="absolute inset-0 bg-cyan-400/30 blur-md rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 -z-10"></div>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
+          {/* Brand Mark with playful hover rotation */}
+          <a href="#about" className="flex items-center gap-3 group focus:outline-none">
+            <motion.div
+              whileHover={{ rotate: 12, scale: 1.08 }}
+              whileTap={{ scale: 0.95 }}
+              transition={{ type: 'spring', stiffness: 400, damping: 15 }}
+              className="w-10 h-10 rounded-xl bg-gradient-to-tr from-primary-500 via-primary-500 to-primary-400 flex items-center justify-center text-white shadow-sm shadow-primary-500/30"
+            >
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M12 2L2 22H22L12 2Z"
+                  fill="white"
+                  stroke="white"
+                  strokeWidth="2"
+                  strokeLinejoin="round"
+                />
+                <circle cx="12" cy="14" r="3" fill="#F97316" />
+              </svg>
+            </motion.div>
+            <div>
+              <div className="flex items-center gap-2">
+                <span className="font-serif font-bold text-lg text-neutral-900 group-hover:text-primary-500 transition-colors">
+                  Anubhav Adhikari
+                </span>
+              </div>
+              <p className="text-xs text-neutral-500 hidden sm:block">
+                Software Engineer • HCLTech
+              </p>
             </div>
-            <span className="ml-2 text-xl font-semibold background-gradient">
-              Portfolio
-            </span>
           </a>
 
-          <div className="hidden md:flex items-center space-x-6">
-            {menuItems.map((item) => (
-              <a
-                key={item.label}
-                href={item.href}
-                className={`nav-item relative text-gray-300 transition-colors duration-300 group flex items-center ${
-                  activeSection === item.href.substring(1) ? "text-cyan-400" : ""
-                }`}
-              >
-                <span className="nav-icon-wrapper relative inline-block">
-                  {React.cloneElement(item.icon, {
-                    className: `w-5 h-5 nav-icon ${
-                      activeSection === item.href.substring(1) 
-                        ? "text-cyan-400" 
-                        : "text-gray-300 group-hover:text-white"
-                    }`
-                  })}
-                  <div className={`absolute inset-0 bg-cyan-400/30 blur-md rounded-full opacity-0 group-hover:opacity-70 transition-opacity duration-300 -z-10 ${
-                    activeSection === item.href.substring(1) ? "opacity-70" : ""
-                  }`}></div>
-                </span>
-                <span className="ml-2">{item.label}</span>
-              </a>
-            ))}
-            <button
-              onClick={openResume}
-              className="cyber-glitch-button px-6 py-2 font-medium rounded-full relative group overflow-hidden"
+          {/* Desktop Navigation Links with animated active indicator */}
+          <nav className="hidden md:flex items-center gap-1 bg-neutral-100/80 p-1.5 rounded-xl border border-neutral-200/60 relative">
+            {navItems.map((item) => {
+              const isActive = activeSection === item.href.substring(1);
+              return (
+                <a
+                  key={item.href}
+                  href={item.href}
+                  className={`relative px-3.5 py-1.5 text-xs font-medium rounded-lg transition-colors z-10 ${
+                    isActive
+                      ? 'text-primary-600 font-semibold'
+                      : 'text-neutral-700 hover:text-neutral-900'
+                  }`}
+                >
+                  {isActive && (
+                    <motion.div
+                      layoutId="activeNavIndicator"
+                      className="absolute inset-0 bg-white rounded-lg shadow-sm -z-10"
+                      transition={{ type: 'spring', stiffness: 380, damping: 28 }}
+                    />
+                  )}
+                  {item.label}
+                </a>
+              );
+            })}
+          </nav>
+
+          {/* Right Action Buttons */}
+          <div className="flex items-center gap-2.5">
+            {/* Quick Search Button */}
+            <motion.button
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              onClick={onOpenSearch}
+              type="button"
+              className="flex items-center gap-2 h-[38px] px-3 rounded-xl border border-neutral-200 bg-white hover:bg-neutral-50 text-neutral-500 hover:text-neutral-800 text-xs transition-colors shadow-sm group"
+              aria-label="Search portfolio"
             >
-              <div className="cyber-glitch-bg absolute inset-0 rounded-full bg-gradient-to-r from-purple-600 to-cyan-500"></div>
-              <div className="cyber-glitch-scanline absolute inset-0 overflow-hidden rounded-full opacity-0 group-hover:opacity-100"></div>
-              <div className="cyber-glitch-text relative z-20 flex items-center text-white">
-                <FileText className="w-5 h-5 inline mr-2" /> Resume
-              </div>
+              <Search className="w-3.5 h-3.5 text-primary-500 group-hover:rotate-12 transition-transform" />
+              <span className="hidden sm:inline">Search...</span>
+              <kbd className="hidden sm:inline-flex items-center justify-center px-1.5 py-0.5 text-[10px] font-semibold text-neutral-500 bg-neutral-100 border border-neutral-200 rounded">
+                ⌘K
+              </kbd>
+            </motion.button>
+
+            {/* Resume Button with energetic hover */}
+            <motion.button
+              whileHover={{ scale: 1.04, y: -1 }}
+              whileTap={{ scale: 0.96 }}
+              transition={{ type: 'spring', stiffness: 400, damping: 15 }}
+              onClick={openResume}
+              type="button"
+              className="btn-primary !h-[38px] !px-4 !text-xs font-semibold relative overflow-hidden group shadow-sm shadow-primary-500/20"
+            >
+              <FileText className="w-3.5 h-3.5 group-hover:rotate-6 transition-transform" />
+              <span>Resume</span>
+              <ExternalLink className="w-3 h-3 opacity-70 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+            </motion.button>
+
+            {/* Mobile Menu Toggle Button */}
+            <button
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              type="button"
+              className="md:hidden p-2 rounded-xl text-neutral-700 hover:bg-neutral-100 transition-colors"
+              aria-label="Toggle menu"
+            >
+              {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
             </button>
           </div>
-
-          <button
-            onClick={() => setIsOpen(true)}
-            className="md:hidden p-2 rounded-lg text-white hover:bg-gradient-to-r hover:from-purple-600/20 hover:to-cyan-500/20 transition duration-300 relative overflow-hidden"
-          >
-            <Menu className="w-6 h-6 z-10 relative" />
-          </button>
         </div>
-      </div>
 
-      <AnimatePresence>
-        {isOpen && (
-          <motion.div
-            ref={menuRef}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.4 }}
-            className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm overflow-y-auto flex items-center justify-center"
-          >
+        {/* Mobile Dropdown Menu */}
+        <AnimatePresence>
+          {mobileMenuOpen && (
             <motion.div
-              className="relative w-80 h-80"
-              initial={{ scale: 0, rotate: 90 }}
-              animate={{ scale: 1, rotate: 0 }}
-              exit={{ scale: 0, rotate: 90 }}
-              transition={{ type: "spring", stiffness: 150 }}
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: 'auto' }}
+              exit={{ opacity: 0, height: 0 }}
+              transition={{ duration: 0.15 }}
+              className="md:hidden border-t border-neutral-200 bg-white px-4 pt-3 pb-5 shadow-md overflow-hidden"
             >
-              <motion.div
-                className="absolute inset-0 rounded-full bg-gradient-to-r from-purple-600 to-cyan-500 opacity-20 blur-3xl"
-                animate={{ rotate: 360 }}
-                transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
-              />
-              
-              {menuItems.map((item, index) => (
-                <motion.a
-                  key={item.label}
-                  href={item.href}
-                  onClick={() => setIsOpen(false)}
-                  className="absolute top-1/2 left-1/2"
-                  initial={{ opacity: 0, scale: 0 }}
-                  animate={{
-                    opacity: 1,
-                    scale: 1,
-                    y: `${(index - (menuItems.length - 1) / 2) * 60}px`,
-                    x: "-50%",
-                  }}
-                  transition={{ delay: index * 0.2, type: "spring" }}
+              <div className="flex flex-col gap-1 mb-3">
+                {navItems.map((item) => {
+                  const Icon = item.icon;
+                  const isActive = activeSection === item.href.substring(1);
+                  return (
+                    <a
+                      key={item.href}
+                      href={item.href}
+                      onClick={() => setMobileMenuOpen(false)}
+                      className={`flex items-center gap-2.5 p-2.5 rounded-xl text-xs font-medium transition-colors ${
+                        isActive
+                          ? 'bg-primary-100 text-primary-500 font-semibold'
+                          : 'text-neutral-700 hover:bg-neutral-100'
+                      }`}
+                    >
+                      <Icon className="w-4 h-4 text-primary-500" />
+                      <span>{item.label}</span>
+                    </a>
+                  );
+                })}
+              </div>
+
+              <div className="pt-2 border-t border-neutral-100">
+                <button
+                  onClick={openResume}
+                  type="button"
+                  className="btn-secondary !h-10 !w-full !text-xs justify-center"
                 >
-                  <div className="cyber-glitch-button px-6 py-3 rounded-full relative group overflow-hidden">
-                    <div className="cyber-glitch-bg absolute inset-0 rounded-full bg-gradient-to-r from-purple-600 to-cyan-500"></div>
-                    <div className="cyber-glitch-text relative z-20 flex items-center text-white">
-                      {item.icon}
-                      <span className="ml-2">{item.label}</span>
-                    </div>
-                  </div>
-                </motion.a>
-              ))}
-              <motion.button
-                onClick={openResume}
-                className="absolute bottom-4 left-1/2 -translate-x-1/2 cyber-glitch-button px-6 py-3 rounded-full"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: menuItems.length * 0.2 }}
-              >
-                <div className="cyber-glitch-bg absolute inset-0 rounded-full bg-gradient-to-r from-purple-600 to-cyan-500"></div>
-                <div className="cyber-glitch-text relative z-20 flex items-center text-white">
-                  <FileText className="w-5 h-5 mr-2" /> Resume
-                </div>
-              </motion.button>
-              <motion.button
-                onClick={() => setIsOpen(false)}
-                className="absolute top-4 right-4 p-2 text-white bg-black/40 rounded-full hover:bg-black/70 transition-colors duration-300"
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.9 }}
-              >
-                <X className="w-6 h-6" />
-              </motion.button>
+                  <FileText className="w-4 h-4" />
+                  <span>View Resume</span>
+                  <ExternalLink className="w-3.5 h-3.5 opacity-60" />
+                </button>
+              </div>
             </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      <div className="h-20" />
-
-      <style jsx global>{`
-        /* Custom Colors */
-        :root {
-          --neon-pink: #f472b6;
-          --neon-cyan: #06f6d4;
-          --neon-purple: #a855f7;
-        }
-
-        /* Desktop Nav Items */
-        .nav-item {
-          position: relative;
-          padding-bottom: 4px;
-          transition: all 0.3s ease;
-        }
-        .nav-item:hover {
-          color: white;
-        }
-        .nav-item::after {
-          content: '';
-          position: absolute;
-          left: 0;
-          bottom: 0;
-          width: 100%;
-          height: 2px;
-          background: linear-gradient(to right, var(--neon-purple), var(--neon-cyan));
-          transform: scaleX(0);
-          transform-origin: left;
-          transition: transform 0.3s ease;
-        }
-        .nav-item:hover::after {
-          transform: scaleX(1);
-        }
-
-        /* Nav Icon Hover Effects */
-        .nav-icon-wrapper {
-          position: relative;
-          display: inline-block;
-          transition: all 0.3s ease;
-        }
-        .nav-icon-wrapper::after {
-          content: '';
-          position: absolute;
-          bottom: -2px;
-          left: 0;
-          width: 100%;
-          height: 2px;
-          background: linear-gradient(to right, var(--neon-purple), var(--neon-cyan));
-          transform: scaleX(0);
-          transition: transform 0.3s ease;
-        }
-        .nav-item:hover .nav-icon-wrapper::after {
-          transform: scaleX(1);
-        }
-        .nav-icon {
-          transition: all 0.3s ease;
-        }
-
-        .cyber-glitch-button {
-          position: relative;
-          overflow: hidden;
-          transition: all 0.2s;
-          background: rgba(0, 0, 0, 0.2);
-          border: 1px solid rgba(6, 246, 212, 0.3);
-        }
-        .cyber-glitch-button:hover {
-          transform: scale(1.03);
-          border-color: rgba(6, 246, 212, 0.5);
-        }
-        .cyber-glitch-bg {
-          background: linear-gradient(45deg, var(--neon-purple), var(--neon-cyan));
-          z-index: 10;
-          border: 1px solid rgba(255, 255, 255, 0.2);
-          filter: drop-shadow(0 0 6px rgba(6, 246, 212, 0.5));
-          opacity: 0.8;
-        }
-        .cyber-glitch-button:hover .cyber-glitch-bg {
-          animation: hue-rotate 3s linear infinite;
-          filter: drop-shadow(0 0 10px rgba(6, 246, 212, 0.7));
-          opacity: 1;
-        }
-        .cyber-glitch-text {
-          transition: transform 0.2s;
-        }
-        .cyber-glitch-button:hover .cyber-glitch-text {
-          animation: glitch 0.3s cubic-bezier(.25, .46, .45, .94) infinite;
-        }
-        .cyber-glitch-scanline {
-          z-index: 15;
-          background: linear-gradient(
-            to bottom,
-            transparent 0%,
-            rgba(255, 255, 255, 0.1) 10%,
-            transparent 10.5%,
-            transparent 90%,
-            rgba(255, 255, 255, 0.1) 90.5%,
-            transparent 100%
-          );
-        }
-        .cyber-glitch-button:hover .cyber-glitch-scanline {
-          animation: scanline 1.5s linear infinite;
-        }
-        
-        @keyframes glitch {
-          0% { transform: translate(0); }
-          20% { transform: translate(-1px, 1px); }
-          40% { transform: translate(-1px, -1px); }
-          60% { transform: translate(1px, 1px); }
-          80% { transform: translate(1px, -1px); }
-          100% { transform: translate(0); }
-        }
-        @keyframes scanline {
-          0% { transform: translateY(-100%); }
-          50%, 100% { transform: translateY(100%); }
-        }
-        @keyframes hue-rotate {
-          0% { filter: hue-rotate(0deg) drop-shadow(0 0 10px rgba(6, 246, 212, 0.7)); }
-          50% { filter: hue-rotate(60deg) drop-shadow(0 0 12px rgba(6, 246, 212, 0.8)); }
-          100% { filter: hue-rotate(0deg) drop-shadow(0 0 10px rgba(6, 246, 212, 0.7)); }
-        }
-      `}</style>
-    </nav>
+          )}
+        </AnimatePresence>
+      </div>
+    </header>
   );
 };
 

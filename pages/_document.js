@@ -13,7 +13,6 @@ class Document extends React.Component {
           <meta property="og:title" content="My Portfolio - Metaverse & Web Development" />
           <meta property="og:description" content="Explore my portfolio showcasing innovative projects and creative work in the metaverse and web development space." />
           <meta property="og:type" content="website" />
-          <title>A portfolio website showcasing my work</title>
           <link
             href="https://stijndv.com/fonts/Eudoxus-Sans.css"
             rel="stylesheet"

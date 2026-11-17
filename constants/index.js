@@ -1,128 +1,331 @@
-const blog1 = `This blog will be an attempt for me to design the system design path for google drive from scratch. This is going to be my first time making such a blog. I will try to keep it as simple and beginner friendly as possible. Let us begin.
-Everyone has used google drive (or one of its alternatives) at some point in our lives. We use it store and retrieve documents, edit them, move them and share them to other people among other things.
-Technical Specifications
-We need this service to be highly available at all times.
-We need this service to create a folder, upload and view files, rename files, delete and download files. When i say files in this blog, I am generalizing the term to include documents of all file formats and extensions.
-User should be able to download any of their files at any point of time.
-The user should be able to move the files to any folder they want to.
-Google Drive provides 15 GB of space in its free tier. We will be using the same metric for all of our assumptions here.
-Let us understand the scaling aspect of our service.
-Since we are dealing with a lot of users with a lot of storage (keep note that user purchasing different plans will have higher storage), managing all of that data in real-time is a pain.
-Let us try to visualize using a rough estimation.`
-const blog2 = `Prototypes are the core of how JavaScript functions work. Whether you are preparing for you next interview, or you just want to dive deep into the world of JavaScript, this guide should give you a solid grasp on prototypes in JavaScript. Let us begin.`
-const blog3 = `In this guide, we will learn about mail servers and how to create one from scratch. We will go through the intricacies it takes for sending and receiving e-mails, understand what DNS lookup is, how SMTP server and the underlying protocol works and so much more. The curiosity for this blog came from this video by Piyush Garg. Highly recommended. Now without further wait, let’s begin.
-But what even is a mail server?
-Simply put, it’s just a server that facilitates sending and receiving of emails via the SMTP protocol.
+export const personalInfo = {
+  name: 'Anubhav Adhikari',
+  role: 'Software Engineer & Systems Architect',
+  company: 'HCLTech',
+  location: 'Bengaluru, India',
+  email: 'anubhavadhikari1206@gmail.com',
+  resumeUrl: 'https://drive.google.com/file/d/1ekLqeqXB_DeZUAu1nXtVNGyvkdCr1SRq/view?usp=sharing',
+  bio: 'Software Engineer at HCLTech specializing in scalable full-stack web applications, distributed backend services, and mission-critical embedded systems (Airbus A350-1000F). Driven by system design, algorithmic clarity, and world-class craft.',
+};
 
-Let us first see how does an SMTP server work.
+export const stats = [
+  { value: '3+', label: 'Years Experience', hint: 'At HCLTech & Open Source' },
+  { value: '10x', label: 'Testing Throughput', hint: 'Via Python automation suites' },
+  { value: 'A350-1000F', label: 'Avionics Module', hint: 'Airbus cargo control software' },
+  { value: '10+', label: 'Deep Technical Blogs', hint: 'On Hashnode & Dev.to' },
+];
 
-An email client like Gmail or Outlook connects to the local SMTP server and submits the data.
-
-The local SMTP server adds information such as message boundaries, timestamps and formats the message in accordance with SMTP standards.
-
-The local SMTP server then looks up the receiver’s email domain via DNS and finds out the mail server for that domain.
-
-The SMTP server opens a connection with the receiver’s mail server and transfers the email.`
-const blog4 = `React is a JavaScript library used by many developers, both junior and senior. React has become extremely popular over the years because of its blazing-fast performance. But many developers might not know the reason behind this speed. I will demystify React in this article and uncover what makes it so fast. Let's begin! Let us begin with what reconciliation is. In react, whenever the state of a component changes, that component needs to update its UI to show the updated state. This process is known as reconciliation in react. React performs this using a virtual DOM, which is simply a representation of your actual DOM. When the state of a component changes, React compares the virtual DOM with the actual DOM and then updates the nodes of the DOM tree based on the difference between the two DOMs. This comparison is done with the help of a diffing algorithm.
-
-The Diffing Algorithm
-This is the algorithm behind React's fast updation of the virtual DOM. Similar algorithms that perform tree diff have a time complexity of O(n^3) where "n" represents the number of elements in the DOM tree. As the number of elements inside the DOM tree increases, the time complexity of these algorithms can get unbearably large. On the other hand, the diffing algorithm performs tree diffing in O(n)`
-export const exploreWorlds = [
+export const principles = [
   {
-    id: 'project-1',
-    imgUrl: '/storeIt.png',
-    link: 'https://anubhav-storage-app.vercel.app',
-    title: 'Storage Management App',
+    number: '01',
+    title: 'Clarity First',
+    description: 'Every architectural boundary, API contract, and component interface must communicate intent without ambiguity. Readable code is maintainable code.',
+    icon: 'Eye',
   },
   {
-    id: 'project-2',
-    imgUrl: '/reverseProxy.png',
-    link: 'https://github.com/anubhav126/reverse-proxy',
-    title: 'Reverse proxy from scratch using node',
+    number: '02',
+    title: 'Performance & Scale',
+    description: 'Engineered from first principles: from O(n) virtual DOM reconciliation to Node.js multi-process clustering and lean production bundles.',
+    icon: 'Zap',
   },
   {
-    id: 'world-3',
-    imgUrl: '/planet-03.png',
-    title: 'Kadirojo Permai',
+    number: '03',
+    title: 'Mission-Critical Rigor',
+    description: 'Instilled through writing commercial aviation software for the Airbus A350-1000F cargo systems under rigorous safety standards.',
+    icon: 'ShieldCheck',
   },
   {
-    id: 'world-4',
-    imgUrl: '/planet-04.png',
-    title: 'Paradise Island',
-  },
-  {
-    id: 'world-5',
-    imgUrl: '/planet-05.png',
-    title: 'Hawkins Labs',
+    number: '04',
+    title: 'Open Craft & Community',
+    description: 'Demystifying complex concepts through detailed technical writing and active contributions to the global developer ecosystem.',
+    icon: 'BookOpen',
   },
 ];
 
-export const startingFeatures = [
-  `Working in HCLTech as a software engineer building scalable applications`,
-  `Working on a mobile app that recommends movies based on your personality traits`,
-  `Writing detailed tech blogs on Hashnode`,
-];
-
-export const newFeatures = [
+export const projects = [
   {
-    imgUrl: '/vrpano.svg',
-    title: 'A new world',
-    subtitle:
-        'we have the latest update with new world for you to try never mind',
+    id: 'storage-app',
+    title: 'Cloud Storage & File Management Hub',
+    shortTitle: 'Cloud Storage App',
+    category: 'Full-Stack',
+    tag: 'Cloud & Next.js',
+    description: 'An enterprise-grade secure cloud storage platform with real-time file previews, chunked uploads, folder management, and role-based permissions.',
+    technologies: ['Next.js', 'React', 'Appwrite', 'TypeScript', 'Tailwind CSS'],
+    coverImage: '/storeIt.png',
+    gallery: [
+      { src: '/StorageLogin.png', caption: 'OTP Authentication & Security' },
+      { src: '/StorageHome.png', caption: 'Storage Dashboard & Analytics' },
+      { src: '/Storage1.png', caption: 'Document Browser & Grid View' },
+      { src: '/Storage2.png', caption: 'Responsive Mobile File Access' },
+    ],
+    liveUrl: 'https://anubhav-storage-app.vercel.app/',
+    repoUrl: 'https://github.com/anubhav126/storage-management-app',
+    highlights: [
+      'Chunked asynchronous file upload handling with progress tracking',
+      'Instant document, media, and video preview in-browser',
+      'Granular folder hierarchies with tag-based search',
+      'Built with Next.js App Router and Appwrite Cloud Backend',
+    ],
   },
   {
-    imgUrl: '/headset.svg',
-    title: 'More realistic',
-    subtitle:
-        'In the latest update, your eyes are narrow, making the world more realistic than ever',
+    id: 'reverse-proxy',
+    title: 'High-Performance Node.js Reverse Proxy & Load Balancer',
+    shortTitle: 'Reverse Proxy & Load Balancer',
+    category: 'Backend & Systems',
+    tag: 'Systems & Networking',
+    description: 'A multi-process HTTP/HTTPS reverse proxy and load balancer crafted from scratch using Node.js cluster modules and custom health-check algorithms.',
+    technologies: ['Node.js', 'TypeScript', 'Cluster API', 'HTTP/TCP', 'Express'],
+    coverImage: '/reverseProxy.png',
+    gallery: [
+      { src: '/reverseProxy.png', caption: 'Load Balancing & Proxy Architecture' },
+      { src: '/blog3.png', caption: 'DNS & Traffic Routing Pipeline' },
+    ],
+    liveUrl: null,
+    repoUrl: 'https://github.com/anubhav126/reverse-proxy',
+    highlights: [
+      'Zero-dependency HTTP request routing and payload forwarding',
+      'Round-robin and weighted traffic distribution algorithms',
+      'Automated background health checks with failover recovery',
+      'Configurable rate limiting and request transformation middleware',
+    ],
+  },
+  {
+    id: 'airbus-avionics',
+    title: 'Airbus A350-1000F Cargo Control Software',
+    shortTitle: 'Airbus A350-1000F Avionics',
+    category: 'Backend & Systems',
+    tag: 'Embedded & Aerospace',
+    description: 'Mission-critical software module for the cargo loading/unloading control panel of the Airbus A350-1000F commercial freighter aircraft.',
+    technologies: ['C', 'Python', 'Embedded Systems', 'Aviation Standards', 'Safety Testing'],
+    coverImage: '/cover.png',
+    gallery: [
+      { src: '/cover.png', caption: 'Airbus A350-1000F Cargo Avionics Architecture' },
+      { src: '/map.png', caption: 'Global Systems Validation & Testing' },
+    ],
+    liveUrl: null,
+    repoUrl: null,
+    highlights: [
+      'Engineered mission-critical control panel logic compliant with aerospace safety requirements',
+      'Implemented automated Python validation pipelines multiplying testing throughput by 10x',
+      'Deterministic memory management and real-time state synchronization',
+      'Integrated with hardware-in-the-loop simulation environments',
+    ],
+  },
+  {
+    id: 'ai-generator',
+    title: 'Generative AI Creative Studio',
+    shortTitle: 'Generative AI Studio',
+    category: 'AI & Full-Stack',
+    tag: 'Generative AI',
+    description: 'A full-stack AI image generation workspace integrating OpenAI DALL-E APIs, community prompt feeds, and instant canvas tools.',
+    technologies: ['React', 'Next.js', 'OpenAI API', 'Node.js', 'Tailwind CSS'],
+    coverImage: '/AI1.png',
+    gallery: [
+      { src: '/AI1.png', caption: 'AI Prompt Studio & Generation' },
+      { src: '/AI2.png', caption: 'High-Resolution Output View' },
+      { src: '/AI3.png', caption: 'Community Showcase & Prompt Remixing' },
+      { src: '/AI4.png', caption: 'Mobile Friendly Studio Interface' },
+    ],
+    liveUrl: 'https://anubhav-ai-image-generator.netlify.app',
+    repoUrl: 'https://github.com/anubhav1206/AI-image-generator',
+    highlights: [
+      'Low-latency OpenAI prompt generation with automatic parameter tuning',
+      'Community feed for remixing successful prompts and styles',
+      'Image caching and cloud storage optimization',
+    ],
+  },
+  {
+    id: 'movie-app',
+    title: 'Mood & Personality Movie Recommender',
+    shortTitle: 'Personality Movie App',
+    category: 'AI & Full-Stack',
+    tag: 'Mobile & Algorithms',
+    description: 'A cross-platform mobile application that recommends curated films based on the user’s nuanced emotional state and personality traits.',
+    technologies: ['React Native', 'Expo', 'TMDB API', 'Firebase', 'Redux'],
+    coverImage: '/img1.jpg',
+    gallery: [
+      { src: '/img1.jpg', caption: 'Personality Quiz & Mood Selector' },
+      { src: '/img2.jpg', caption: 'Curated Recommendations Feed' },
+      { src: '/img3.jpg', caption: 'Deep Movie Details & Cast Insights' },
+      { src: '/img4.jpg', caption: 'User Watchlist & Review Journal' },
+    ],
+    liveUrl: 'https://drive.google.com/file/d/1LmnVa7fA13hzaxp9MMk_i7HeeLG5so1i/view?usp=drive_link',
+    repoUrl: 'https://github.com/anubhav126',
+    highlights: [
+      'Proprietary personality trait-to-genre heuristic algorithm',
+      'Fluid React Native gesture-driven UI with offline mode',
+      'Real-time TMDB API integration with trailer streaming',
+    ],
   },
 ];
 
-export const insights = [
+export const journeyTimeline = [
   {
-    imgUrl: '/blog4.png',
-    title: `Google Drive System Design Deep Dive`,
-    subtitle: blog2,
-        
+    year: '2025 - Present',
+    badge: 'Aviation Systems',
+    status: 'In Progress',
+    title: 'Airbus A350-1000F Avionics Software Engineer',
+    organization: 'HCLTech',
+    location: 'Bengaluru, India',
+    description: 'Engineered mission-critical control panel software for cargo loading and unloading modules on the Airbus A350-1000F freighter. Developed deterministic C firmware and built automated verification engines in Python.',
+    tags: ['C', 'Python', 'Embedded Systems', 'Aviation Safety', 'DO-178C Concepts'],
+  },
+  {
+    year: '2024',
+    badge: 'Automation Engineering',
+    status: 'Completed',
+    title: 'Python Automation & Test Infrastructure Architect',
+    organization: 'HCLTech',
+    location: 'Bengaluru, India',
+    description: 'Architected automated test harness suites in Python that eliminated manual verification bottlenecks and boosted engineering team testing throughput by over 10-fold.',
+    tags: ['Python', 'CI/CD Pipelines', 'Automation Testing', 'Scripting', 'Linux'],
+  },
+  {
+    year: '2023',
+    badge: 'Career Milestone',
+    status: 'Completed',
+    title: 'Software Engineer & B.Tech CSE Graduation',
+    organization: 'HCLTech',
+    location: 'Bengaluru, India',
+    description: 'Graduated with a Bachelor of Technology in Computer Science & Engineering. Joined HCLTech as a Software Engineer, contributing to production codebases and large-scale enterprise services.',
+    tags: ['Full-Stack', 'React', 'Node.js', 'Distributed Systems'],
+  },
+  {
+    year: '2022',
+    badge: 'Open Source',
+    status: 'Completed',
+    title: 'Open Source Contributor & Tech Author',
+    organization: 'Jenkins / EddieHub / Hashnode',
+    location: 'Global Remote',
+    description: 'Began writing in-depth technical blogs demystifying system architecture and low-level JavaScript internals. Active open-source contributor to Jenkins ecosystem and developer tooling.',
+    tags: ['Jenkins', 'Open Source', 'System Design', 'Technical Writing'],
+  },
+  {
+    year: '2019',
+    badge: 'Foundations',
+    status: 'Completed',
+    title: 'Began Computer Science & Engineering Journey',
+    organization: 'University',
+    location: 'India',
+    description: 'Started undergraduate studies in Computer Science. Built foundational knowledge in algorithms, data structures, operating systems, networking, and modern software design.',
+    tags: ['Data Structures', 'Algorithms', 'Operating Systems', 'Networking'],
+  },
+];
+
+export const articles = [
+  {
+    id: 'google-drive-system-design',
+    title: 'Google Drive System Design Deep Dive',
+    category: 'SYSTEM DESIGN',
+    summary: 'A step-by-step breakdown of designing a globally available file storage and synchronization service like Google Drive from scratch, handling scale, chunking, and metadata.',
+    readTime: '8 min read',
     url: 'https://anubhav1206.hashnode.dev/google-drive-system-design-deep-dive',
+    coverImage: '/blog4.png',
+    date: 'Architecture Analysis',
   },
   {
-    imgUrl: '/blog1.png',
-    title: 'JavaScript Prototypes',
-    subtitle: blog1,
+    id: 'javascript-prototypes',
+    title: 'JavaScript Prototypes: The Definitive Guide',
+    category: 'JAVASCRIPT DEEP DIVE',
+    summary: 'Demystifying the prototype chain, prototypal inheritance, and internal mechanics of JavaScript execution that every senior engineer should master.',
+    readTime: '6 min read',
     url: 'https://anubhav1206.hashnode.dev/javascript-prototypes-your-one-stop-guide-for-understanding-this-core-javascript-concept',
-    preview: "Prototypes are the core of how JavaScript functions. Whether you're preparing for your next interview...",
+    coverImage: '/blog1.png',
+    date: 'Language Internals',
   },
   {
-    imgUrl: '/blog2.png',
-    title: 'Create your own Mail Server!',
-    subtitle: blog3,
+    id: 'mail-server-scratch',
+    title: 'Create Your Own Mail Server From Scratch',
+    category: 'NETWORKING & PROTOCOLS',
+    summary: 'An exploration into DNS MX records, SMTP protocols, socket connections, and how modern email clients securely transmit and receive messages.',
+    readTime: '7 min read',
     url: 'https://anubhav1206.hashnode.dev/create-your-own-mail-server',
+    coverImage: '/blog2.png',
+    date: 'Network Engineering',
   },
   {
-    imgUrl: '/blog3.png',
-    title: `The Reasons Behind React's Fast Performance`,
-    subtitle: blog4,
+    id: 'react-reconciliation',
+    title: "Behind React: Reconciliation & The Diffing Algorithm",
+    category: 'FRONTEND INTERNALS',
+    summary: 'How React converts O(n³) tree comparison into lightning-fast O(n) rendering using heuristic assumptions, virtual DOM, and component fiber trees.',
+    readTime: '5 min read',
     url: 'https://anubhav1206.hashnode.dev/the-reasons-behind-reacts-fast-performance',
+    coverImage: '/blog3.png',
+    date: 'Algorithm Insights',
   },
-  
+];
+
+export const skillCategories = [
+  {
+    name: 'Frontend Engineering',
+    skills: [
+      { name: 'React 19 / 18', level: 95 },
+      { name: 'Next.js (App Router)', level: 92 },
+      { name: 'TypeScript', level: 90 },
+      { name: 'Tailwind CSS', level: 95 },
+      { name: 'Framer Motion', level: 88 },
+    ],
+  },
+  {
+    name: 'Backend & Distributed Systems',
+    skills: [
+      { name: 'Node.js & Express', level: 92 },
+      { name: 'Python (Scripting & Automation)', level: 90 },
+      { name: 'C (Systems & Embedded)', level: 85 },
+      { name: 'Reverse Proxies & Load Balancing', level: 88 },
+      { name: 'REST & WebSockets APIs', level: 92 },
+    ],
+  },
+  {
+    name: 'Databases, Cloud & DevOps',
+    skills: [
+      { name: 'MongoDB / NoSQL', level: 88 },
+      { name: 'Appwrite & Firebase', level: 90 },
+      { name: 'Git & GitHub Actions CI/CD', level: 92 },
+      { name: 'Docker Fundamentals', level: 80 },
+      { name: 'Vercel / AWS Cloud', level: 85 },
+    ],
+  },
+  {
+    name: 'Quality, Architecture & Aviation',
+    skills: [
+      { name: 'Automated Test Suites', level: 94 },
+      { name: 'System Design & High Availability', level: 88 },
+      { name: 'Aerospace Avionics Standards', level: 86 },
+      { name: 'Performance Optimization', level: 90 },
+    ],
+  },
 ];
 
 export const socials = [
   {
-    name: 'twitter',
-    url: '/twitter.svg',
+    name: 'GitHub',
+    handle: '@anubhav126',
+    url: 'https://github.com/anubhav126',
+    label: 'Open Source & Repositories',
   },
   {
-    name: 'linkedin',
-    url: '/linkedin.svg',
+    name: 'LinkedIn',
+    handle: 'Anubhav Adhikari',
+    url: 'https://linkedin.com/in/anubhav-adhikari-a3565b176',
+    label: 'Professional Network',
   },
   {
-    name: 'github',
-    url: '/github.svg',
+    name: 'Hashnode',
+    handle: '@anubhav1206',
+    url: 'https://anubhav1206.hashnode.dev',
+    label: 'Technical Deep Dives',
   },
   {
-    name: 'hashnode.svg',
-    url: '/hashnode.svg',
+    name: 'Twitter / X',
+    handle: '@crasheddfps',
+    url: 'https://twitter.com/crasheddfps',
+    label: 'Tech Discussions',
+  },
+  {
+    name: 'Peerlist',
+    handle: '@anubhav1206',
+    url: 'https://peerlist.io/anubhav1206',
+    label: 'Verified Developer Profile',
   },
 ];

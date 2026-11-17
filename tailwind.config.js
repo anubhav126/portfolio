@@ -1,20 +1,67 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
-    './app/**/*.{html,js,jsx}',
-    './components/**/*.{html,js,jsx}',
-    './sections/**/*.{html,js,jsx}',
-    './styles/**/*.{js,jsx}',
+    './app/**/*.{html,js,jsx,ts,tsx}',
+    './components/**/*.{html,js,jsx,ts,tsx}',
+    './sections/**/*.{html,js,jsx,ts,tsx}',
+    './styles/**/*.{js,jsx,ts,tsx}',
   ],
   mode: 'jit',
   theme: {
     extend: {
-      colors: {
-        'primary-black': '#1A232E',
-        'secondary-white': '#c7c7c7',
+      screens: {
+        xs: '475px',
       },
-      transitionTimingFunction: {
-        'out-flex': 'cubic-bezier(0.05, 0.6, 0.4, 0.9)',
+      fontFamily: {
+        display: ['var(--font-playfair)', 'Playfair Display', 'Georgia', 'serif'],
+        serif: ['var(--font-playfair)', 'Playfair Display', 'Georgia', 'serif'],
+        sans: ['var(--font-inter)', 'Inter', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+        inter: ['var(--font-inter)', 'Inter', 'sans-serif'],
+      },
+      colors: {
+        primary: {
+          50: '#FFF7ED',
+          100: '#FFEEE5',
+          200: '#FED7AA',
+          300: '#FDBA74',
+          400: '#FB923C',
+          500: '#F97316',
+          600: '#EA580C',
+          700: '#C2410C',
+          800: '#9A3412',
+          900: '#7C2D12',
+        },
+        neutral: {
+          50: '#FAFAFC',
+          100: '#F1F5F9',
+          200: '#E2E8F0',
+          300: '#CBD5E1',
+          400: '#94A3B8',
+          500: '#64748B',
+          600: '#475569',
+          700: '#334155',
+          800: '#1E293B',
+          900: '#0F172A',
+        },
+        'primary-black': '#FAFAFC',
+        'secondary-white': '#334155',
+      },
+      boxShadow: {
+        'vertex-sm': '0 1px 2px 0 rgba(15, 23, 42, 0.05)',
+        'vertex-md': '0 4px 12px -2px rgba(15, 23, 42, 0.07)',
+        'vertex-lg': '0 10px 20px -3px rgba(15, 23, 42, 0.08)',
+        'vertex-xl': '0 16px 32px -4px rgba(15, 23, 42, 0.10)',
+        'clean-sm': '0 1px 2px 0 rgba(15, 23, 42, 0.05)',
+        'clean-md': '0 4px 12px -2px rgba(15, 23, 42, 0.07)',
+        'clean-lg': '0 10px 20px -3px rgba(15, 23, 42, 0.08)',
+        'clean-xl': '0 16px 32px -4px rgba(15, 23, 42, 0.10)',
+      },
+      borderRadius: {
+        'clean-xs': '4px',
+        'clean-sm': '8px',
+        'clean-md': '12px',
+        'clean-lg': '16px',
+        'clean-xl': '24px',
       },
     },
   },
