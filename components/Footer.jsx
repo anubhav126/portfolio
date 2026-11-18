@@ -13,6 +13,7 @@ import {
 } from 'lucide-react';
 import { personalInfo, socials } from '../constants';
 import PeerlistIcon from './PeerlistIcon';
+import ThemeToggle from './ThemeToggle';
 
 const socialIcons = {
   GitHub: Github,
@@ -24,9 +25,9 @@ const socialIcons = {
 
 const Footer = () => {
   return (
-    <footer className="bg-neutral-50 text-neutral-900 border-t border-neutral-200/80 py-12 relative">
+    <footer className="bg-neutral-50 dark:bg-[#070A11] text-neutral-900 dark:text-neutral-100 border-t border-neutral-200/80 dark:border-neutral-800 py-10 sm:py-12 relative transition-colors duration-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-8 pb-10 border-b border-neutral-200/80">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 sm:gap-8 pb-8 sm:pb-10 border-b border-neutral-200/80 dark:border-neutral-800">
           {/* Identity */}
           <div>
             <div className="flex items-center gap-2.5 mb-2">
@@ -36,11 +37,11 @@ const Footer = () => {
               >
                 AA
               </motion.div>
-              <span className="font-serif font-bold text-lg text-neutral-900">
+              <span className="font-serif font-bold text-lg text-neutral-900 dark:text-white">
                 {personalInfo.name}
               </span>
             </div>
-            <p className="text-xs text-neutral-600 max-w-md leading-relaxed">
+            <p className="text-xs text-neutral-600 dark:text-neutral-400 max-w-md leading-relaxed">
               Software Engineer with 3+ years of experience specializing in scalable event-driven systems using Java, Spring Boot, and Apache Kafka, Python RAG assistants, and modern web applications with Next.js & React.
             </p>
           </div>
@@ -51,7 +52,7 @@ const Footer = () => {
               whileHover={{ scale: 1.03, y: -1 }}
               whileTap={{ scale: 0.97 }}
               href={`mailto:${personalInfo.email}`}
-              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white hover:bg-neutral-100 text-xs font-medium text-neutral-800 transition-all border border-neutral-200 shadow-sm"
+              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white dark:bg-neutral-900 hover:bg-neutral-100 dark:hover:bg-neutral-800 text-xs font-medium text-neutral-800 dark:text-neutral-200 transition-all border border-neutral-200 dark:border-neutral-800 shadow-sm"
             >
               <Mail className="w-4 h-4 text-primary-500" />
               <span>{personalInfo.email}</span>
@@ -73,7 +74,7 @@ const Footer = () => {
         </div>
 
         {/* Social Channels Row */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 py-8">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 py-6 sm:py-8">
           {socials.map((s) => {
             const Icon = socialIcons[s.name] || ExternalLink;
             return (
@@ -84,35 +85,45 @@ const Footer = () => {
                 href={s.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="p-3.5 rounded-xl bg-white hover:bg-neutral-50 border border-neutral-200 hover:border-primary-300 text-neutral-600 hover:text-neutral-900 transition-all shadow-sm flex items-center justify-between group"
+                className="p-3 sm:p-3.5 rounded-xl bg-white dark:bg-neutral-900 hover:bg-neutral-50 dark:hover:bg-neutral-800/80 border border-neutral-200 dark:border-neutral-800 hover:border-primary-300 dark:hover:border-primary-500/50 text-neutral-600 dark:text-neutral-300 hover:text-neutral-900 dark:hover:text-white transition-all shadow-sm flex items-center justify-between group"
               >
                 <div className="flex items-center gap-2.5 min-w-0">
-                  <div className="w-7 h-7 rounded-lg bg-neutral-100 group-hover:bg-primary-100 flex items-center justify-center flex-shrink-0 transition-colors">
-                    <Icon className="w-3.5 h-3.5 text-neutral-600 group-hover:text-primary-600 transition-colors" />
+                  <div className="w-7 h-7 rounded-lg bg-neutral-100 dark:bg-neutral-800 group-hover:bg-primary-100 dark:group-hover:bg-primary-950/60 flex items-center justify-center flex-shrink-0 transition-colors">
+                    <Icon className="w-3.5 h-3.5 text-neutral-600 dark:text-neutral-300 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors" />
                   </div>
                   <div className="truncate">
-                    <div className="text-xs font-semibold text-neutral-900 truncate">
+                    <div className="text-xs font-semibold text-neutral-900 dark:text-white truncate">
                       {s.name}
                     </div>
-                    <div className="text-[11px] text-neutral-500 truncate">
+                    <div className="text-[11px] text-neutral-500 dark:text-neutral-400 truncate">
                       {s.handle}
                     </div>
                   </div>
                 </div>
-                <ExternalLink className="w-3.5 h-3.5 text-neutral-400 group-hover:text-primary-500 flex-shrink-0 transition-colors" />
+                <ExternalLink className="w-3.5 h-3.5 text-neutral-400 dark:text-neutral-500 group-hover:text-primary-500 dark:group-hover:text-primary-400 flex-shrink-0 transition-colors" />
               </motion.a>
             );
           })}
         </div>
 
-        {/* Bottom Bar (Duplicate back to top button REMOVED) */}
-        <div className="pt-6 border-t border-neutral-200/80 flex items-center justify-between text-xs text-neutral-500">
-          <p>
-            © {new Date().getFullYear()} {personalInfo.name}. All rights reserved.
-          </p>
-          <span className="text-[11px] text-neutral-400">
-            Engineered with Next.js & Tailwind CSS
-          </span>
+        {/* Bottom Bar with Theme Toggle */}
+        <div className="pt-6 border-t border-neutral-200/80 dark:border-neutral-800 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-neutral-500 dark:text-neutral-400">
+          <div className="flex items-center gap-4">
+            <p>
+              © {new Date().getFullYear()} {personalInfo.name}. All rights reserved.
+            </p>
+            <div className="sm:hidden">
+              <ThemeToggle />
+            </div>
+          </div>
+          <div className="flex items-center gap-3">
+            <span className="text-[11px] text-neutral-400 dark:text-neutral-500">
+              Engineered with Next.js 15 & Tailwind CSS
+            </span>
+            <div className="hidden sm:block">
+              <ThemeToggle />
+            </div>
+          </div>
         </div>
       </div>
     </footer>

@@ -146,11 +146,11 @@ const SearchDialog = ({ isOpen, onClose }) => {
 
   return (
     <AnimatePresence>
-      <div className="fixed inset-0 z-50 flex items-start justify-center pt-20 px-4 sm:px-6">
+      <div className="fixed inset-0 z-50 flex items-start justify-center pt-8 sm:pt-20 px-3 sm:px-6">
         {/* Backdrop (lightweight overlay, zero repaint lag) */}
         <div
           onClick={onClose}
-          className="fixed inset-0 bg-neutral-900/50 transition-opacity"
+          className="fixed inset-0 bg-neutral-900/60 dark:bg-black/75 backdrop-blur-sm transition-opacity"
         />
 
         {/* Modal Window */}
@@ -159,10 +159,10 @@ const SearchDialog = ({ isOpen, onClose }) => {
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0, scale: 0.98 }}
           transition={{ duration: 0.15 }}
-          className="relative w-full max-w-2xl bg-white rounded-2xl shadow-xl border border-neutral-200 overflow-hidden z-10"
+          className="relative w-full max-w-2xl bg-white dark:bg-neutral-900 rounded-2xl shadow-2xl border border-neutral-200 dark:border-neutral-800 overflow-hidden z-10"
         >
           {/* Search Input Bar */}
-          <div className="flex items-center px-4 py-3.5 border-b border-neutral-200 gap-3">
+          <div className="flex items-center px-4 py-3 sm:py-3.5 border-b border-neutral-200 dark:border-neutral-800 gap-3">
             <Search className="w-5 h-5 text-primary-500 flex-shrink-0" />
             <input
               ref={inputRef}
@@ -173,24 +173,24 @@ const SearchDialog = ({ isOpen, onClose }) => {
                 setSelectedIndex(0);
               }}
               placeholder="Search Kafka, Spring Boot, RAG, Next.js, IEEE research..."
-              className="w-full bg-transparent text-sm text-neutral-900 placeholder-neutral-400 focus:outline-none"
+              className="w-full bg-transparent text-base sm:text-sm text-neutral-900 dark:text-white placeholder-neutral-400 dark:placeholder-neutral-500 focus:outline-none"
             />
             {query && (
               <button
                 onClick={() => setQuery('')}
-                className="text-neutral-400 hover:text-neutral-600 p-1 rounded-md"
+                className="text-neutral-400 hover:text-neutral-600 dark:hover:text-neutral-200 p-1 rounded-md"
               >
                 <X className="w-4 h-4" />
               </button>
             )}
-            <kbd className="hidden sm:inline-block px-2 py-0.5 text-[11px] font-semibold text-neutral-500 bg-neutral-100 border border-neutral-200 rounded-md">
+            <kbd className="hidden sm:inline-block px-2 py-0.5 text-[11px] font-semibold text-neutral-500 dark:text-neutral-400 bg-neutral-100 dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded-md">
               ESC
             </kbd>
           </div>
 
           {/* Filter Pills */}
-          <div className="flex items-center gap-1.5 px-4 py-2.5 bg-neutral-50 border-b border-neutral-200 overflow-x-auto text-xs">
-            <span className="text-neutral-400 font-medium mr-1">Filter:</span>
+          <div className="flex items-center gap-1.5 px-4 py-2 sm:py-2.5 bg-neutral-50 dark:bg-neutral-950/70 border-b border-neutral-200 dark:border-neutral-800 overflow-x-auto text-xs">
+            <span className="text-neutral-400 dark:text-neutral-500 font-medium mr-1 flex-shrink-0">Filter:</span>
             {categories.map((cat) => (
               <button
                 key={cat}
@@ -198,10 +198,10 @@ const SearchDialog = ({ isOpen, onClose }) => {
                   setActiveCategory(cat);
                   setSelectedIndex(0);
                 }}
-                className={`px-2.5 py-1 rounded-full text-xs font-medium transition-colors ${
+                className={`px-2.5 py-1 rounded-full text-xs font-medium transition-colors flex-shrink-0 ${
                   activeCategory === cat
                     ? 'bg-primary-500 text-white shadow-sm'
-                    : 'bg-white text-neutral-600 hover:bg-neutral-100 border border-neutral-200'
+                    : 'bg-white dark:bg-neutral-900 text-neutral-600 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800 border border-neutral-200 dark:border-neutral-800'
                 }`}
               >
                 {cat}
@@ -212,9 +212,9 @@ const SearchDialog = ({ isOpen, onClose }) => {
           {/* Search Results List */}
           <div className="max-h-[340px] overflow-y-auto p-2">
             {filteredItems.length === 0 ? (
-              <div className="py-10 text-center text-neutral-500">
+              <div className="py-10 text-center text-neutral-500 dark:text-neutral-400">
                 <p className="text-sm">No matching items found for "{query}".</p>
-                <p className="text-xs text-neutral-400 mt-1">
+                <p className="text-xs text-neutral-400 dark:text-neutral-500 mt-1">
                   Try searching for "Kafka", "Spring Boot", "RAG", "Next.js", or "IEEE".
                 </p>
               </div>
@@ -230,8 +230,8 @@ const SearchDialog = ({ isOpen, onClose }) => {
                       onMouseEnter={() => setSelectedIndex(idx)}
                       className={`flex items-center justify-between p-3 rounded-xl cursor-pointer transition-colors ${
                         isSelected
-                          ? 'bg-primary-100/60 text-neutral-900 border border-primary-200'
-                          : 'hover:bg-neutral-50 text-neutral-700 border border-transparent'
+                          ? 'bg-primary-100/60 dark:bg-primary-950/60 text-neutral-900 dark:text-white border border-primary-200 dark:border-primary-800/80'
+                          : 'hover:bg-neutral-50 dark:hover:bg-neutral-800/50 text-neutral-700 dark:text-neutral-300 border border-transparent'
                       }`}
                     >
                       <div className="flex items-center gap-3 min-w-0">
@@ -239,21 +239,21 @@ const SearchDialog = ({ isOpen, onClose }) => {
                           className={`w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0 ${
                             isSelected
                               ? 'bg-primary-500 text-white'
-                              : 'bg-neutral-100 text-neutral-600'
+                              : 'bg-neutral-100 dark:bg-neutral-800 text-neutral-600 dark:text-neutral-400'
                           }`}
                         >
                           <Icon className="w-4 h-4" />
                         </div>
                         <div className="min-w-0 truncate">
                           <div className="flex items-center gap-2">
-                            <span className="text-xs font-semibold text-neutral-900 truncate">
+                            <span className="text-xs font-semibold text-neutral-900 dark:text-white truncate">
                               {item.title}
                             </span>
-                            <span className="text-[10px] font-medium px-2 py-0.5 rounded-full bg-neutral-100 text-neutral-600 uppercase tracking-wider">
+                            <span className="text-[10px] font-medium px-2 py-0.5 rounded-full bg-neutral-100 dark:bg-neutral-800 text-neutral-600 dark:text-neutral-400 uppercase tracking-wider">
                               {item.type}
                             </span>
                           </div>
-                          <p className="text-xs text-neutral-500 truncate mt-0.5">
+                          <p className="text-xs text-neutral-500 dark:text-neutral-400 truncate mt-0.5">
                             {item.subtitle}
                           </p>
                         </div>
@@ -274,19 +274,24 @@ const SearchDialog = ({ isOpen, onClose }) => {
           </div>
 
           {/* Footer Shortcuts */}
-          <div className="flex items-center justify-between px-4 py-2 bg-neutral-50 border-t border-neutral-200 text-[11px] text-neutral-500">
+          <div className="flex items-center justify-between px-4 py-2 bg-neutral-50 dark:bg-neutral-950/80 border-t border-neutral-200 dark:border-neutral-800 text-[11px] text-neutral-500 dark:text-neutral-400">
             <div className="flex items-center gap-3">
               <span className="flex items-center gap-1">
-                <kbd className="px-1 bg-white border border-neutral-200 rounded">↑</kbd>
-                <kbd className="px-1 bg-white border border-neutral-200 rounded">↓</kbd>
+                <kbd className="px-1 bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded">↑</kbd>
+                <kbd className="px-1 bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded">↓</kbd>
                 <span>to navigate</span>
               </span>
-              <span className="flex items-center gap-1">
-                <kbd className="px-1 bg-white border border-neutral-200 rounded">↵</kbd>
+              <span className="hidden sm:inline-flex items-center gap-1">
+                <kbd className="px-1 bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded">↵</kbd>
                 <span>to select</span>
               </span>
             </div>
-            <span>Press <kbd className="px-1 bg-white border border-neutral-200 rounded">ESC</kbd> to exit</span>
+            <button
+              onClick={onClose}
+              className="text-xs text-neutral-500 dark:text-neutral-400 hover:text-neutral-800 dark:hover:text-white"
+            >
+              Close (ESC)
+            </button>
           </div>
         </motion.div>
       </div>

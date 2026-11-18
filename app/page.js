@@ -45,7 +45,7 @@ const BackToTopButton = () => {
       whileTap={{ scale: 0.9 }}
       transition={{ type: 'spring', stiffness: 400, damping: 20 }}
       onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-      className="fixed bottom-6 right-6 z-40 w-11 h-11 rounded-full bg-white border border-neutral-200 shadow-md text-neutral-700 hover:text-primary-600 hover:border-primary-400 flex items-center justify-center transition-colors group"
+      className="fixed bottom-6 right-6 z-40 w-11 h-11 rounded-full bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 shadow-md text-neutral-700 dark:text-neutral-300 hover:text-primary-600 dark:hover:text-primary-400 hover:border-primary-400 dark:hover:border-primary-500/50 flex items-center justify-center transition-colors group"
       aria-label="Back to top"
     >
       <ArrowUp className="w-4 h-4 transform group-hover:-translate-y-0.5 transition-transform" />
@@ -69,7 +69,7 @@ const Page = () => {
   }, []);
 
   return (
-    <div className="bg-neutral-50 text-neutral-900 min-h-screen relative font-sans selection:bg-primary-100 selection:text-primary-700">
+    <div className="bg-neutral-50 dark:bg-[#090D16] text-neutral-900 dark:text-neutral-100 min-h-screen relative font-sans selection:bg-primary-100 dark:selection:bg-primary-950 selection:text-primary-700 dark:selection:text-primary-300 transition-colors duration-200">
       {/* Top Scroll Indicator */}
       <ScrollProgressBar />
 

@@ -52,8 +52,27 @@ export const metadata = {
 };
 
 const RootLayout = ({ children }) => (
-  <html lang="en" className={`${playfair.variable} ${inter.variable} scroll-smooth`}>
-    <body className="bg-neutral-50 text-neutral-900 font-sans min-h-screen antialiased selection:bg-primary-100 selection:text-primary-700">
+  <html lang="en" suppressHydrationWarning className={`${playfair.variable} ${inter.variable} scroll-smooth`}>
+    <head>
+      <script
+        dangerouslySetInnerHTML={{
+          __html: `
+            (function() {
+              try {
+                var stored = localStorage.getItem('theme');
+                var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                if (stored === 'dark' || (!stored && prefersDark)) {
+                  document.documentElement.classList.add('dark');
+                } else {
+                  document.documentElement.classList.remove('dark');
+                }
+              } catch (e) {}
+            })();
+          `,
+        }}
+      />
+    </head>
+    <body className="bg-neutral-50 text-neutral-900 dark:bg-[#090D16] dark:text-neutral-100 font-sans min-h-screen antialiased selection:bg-primary-100 selection:text-primary-700 dark:selection:bg-primary-950 dark:selection:text-primary-300 transition-colors duration-200">
       {children}
     </body>
   </html>

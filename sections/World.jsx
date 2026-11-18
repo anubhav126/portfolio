@@ -25,26 +25,26 @@ const yearIcons = {
 
 const World = () => {
   return (
-    <section id="journey" className="py-16 md:py-24 bg-white border-y border-neutral-200/80 relative overflow-hidden">
+    <section id="journey" className="py-14 sm:py-20 md:py-24 bg-white dark:bg-[#090D16] border-y border-neutral-200/80 dark:border-neutral-800 relative overflow-hidden transition-colors duration-200">
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto mb-16">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary-100 text-primary-500 text-xs font-semibold uppercase tracking-wider mb-3">
+        <div className="text-center max-w-3xl mx-auto mb-12 sm:mb-16">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary-100 dark:bg-primary-950/60 text-primary-500 dark:text-primary-400 text-xs font-semibold uppercase tracking-wider mb-3">
             <Sparkles className="w-3.5 h-3.5" />
             <span>02 • Career Timeline & Milestones</span>
           </div>
-          <h2 className="font-display-2 text-neutral-900 tracking-tight">
+          <h2 className="font-display-2 text-neutral-900 dark:text-white tracking-tight text-2xl sm:text-3xl lg:text-4xl">
             The Engineering Journey.
           </h2>
-          <p className="font-body-lg text-neutral-600 mt-2">
+          <p className="font-body-lg text-neutral-600 dark:text-neutral-300 mt-2 text-sm sm:text-base">
             From academic excellence at Ramaiah University (CGPA 8.6/10) to distributed enterprise event streaming and published IEEE research.
           </p>
         </div>
 
         {/* Timeline Stream with animated vertical beam */}
-        <div className="relative ml-4 sm:ml-32 pl-6 sm:pl-10 space-y-12">
+        <div className="relative ml-3 sm:ml-32 pl-7 sm:pl-10 space-y-10 sm:space-y-12">
           {/* Animated vertical gradient track */}
-          <div className="absolute left-0 sm:left-0 top-3 bottom-3 w-[2px] bg-gradient-to-b from-primary-500 via-primary-300 to-neutral-200" />
+          <div className="absolute left-0 top-3 bottom-3 w-[2px] bg-gradient-to-b from-primary-500 via-primary-300 dark:via-primary-600 to-neutral-200 dark:to-neutral-800" />
 
           {journeyTimeline.map((item, idx) => {
             const Icon = yearIcons[item.year] || Building2;
@@ -61,20 +61,20 @@ const World = () => {
               >
                 {/* Year Marker on Left (Desktop) */}
                 <div className="hidden sm:block absolute -left-[180px] top-1 text-right w-32">
-                  <span className="font-serif font-bold text-base text-neutral-900 group-hover:text-primary-500 transition-colors">
+                  <span className="font-serif font-bold text-base text-neutral-900 dark:text-white group-hover:text-primary-500 dark:group-hover:text-primary-400 transition-colors">
                     {item.year}
                   </span>
-                  <div className="text-[11px] font-medium text-neutral-400">
+                  <div className="text-[11px] font-medium text-neutral-400 dark:text-neutral-500">
                     {item.badge}
                   </div>
                 </div>
 
                 {/* Animated Timeline Node Point */}
                 <div
-                  className={`absolute -left-[31px] sm:-left-[47px] top-1 w-6 h-6 rounded-full border-2 bg-white flex items-center justify-center transition-all duration-300 group-hover:scale-125 z-10 ${
+                  className={`absolute -left-[11px] top-1 w-6 h-6 rounded-full border-2 bg-white dark:bg-neutral-900 flex items-center justify-center transition-all duration-300 group-hover:scale-125 z-10 ${
                     isInProgress
                       ? 'border-primary-500 text-primary-500 shadow-sm shadow-primary-500/30'
-                      : 'border-neutral-300 text-neutral-500 group-hover:border-primary-400 group-hover:text-primary-500'
+                      : 'border-neutral-300 dark:border-neutral-700 text-neutral-500 group-hover:border-primary-400 group-hover:text-primary-500'
                   }`}
                 >
                   {isInProgress ? (
@@ -83,7 +83,7 @@ const World = () => {
                       <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-primary-500" />
                     </span>
                   ) : (
-                    <div className="w-2 h-2 rounded-full bg-neutral-400 group-hover:bg-primary-500 transition-colors" />
+                    <div className="w-2 h-2 rounded-full bg-neutral-400 dark:bg-neutral-600 group-hover:bg-primary-500 transition-colors" />
                   )}
                 </div>
 
@@ -91,7 +91,7 @@ const World = () => {
                 <motion.div
                   whileHover={{ y: -4, x: 2 }}
                   transition={{ type: 'spring', stiffness: 350, damping: 25 }}
-                  className="portfolio-card p-6 bg-neutral-50/70 hover:bg-white border border-neutral-200 relative overflow-hidden group/card shadow-sm hover:shadow-md transition-all"
+                  className="portfolio-card p-5 sm:p-6 bg-neutral-50/70 dark:bg-neutral-900/60 hover:bg-white dark:hover:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 relative overflow-hidden group/card shadow-sm hover:shadow-md transition-all"
                 >
                   {/* Left accent bar on hover */}
                   <div className="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-primary-500 to-primary-400 opacity-0 group-hover/card:opacity-100 transition-opacity" />
@@ -102,18 +102,18 @@ const World = () => {
 
                     {/* Status indicator */}
                     {isInProgress ? (
-                      <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-primary-100 text-primary-600">
+                      <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-primary-100 dark:bg-primary-950/60 text-primary-600 dark:text-primary-400">
                         <span className="w-1.5 h-1.5 rounded-full bg-primary-500 animate-pulse" />
                         In Progress
                       </span>
                     ) : (
-                      <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-50 text-emerald-700 border border-emerald-200/60">
+                      <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-400 border border-emerald-200/60 dark:border-emerald-800/60">
                         <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" />
                         Completed
                       </span>
                     )}
 
-                    <div className="flex items-center gap-3 text-xs text-neutral-500">
+                    <div className="flex items-center gap-3 text-xs text-neutral-500 dark:text-neutral-400">
                       <span className="flex items-center gap-1">
                         <Building2 className="w-3.5 h-3.5" />
                         {item.organization}
@@ -127,15 +127,15 @@ const World = () => {
                   </div>
 
                   <div className="flex items-center gap-2.5 mb-2">
-                    <div className="w-7 h-7 rounded-lg bg-primary-100 text-primary-600 flex items-center justify-center flex-shrink-0">
+                    <div className="w-7 h-7 rounded-lg bg-primary-100 dark:bg-primary-950/60 text-primary-600 dark:text-primary-400 flex items-center justify-center flex-shrink-0">
                       <Icon className="w-4 h-4" />
                     </div>
-                    <h3 className="font-heading-2 text-neutral-900 group-hover/card:text-primary-600 transition-colors">
+                    <h3 className="font-heading-2 text-neutral-900 dark:text-white group-hover/card:text-primary-600 dark:group-hover/card:text-primary-400 transition-colors text-base sm:text-lg">
                       {item.title}
                     </h3>
                   </div>
 
-                  <p className="font-body text-neutral-600 text-sm leading-relaxed mb-4">
+                  <p className="font-body text-neutral-600 dark:text-neutral-300 text-xs sm:text-sm leading-relaxed mb-4">
                     {item.description}
                   </p>
 
@@ -144,7 +144,7 @@ const World = () => {
                     {item.tags.map((t) => (
                       <span
                         key={t}
-                        className="badge-neutral text-[11px] !py-0.5 !px-2 group-hover/card:border-neutral-300 transition-colors"
+                        className="badge-neutral text-[11px] !py-0.5 !px-2 group-hover/card:border-neutral-300 dark:group-hover/card:border-neutral-700 transition-colors"
                       >
                         {t}
                       </span>

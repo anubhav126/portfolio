@@ -36,25 +36,25 @@ const Explore = () => {
   };
 
   return (
-    <section id="projects" className="py-16 md:py-24 bg-neutral-50 relative">
+    <section id="projects" className="py-14 sm:py-20 md:py-24 bg-neutral-50 dark:bg-[#0B0F19] relative transition-colors duration-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 sm:mb-12 gap-6">
           <div>
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary-100 text-primary-500 text-xs font-semibold uppercase tracking-wider mb-3">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary-100 dark:bg-primary-950/60 text-primary-500 dark:text-primary-400 text-xs font-semibold uppercase tracking-wider mb-3">
               <Sparkles className="w-3.5 h-3.5" />
               <span>01 • Production Architecture & Systems</span>
             </div>
-            <h2 className="font-display-2 text-neutral-900 tracking-tight">
+            <h2 className="font-display-2 text-neutral-900 dark:text-white tracking-tight text-2xl sm:text-3xl lg:text-4xl">
               Featured Projects & Systems.
             </h2>
-            <p className="font-body-lg text-neutral-600 mt-2 max-w-xl">
+            <p className="font-body-lg text-neutral-600 dark:text-neutral-300 mt-2 max-w-xl text-sm sm:text-base">
               From Apache Kafka distributed pipelines and Python RAG assistants to full-stack Next.js cloud applications and IEEE research.
             </p>
           </div>
 
           {/* Fluid Sliding Category Filter Pills with layoutId */}
-          <div className="flex flex-wrap items-center gap-1.5 bg-white p-1.5 rounded-2xl border border-neutral-200 shadow-sm relative">
+          <div className="flex items-center gap-1.5 bg-white dark:bg-neutral-900 p-1.5 rounded-2xl border border-neutral-200 dark:border-neutral-800 shadow-sm relative overflow-x-auto no-scrollbar max-w-full">
             {categories.map((cat) => {
               const isSelected = activeCategory === cat;
               return (
@@ -62,10 +62,10 @@ const Explore = () => {
                   key={cat}
                   onClick={() => setActiveCategory(cat)}
                   type="button"
-                  className={`relative px-4 py-2 text-xs font-medium rounded-xl transition-colors z-10 ${
+                  className={`relative px-3.5 sm:px-4 py-1.5 sm:py-2 text-xs font-medium rounded-xl transition-colors z-10 flex-shrink-0 ${
                     isSelected
                       ? 'text-white font-semibold'
-                      : 'text-neutral-600 hover:text-neutral-900'
+                      : 'text-neutral-600 dark:text-neutral-300 hover:text-neutral-900 dark:hover:text-white'
                   }`}
                 >
                   {isSelected && (
@@ -85,7 +85,7 @@ const Explore = () => {
         {/* Project Cards Grid with spring entrance and smooth hover */}
         <motion.div
           layout
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8"
         >
           <AnimatePresence>
             {filteredProjects.map((project, idx) => (
@@ -97,13 +97,13 @@ const Explore = () => {
                 exit={{ opacity: 0, scale: 0.94 }}
                 transition={{ duration: 0.3, delay: idx * 0.05 }}
                 whileHover={{ y: -6 }}
-                className="portfolio-card flex flex-col justify-between overflow-hidden group bg-white border border-neutral-200 shadow-sm hover:shadow-xl transition-all duration-300"
+                className="portfolio-card flex flex-col justify-between overflow-hidden group bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 shadow-sm hover:shadow-xl transition-all duration-300"
               >
                 <div>
                   {/* Image Preview Container */}
                   <div
                     onClick={() => openProjectModal(project)}
-                    className="relative aspect-video w-full bg-neutral-100 overflow-hidden cursor-pointer border-b border-neutral-100"
+                    className="relative aspect-[16/10] sm:aspect-video w-full bg-neutral-100 dark:bg-neutral-800 overflow-hidden cursor-pointer border-b border-neutral-100 dark:border-neutral-800"
                   >
                     <Image
                       src={project.coverImage}
@@ -127,21 +127,21 @@ const Explore = () => {
                   </div>
 
                   {/* Content */}
-                  <div className="p-6">
+                  <div className="p-5 sm:p-6">
                     <div className="flex items-center gap-2 mb-2">
-                      <span className="text-[11px] font-semibold text-primary-500 uppercase tracking-wider">
+                      <span className="text-[11px] font-semibold text-primary-500 dark:text-primary-400 uppercase tracking-wider">
                         {project.tag}
                       </span>
                     </div>
 
                     <h3
                       onClick={() => openProjectModal(project)}
-                      className="font-heading-2 text-neutral-900 hover:text-primary-500 transition-colors cursor-pointer mb-2.5 line-clamp-1"
+                      className="font-heading-2 text-neutral-900 dark:text-white hover:text-primary-500 dark:hover:text-primary-400 transition-colors cursor-pointer mb-2.5 line-clamp-1"
                     >
                       {project.title}
                     </h3>
 
-                    <p className="font-body text-neutral-600 line-clamp-3 mb-4 text-xs sm:text-sm leading-relaxed">
+                    <p className="font-body text-neutral-600 dark:text-neutral-300 line-clamp-3 mb-4 text-xs sm:text-sm leading-relaxed">
                       {project.description}
                     </p>
 
@@ -165,7 +165,7 @@ const Explore = () => {
                 </div>
 
                 {/* Card Footer Actions */}
-                <div className="px-6 py-4 bg-neutral-50/70 border-t border-neutral-100 flex items-center justify-between gap-3">
+                <div className="px-5 sm:px-6 py-3.5 sm:py-4 bg-neutral-50/70 dark:bg-neutral-900/60 border-t border-neutral-100 dark:border-neutral-800 flex items-center justify-between gap-3">
                   <button
                     onClick={() => openProjectModal(project)}
                     type="button"
@@ -183,7 +183,7 @@ const Explore = () => {
                         href={project.repoUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="p-2 rounded-xl text-neutral-600 hover:text-neutral-900 hover:bg-white border border-transparent hover:border-neutral-200 transition-colors shadow-sm"
+                        className="p-2 rounded-xl text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white hover:bg-white dark:hover:bg-neutral-800 border border-transparent hover:border-neutral-200 dark:hover:border-neutral-700 transition-colors shadow-sm"
                         title="GitHub Repository"
                       >
                         <Github className="w-4 h-4" />
@@ -214,14 +214,14 @@ const Explore = () => {
       {/* Interactive Project Modal */}
       <AnimatePresence>
         {selectedProject && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 overflow-y-auto">
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 overflow-y-auto">
             {/* Backdrop */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={closeProjectModal}
-              className="fixed inset-0 bg-neutral-900/60 transition-opacity"
+              className="fixed inset-0 bg-neutral-900/60 dark:bg-black/75 backdrop-blur-sm transition-opacity"
             />
 
             {/* Modal Body */}
@@ -230,28 +230,28 @@ const Explore = () => {
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 15 }}
               transition={{ type: 'spring', stiffness: 350, damping: 25 }}
-              className="relative w-full max-w-4xl bg-white rounded-2xl shadow-2xl border border-neutral-200 overflow-hidden z-10 max-h-[90vh] flex flex-col"
+              className="relative w-full max-w-4xl bg-white dark:bg-neutral-900 rounded-2xl shadow-2xl border border-neutral-200 dark:border-neutral-800 overflow-hidden z-10 max-h-[92vh] sm:max-h-[90vh] flex flex-col"
             >
               {/* Header */}
-              <div className="flex items-center justify-between px-6 py-4 border-b border-neutral-200 bg-white">
+              <div className="flex items-center justify-between px-4 sm:px-6 py-3.5 sm:py-4 border-b border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900">
                 <div>
                   <span className="badge-orange mb-1">{selectedProject.category}</span>
-                  <h3 className="font-heading-2 text-neutral-900">{selectedProject.title}</h3>
+                  <h3 className="font-heading-2 text-neutral-900 dark:text-white text-base sm:text-lg">{selectedProject.title}</h3>
                 </div>
                 <button
                   onClick={closeProjectModal}
-                  className="p-2 rounded-xl text-neutral-400 hover:text-neutral-700 hover:bg-neutral-100 transition-colors"
+                  className="p-2 rounded-xl text-neutral-400 hover:text-neutral-700 dark:hover:text-white hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors"
                 >
                   <X className="w-5 h-5" />
                 </button>
               </div>
 
               {/* Scrollable Content */}
-              <div className="overflow-y-auto p-6 space-y-6">
+              <div className="overflow-y-auto p-4 sm:p-6 space-y-5 sm:space-y-6">
                 {/* Active Image Showcase */}
                 {selectedProject.gallery && selectedProject.gallery.length > 0 && (
                   <div>
-                    <div className="relative aspect-video w-full rounded-xl overflow-hidden bg-neutral-900 border border-neutral-200">
+                    <div className="relative aspect-video w-full rounded-xl overflow-hidden bg-neutral-900 border border-neutral-200 dark:border-neutral-800">
                       <Image
                         src={selectedProject.gallery[activeGalleryIndex].src}
                         alt={selectedProject.gallery[activeGalleryIndex].caption}
@@ -273,7 +273,7 @@ const Explore = () => {
                             className={`relative w-20 h-14 rounded-lg overflow-hidden border-2 flex-shrink-0 transition-all ${
                               activeGalleryIndex === i
                                 ? 'border-primary-500 scale-105 shadow-sm'
-                                : 'border-neutral-200 opacity-60 hover:opacity-100'
+                                : 'border-neutral-200 dark:border-neutral-700 opacity-60 hover:opacity-100'
                             }`}
                           >
                             <Image
@@ -291,23 +291,23 @@ const Explore = () => {
 
                 {/* Description & Engineering Highlights */}
                 <div>
-                  <h4 className="text-xs uppercase tracking-wider font-semibold text-neutral-400 mb-2">
+                  <h4 className="text-xs uppercase tracking-wider font-semibold text-neutral-400 dark:text-neutral-500 mb-2">
                     Overview
                   </h4>
-                  <p className="font-body text-neutral-700 leading-relaxed text-sm">
+                  <p className="font-body text-neutral-700 dark:text-neutral-300 leading-relaxed text-sm">
                     {selectedProject.description}
                   </p>
                 </div>
 
                 <div>
-                  <h4 className="text-xs uppercase tracking-wider font-semibold text-neutral-400 mb-3">
+                  <h4 className="text-xs uppercase tracking-wider font-semibold text-neutral-400 dark:text-neutral-500 mb-3">
                     Technical Specifications & Architectural Highlights
                   </h4>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
                     {selectedProject.highlights.map((h, i) => (
                       <div
                         key={i}
-                        className="flex items-start gap-2.5 p-3 rounded-xl bg-neutral-50 border border-neutral-100 text-xs text-neutral-800"
+                        className="flex items-start gap-2.5 p-3 rounded-xl bg-neutral-50 dark:bg-neutral-800/60 border border-neutral-100 dark:border-neutral-700/60 text-xs text-neutral-800 dark:text-neutral-200"
                       >
                         <CheckCircle2 className="w-4 h-4 text-emerald-500 flex-shrink-0 mt-0.5" />
                         <span>{h}</span>
@@ -318,7 +318,7 @@ const Explore = () => {
 
                 {/* Technologies */}
                 <div>
-                  <h4 className="text-xs uppercase tracking-wider font-semibold text-neutral-400 mb-2">
+                  <h4 className="text-xs uppercase tracking-wider font-semibold text-neutral-400 dark:text-neutral-500 mb-2">
                     Technologies & Tools Used
                   </h4>
                   <div className="flex flex-wrap gap-2">
@@ -332,8 +332,8 @@ const Explore = () => {
               </div>
 
               {/* Modal Footer Actions */}
-              <div className="flex items-center justify-between px-6 py-4 bg-neutral-50 border-t border-neutral-200">
-                <button onClick={closeProjectModal} className="btn-tertiary !h-10 !text-xs">
+              <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 px-4 sm:px-6 py-3.5 sm:py-4 bg-neutral-50 dark:bg-neutral-950/80 border-t border-neutral-200 dark:border-neutral-800">
+                <button onClick={closeProjectModal} className="btn-tertiary !h-10 !text-xs justify-center dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-200">
                   Close Preview
                 </button>
 
@@ -343,7 +343,7 @@ const Explore = () => {
                       href={selectedProject.repoUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="btn-tertiary !h-10 !text-xs"
+                      className="btn-tertiary !h-10 !text-xs flex-1 sm:flex-initial justify-center dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-200"
                     >
                       <Github className="w-4 h-4" />
                       <span>View Source Code</span>
@@ -355,7 +355,7 @@ const Explore = () => {
                       href={selectedProject.liveUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="btn-primary !h-10 !text-xs"
+                      className="btn-primary !h-10 !text-xs flex-1 sm:flex-initial justify-center"
                     >
                       <span>Open Live Application</span>
                       <ExternalLink className="w-4 h-4" />

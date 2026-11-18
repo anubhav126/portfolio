@@ -14,19 +14,19 @@ import { articles } from '../constants';
 
 const Insights = () => {
   return (
-    <section id="articles" className="py-16 md:py-24 bg-neutral-50 relative">
+    <section id="articles" className="py-14 sm:py-20 md:py-24 bg-neutral-50 dark:bg-[#0B0F19] relative transition-colors duration-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 sm:mb-12 gap-6">
           <div>
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary-100 text-primary-500 text-xs font-semibold uppercase tracking-wider mb-3">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary-100 dark:bg-primary-950/60 text-primary-500 dark:text-primary-400 text-xs font-semibold uppercase tracking-wider mb-3">
               <Sparkles className="w-3.5 h-3.5" />
               <span>03 • Technical Publications</span>
             </div>
-            <h2 className="font-display-2 text-neutral-900 tracking-tight">
+            <h2 className="font-display-2 text-neutral-900 dark:text-white tracking-tight text-2xl sm:text-3xl lg:text-4xl">
               Engineering Deep Dives & Articles.
             </h2>
-            <p className="font-body-lg text-neutral-600 mt-2 max-w-xl">
+            <p className="font-body-lg text-neutral-600 dark:text-neutral-300 mt-2 max-w-xl text-sm sm:text-base">
               Published research on IEEE Xplore (97.5% prediction accuracy) alongside in-depth distributed system design and network engineering analyses.
             </p>
           </div>
@@ -37,7 +37,7 @@ const Insights = () => {
             href="https://anubhav1206.hashnode.dev"
             target="_blank"
             rel="noopener noreferrer"
-            className="btn-secondary self-start md:self-auto group"
+            className="btn-secondary self-start md:self-auto group dark:bg-neutral-900 dark:border-neutral-800 dark:text-neutral-200"
           >
             <span>View All on Hashnode</span>
             <ExternalLink className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
@@ -45,7 +45,7 @@ const Insights = () => {
         </div>
 
         {/* Articles Grid with hover effects */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-7">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-7">
           {articles.map((art, idx) => (
             <motion.div
               key={art.id}
@@ -54,11 +54,11 @@ const Insights = () => {
               viewport={{ once: true, amount: 0.15 }}
               transition={{ duration: 0.4, delay: idx * 0.1 }}
               whileHover={{ y: -6 }}
-              className="portfolio-card overflow-hidden bg-white border border-neutral-200 flex flex-col justify-between group shadow-sm hover:shadow-xl transition-all duration-300"
+              className="portfolio-card overflow-hidden bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 flex flex-col justify-between group shadow-sm hover:shadow-xl transition-all duration-300"
             >
               <div>
                 {/* Header Image Preview */}
-                <div className="relative aspect-[21/9] w-full bg-neutral-100 overflow-hidden border-b border-neutral-100">
+                <div className="relative aspect-[16/9] sm:aspect-[21/9] w-full bg-neutral-100 dark:bg-neutral-800 overflow-hidden border-b border-neutral-100 dark:border-neutral-800">
                   <Image
                     src={art.coverImage}
                     alt={art.title}
@@ -76,8 +76,8 @@ const Insights = () => {
                 </div>
 
                 {/* Article Info */}
-                <div className="p-6">
-                  <div className="text-[11px] font-semibold text-neutral-400 uppercase tracking-wider mb-2">
+                <div className="p-5 sm:p-6">
+                  <div className="text-[11px] font-semibold text-neutral-400 dark:text-neutral-500 uppercase tracking-wider mb-2">
                     {art.date}
                   </div>
 
@@ -85,22 +85,22 @@ const Insights = () => {
                     href={art.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="group-hover:text-primary-500 transition-colors"
+                    className="group-hover:text-primary-500 dark:group-hover:text-primary-400 transition-colors"
                   >
-                    <h3 className="font-heading-2 text-neutral-900 leading-snug mb-3 line-clamp-2">
+                    <h3 className="font-heading-2 text-neutral-900 dark:text-white leading-snug mb-3 line-clamp-2 text-base sm:text-lg">
                       {art.title}
                     </h3>
                   </a>
 
-                  <p className="font-body text-neutral-600 text-sm leading-relaxed line-clamp-3">
+                  <p className="font-body text-neutral-600 dark:text-neutral-300 text-xs sm:text-sm leading-relaxed line-clamp-3">
                     {art.summary}
                   </p>
                 </div>
               </div>
 
               {/* Card Footer Action */}
-              <div className="px-6 py-4 bg-neutral-50/70 border-t border-neutral-100 flex items-center justify-between">
-                <span className="text-xs text-neutral-500 flex items-center gap-1.5">
+              <div className="px-5 sm:px-6 py-3.5 sm:py-4 bg-neutral-50/70 dark:bg-neutral-900/60 border-t border-neutral-100 dark:border-neutral-800 flex items-center justify-between">
+                <span className="text-xs text-neutral-500 dark:text-neutral-400 flex items-center gap-1.5">
                   <BookOpen className="w-3.5 h-3.5 text-primary-500" />
                   {art.category.includes('IEEE') ? 'IEEE Xplore (2024)' : 'Hashnode Publication'}
                 </span>

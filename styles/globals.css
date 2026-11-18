@@ -27,6 +27,29 @@
   --shadow-xl: 0 16px 32px -4px rgba(15, 23, 42, 0.10);
 }
 
+.dark {
+  --primary-500: #F97316;
+  --primary-400: #FB923C;
+  --primary-300: #FDBA74;
+  --primary-200: #FED7AA;
+  --primary-100: rgba(249, 115, 22, 0.15);
+
+  --neutral-900: #F8FAFC;
+  --neutral-700: #E2E8F0;
+  --neutral-600: #CBD5E1;
+  --neutral-500: #94A3B8;
+  --neutral-300: #334155;
+  --neutral-200: #1E293B;
+  --neutral-100: #0F172A;
+  --neutral-50:  #090D16;
+  --white:       #0F172A;
+
+  --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 4px 14px -2px rgba(0, 0, 0, 0.5);
+  --shadow-lg: 0 10px 24px -3px rgba(0, 0, 0, 0.6);
+  --shadow-xl: 0 16px 36px -4px rgba(0, 0, 0, 0.7);
+}
+
 /* Base resets & typography */
 * {
   margin: 0;
@@ -40,6 +63,12 @@ html {
   color: var(--neutral-900);
 }
 
+html.dark {
+  background-color: #090D16;
+  color: #F8FAFC;
+  color-scheme: dark;
+}
+
 body {
   font-family: var(--font-inter), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   background-color: var(--neutral-50);
@@ -48,6 +77,12 @@ body {
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
   text-rendering: optimizeLegibility;
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+.dark body {
+  background-color: #090D16;
+  color: #F8FAFC;
 }
 
 /* Custom Scrollbar - lightweight, zero layout jank */
@@ -296,4 +331,81 @@ body {
 .grid-bg-pattern {
   background-image: radial-gradient(#CBD5E1 1px, transparent 1px);
   background-size: 24px 24px;
+}
+
+/* ============================================================
+   DARK MODE OVERRIDES & COMPONENT TOKENS
+   ============================================================ */
+.dark .portfolio-card {
+  background-color: #0F172A;
+  border-color: #1E293B;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.4);
+}
+
+.dark .portfolio-card:hover {
+  border-color: rgba(249, 115, 22, 0.4);
+  box-shadow: 0 8px 24px -3px rgba(0, 0, 0, 0.6);
+}
+
+.dark .btn-tertiary {
+  background-color: #0F172A;
+  color: #F8FAFC;
+  border-color: #1E293B;
+}
+
+.dark .btn-tertiary:hover {
+  background-color: #1E293B;
+  border-color: #334155;
+}
+
+.dark .btn-secondary {
+  background-color: rgba(249, 115, 22, 0.15);
+  color: #FB923C;
+  border-color: rgba(249, 115, 22, 0.25);
+}
+
+.dark .btn-secondary:hover {
+  background-color: rgba(249, 115, 22, 0.25);
+  color: #FDBA74;
+}
+
+.dark .badge-orange {
+  background-color: rgba(249, 115, 22, 0.15);
+  color: #FB923C;
+  border: 1px solid rgba(249, 115, 22, 0.3);
+}
+
+.dark .badge-neutral {
+  background-color: #1E293B;
+  color: #CBD5E1;
+  border: 1px solid #334155;
+}
+
+.dark .clean-input {
+  background-color: #0F172A;
+  border-color: #1E293B;
+  color: #F8FAFC;
+}
+
+.dark .clean-input:focus {
+  border-color: var(--primary-400);
+  box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.25);
+}
+
+.dark .grid-bg-pattern {
+  background-image: radial-gradient(#1E293B 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+.dark ::-webkit-scrollbar-track {
+  background: #090D16;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: #1E293B;
+  border: 2px solid #090D16;
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: var(--primary-500);
 }
