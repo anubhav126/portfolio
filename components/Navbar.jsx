@@ -94,7 +94,7 @@ const Navbar = ({ onOpenSearch }) => {
                 </span>
               </div>
               <p className="text-xs text-neutral-500 hidden sm:block">
-                Software Engineer • HCLTech
+                Software Engineer • Distributed Systems
               </p>
             </div>
           </a>

@@ -37,7 +37,7 @@ const World = () => {
             The Engineering Journey.
           </h2>
           <p className="font-body-lg text-neutral-600 mt-2">
-            From academic excellence at Ramaiah University (CGPA 8.6/10) to distributed event streaming at HCLTech and published IEEE research.
+            From academic excellence at Ramaiah University (CGPA 8.6/10) to distributed enterprise event streaming and published IEEE research.
           </p>
         </div>
 

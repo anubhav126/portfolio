@@ -149,7 +149,7 @@ export const projects = [
 export const journeyTimeline = [
   {
     year: 'Nov 2023 – Present',
-    badge: 'HCLTech Experience',
+    badge: 'Enterprise Engineering',
     status: 'In Progress',
     title: 'Software Engineer',
     organization: 'HCLTech',

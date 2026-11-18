@@ -97,7 +97,7 @@ const Hero = () => {
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
               <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
             </span>
-            <span>Software Engineer @ HCLTech (3 Yrs Experience)</span>
+            <span>Software Engineer • 3+ Yrs Experience</span>
           </motion.div>
 
           <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white border border-neutral-200 text-neutral-600 text-xs font-medium shadow-sm">
@@ -139,14 +139,7 @@ const Hero = () => {
               transition={{ duration: 0.5, delay: 0.2 }}
               className="font-body-lg text-neutral-700 leading-relaxed mb-8 max-w-2xl"
             >
-              Hello! I'm <strong className="text-neutral-900 font-semibold">{personalInfo.name}</strong>, a Software Engineer with 3 years of experience at{' '}
-              <motion.span
-                whileHover={{ scale: 1.05 }}
-                className="inline-flex items-center gap-1 font-semibold text-primary-600 bg-primary-100/90 px-2.5 py-0.5 rounded-md cursor-default transition-all shadow-sm shadow-primary-500/10"
-              >
-                HCLTech
-              </motion.span>
-              . I specialize in building high-throughput event-driven systems using <strong className="text-neutral-900 font-semibold">Java, Spring Boot, and Apache Kafka</strong>, Python-based <strong className="text-neutral-900 font-semibold">RAG assistants with LangChain & vector databases</strong>, test automation across 1,000+ workflows, and modern full-stack web applications with <strong className="text-neutral-900 font-semibold">React & Next.js</strong>.
+              Hello! I'm <strong className="text-neutral-900 font-semibold">{personalInfo.name}</strong>, a Software Engineer with 3 years of experience specializing in high-throughput event-driven systems using <strong className="text-neutral-900 font-semibold">Java, Spring Boot, and Apache Kafka</strong>, Python-based <strong className="text-neutral-900 font-semibold">RAG assistants with LangChain & vector databases</strong>, scalable test automation across 1,000+ workflows, and modern full-stack web applications with <strong className="text-neutral-900 font-semibold">React & Next.js</strong>.
             </motion.p>
 
             {/* CTA Action Buttons */}
@@ -243,7 +236,7 @@ const Hero = () => {
                     <h3 className="text-sm font-semibold text-neutral-900 leading-tight">
                       Software Engineer
                     </h3>
-                    <p className="text-xs text-neutral-500">HCLTech • Event-Driven & AI Systems</p>
+                    <p className="text-xs text-neutral-500">Distributed & AI Systems • Bengaluru</p>
                   </div>
                 </div>
                 <span className="badge-orange flex items-center gap-1">
@@ -263,7 +256,7 @@ const Hero = () => {
                   </div>
                   <div>
                     <h4 className="text-xs font-bold uppercase tracking-wider text-primary-600 mb-0.5">
-                      Production Impact @ HCLTech
+                      Production Architecture & Scale
                     </h4>
                     <p className="text-xs font-semibold text-neutral-900">
                       Kafka & Spring Boot Distributed Pipelines

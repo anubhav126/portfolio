@@ -1,6 +1,6 @@
 # Anubhav Adhikari — Software Engineer Portfolio
 
-An ultra-optimized, high-craft developer portfolio built with **Next.js 15 App Router**, **React 19**, **Tailwind CSS**, and **Framer Motion**, aligned with professional experience at **HCLTech**, research published on **IEEE Xplore**, and academic background from **Ramaiah University of Applied Sciences**.
+An ultra-optimized, high-craft developer portfolio built with **Next.js 15 App Router**, **React 19**, **Tailwind CSS**, and **Framer Motion**, aligned with professional experience in enterprise software engineering, research published on **IEEE Xplore**, and academic background from **Ramaiah University of Applied Sciences**.
 
 ---
 
@@ -19,7 +19,7 @@ Software Engineer with **3 years of experience** building scalable, event-driven
 
 ---
 
-## 🚀 Experience Highlights (HCLTech)
+## 🚀 Professional Experience Highlights
 
 - **Kafka Event Streaming Pipeline**: Architected a Spring Boot service with Apache Kafka consumers integrating 3–5 distributed topics to ingest high-volume event streams, validate payloads, and persist structured records, boosting pipeline processing throughput by **15–25%**.
 - **Python RAG Engineering Assistant**: Built a document intelligence assistant leveraging LangChain, LLM APIs, and vector databases for semantic chunking, indexing, and natural-language query retrieval over technical specifications.

@@ -18,11 +18,10 @@ const inter = Inter({
 export const metadata = {
   title: 'Anubhav Adhikari | Software Engineer — Java, Spring Boot, Kafka, Python RAG, Next.js',
   description:
-    'Software Engineer at HCLTech with 3 years of experience building scalable event-driven systems with Java, Spring Boot, Apache Kafka, Python RAG assistants with LangChain, test automation across 1,000+ workflows, and full-stack applications with React and Next.js.',
+    'Software Engineer with 3 years of experience building scalable event-driven systems with Java, Spring Boot, Apache Kafka, Python RAG assistants with LangChain, test automation across 1,000+ workflows, and full-stack applications with React and Next.js.',
   keywords: [
     'Anubhav Adhikari',
     'Software Engineer',
-    'HCLTech',
     'Java',
     'Spring Boot',
     'Apache Kafka',
@@ -44,7 +43,7 @@ export const metadata = {
     type: 'website',
     title: 'Anubhav Adhikari | Software Engineer — Java, Spring Boot, Kafka, Python RAG, Next.js',
     description:
-      'Software Engineer at HCLTech building scalable, event-driven systems using Java, Spring Boot, Apache Kafka, Python RAG assistants, and modern full-stack web applications.',
+      'Software Engineer building scalable, event-driven systems using Java, Spring Boot, Apache Kafka, Python RAG assistants, and modern full-stack web applications.',
     siteName: 'Anubhav Adhikari Portfolio',
   },
   icons: {
