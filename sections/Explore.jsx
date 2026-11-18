@@ -14,7 +14,7 @@ import {
 } from 'lucide-react';
 import { projects } from '../constants';
 
-const categories = ['All', 'Full-Stack', 'Backend & Systems', 'AI & Full-Stack'];
+const categories = ['All', 'Full-Stack & Cloud', 'Backend & Distributed', 'AI & GenAI'];
 
 const Explore = () => {
   const [activeCategory, setActiveCategory] = useState('All');
@@ -49,7 +49,7 @@ const Explore = () => {
               Featured Projects & Systems.
             </h2>
             <p className="font-body-lg text-neutral-600 mt-2 max-w-xl">
-              From enterprise cloud storage to multi-process reverse proxies and commercial avionics software.
+              From Apache Kafka distributed pipelines and Python RAG assistants to full-stack Next.js cloud applications and IEEE research.
             </p>
           </div>
 

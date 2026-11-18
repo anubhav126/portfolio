@@ -41,7 +41,7 @@ const Footer = () => {
               </span>
             </div>
             <p className="text-xs text-neutral-600 max-w-md leading-relaxed">
-              Software Engineer at <span className="text-primary-600 font-semibold">HCLTech</span>. Building scalable web platforms, distributed systems, and aerospace avionics software for the Airbus A350-1000F.
+              Software Engineer at <span className="text-primary-600 font-semibold">HCLTech</span> (3 years exp). Building scalable event-driven systems using Java, Spring Boot, and Apache Kafka, Python RAG assistants, and full-stack web applications with Next.js & React.
             </p>
           </div>
 

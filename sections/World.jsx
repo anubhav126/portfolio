@@ -6,21 +6,21 @@ import {
   Building2,
   MapPin,
   CheckCircle2,
-  Plane,
   Terminal,
   GraduationCap,
   GitPullRequest,
   BookOpen,
   Sparkles,
+  Layers,
+  Award,
 } from 'lucide-react';
 import { journeyTimeline } from '../constants';
 
 const yearIcons = {
-  '2025 - Present': Plane,
-  '2024': Terminal,
-  '2023': GraduationCap,
-  '2022': GitPullRequest,
-  '2019': BookOpen,
+  'Nov 2023 – Present': Layers,
+  '2024': Award,
+  'Aug 2019 – May 2023': GraduationCap,
+  '2022 – 2023': GitPullRequest,
 };
 
 const World = () => {
@@ -37,7 +37,7 @@ const World = () => {
             The Engineering Journey.
           </h2>
           <p className="font-body-lg text-neutral-600 mt-2">
-            From algorithmic foundations and open-source contributions to safety-critical commercial avionics software.
+            From academic excellence at Ramaiah University (CGPA 8.6/10) to distributed event streaming at HCLTech and published IEEE research.
           </p>
         </div>
 
@@ -49,7 +49,6 @@ const World = () => {
           {journeyTimeline.map((item, idx) => {
             const Icon = yearIcons[item.year] || Building2;
             const isInProgress = item.status === 'In Progress';
-            const isAirbus = item.year.includes('2025');
 
             return (
               <motion.div
@@ -128,17 +127,12 @@ const World = () => {
                   </div>
 
                   <div className="flex items-center gap-2.5 mb-2">
+                    <div className="w-7 h-7 rounded-lg bg-primary-100 text-primary-600 flex items-center justify-center flex-shrink-0">
+                      <Icon className="w-4 h-4" />
+                    </div>
                     <h3 className="font-heading-2 text-neutral-900 group-hover/card:text-primary-600 transition-colors">
                       {item.title}
                     </h3>
-                    {isAirbus && (
-                      <motion.div
-                        animate={{ x: [0, 4, 0] }}
-                        transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
-                      >
-                        <Plane className="w-4 h-4 text-primary-500" />
-                      </motion.div>
-                    )}
                   </div>
 
                   <p className="font-body text-neutral-600 text-sm leading-relaxed mb-4">

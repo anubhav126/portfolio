@@ -172,7 +172,7 @@ const SearchDialog = ({ isOpen, onClose }) => {
                 setQuery(e.target.value);
                 setSelectedIndex(0);
               }}
-              placeholder="Search projects, system designs, avionics..."
+              placeholder="Search Kafka, Spring Boot, RAG, Next.js, IEEE research..."
               className="w-full bg-transparent text-sm text-neutral-900 placeholder-neutral-400 focus:outline-none"
             />
             {query && (
@@ -215,7 +215,7 @@ const SearchDialog = ({ isOpen, onClose }) => {
               <div className="py-10 text-center text-neutral-500">
                 <p className="text-sm">No matching items found for "{query}".</p>
                 <p className="text-xs text-neutral-400 mt-1">
-                  Try searching for "Next.js", "Airbus", "Reverse Proxy", or "React".
+                  Try searching for "Kafka", "Spring Boot", "RAG", "Next.js", or "IEEE".
                 </p>
               </div>
             ) : (

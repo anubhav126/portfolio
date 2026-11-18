@@ -1,48 +1,44 @@
 # Anubhav Adhikari — Software Engineer Portfolio
 
-An ultra-optimized developer portfolio engineered with **Next.js 15 App Router**, **React 19**, **Tailwind CSS**, and **Framer Motion**.
+An ultra-optimized, high-craft developer portfolio built with **Next.js 15 App Router**, **React 19**, **Tailwind CSS**, and **Framer Motion**, aligned with professional experience at **HCLTech**, research published on **IEEE Xplore**, and academic background from **Ramaiah University of Applied Sciences**.
 
 ---
 
-## 🎨 Design Language
+## 👨‍💻 Professional Summary
 
-- **Color Architecture**:
-  - **Primary Palette**: Vivid warm orange accents (`Primary 500: #F97316`, `Primary 400: #FB923C`, `Primary 100: #FFEEE5`).
-  - **Neutral Canvas**: Crisp warm slate (`Neutral 50: #FAFAFC` background throughout, `Neutral 900: #0F172A` headings, `Neutral 700: #334155` body copy, `Neutral 200: #E2E8F0` borders).
-- **Typography**:
-  - **Display Titles**: `Playfair Display` serif (`Display 1: 48/56` for Hero, `Display 2: 36/44` for section headers) for an elegant, timeless feel.
-  - **Interface & Body**: `Inter` (`Headings 1-3`, `Body Large`, `Body`, `Small`) for crisp legibility.
-- **Components & Patterns**:
-  - **Buttons**: 44px height, 12px border-radius, `Inter Medium`: Primary (`#F97316` solid), Secondary (`#FFEEE5` tinted), and Tertiary (clean border `#E2E8F0`).
-  - **Cards**: Pure white `#FFFFFF` elevated cards with subtle `#E2E8F0` borders and multi-tiered shadows.
-  - **Badges & Tags**: Pill-style badges with high-contrast color matching.
-  - **Inputs & Search**: 44px height, 12px radius, `#FB923C` focus ring, keyboard shortcut indicators (`⌘K`).
+Software Engineer with **3 years of experience** building scalable, event-driven systems using **Java, Spring Boot, and Apache Kafka**. Contributed to building a **Python-based RAG assistant using LangChain and a vector database** for semantic search over engineering documents, developed **in-house test automation tooling covering 1,000+ workflows and 9,000+ records**, and built full-stack applications with **React and Next.js**.
 
 ---
 
-## 🚀 Key Features
+## 🛠️ Core Technical Skills
 
-1. **Global Command Palette (`⌘K` / `Ctrl+K`)**:
-   - Instant keyboard-accessible modal dialog searching projects, technical blogs, and career journey.
-2. **Interactive Project Showcase**:
-   - Filterable by `All`, `Full-Stack`, `Backend & Systems`, and `AI & Full-Stack` with smooth sliding tab animations.
-   - Interactive preview modal with high-res screenshots, architecture specifications, and direct GitHub / Live links.
-3. **Career Journey & Avionics Highlights**:
-   - Highlighting work on the **Airbus A350-1000F** cargo control software, Python automation frameworks (10x test acceleration), and graduation milestones.
-4. **Technical Publications**:
-   - Hashnode system design breakdowns (Google Drive System Design, JavaScript Prototypes, SMTP Mail Server from Scratch, React Virtual DOM Reconciliation).
-5. **Creative Micro-Interactions**:
-   - 3D interactive tilt physics card with dynamic mouse glare.
-   - Bouncy floating tech badges.
-   - Fluid sliding layoutId tab pill selector.
-   - Unified color palette from top to bottom.
+- **Languages**: Java, SQL, Python, TypeScript, JavaScript
+- **Backend & Frameworks**: Spring Boot, Apache Kafka, REST APIs, Node.js, Appwrite
+- **Frontend**: React.js, Next.js, Tailwind CSS, shadcn/ui
+- **Tools & Databases**: Git, Docker, PostgreSQL, MySQL, Vector Databases, LangChain, PySide6
+
+---
+
+## 🚀 Experience Highlights (HCLTech)
+
+- **Kafka Event Streaming Pipeline**: Architected a Spring Boot service with Apache Kafka consumers integrating 3–5 distributed topics to ingest high-volume event streams, validate payloads, and persist structured records, boosting pipeline processing throughput by **15–25%**.
+- **Python RAG Engineering Assistant**: Built a document intelligence assistant leveraging LangChain, LLM APIs, and vector databases for semantic chunking, indexing, and natural-language query retrieval over technical specifications.
+- **Enterprise Test Automation**: In-house Python test automation across **1,000+ workflows** and **9,000+ records**, cutting execution cycle times by **20%**.
+- **PySide6 Desktop Utility**: Desktop utility parsing Word and Excel artifacts, mapping cross-dependencies, and batch-extracting reports.
+
+---
+
+## 📚 Publications & Education
+
+- **IEEE Xplore (2024)**: *"A Comprehensive Approach to Predict Kidney Disease Risk Factor"* — Proposed an ensemble machine learning model (Random Forest, Decision Tree, Logistic Regression) with 5 feature selection techniques achieving **97.5% prediction accuracy**.
+- **Education**: **Ramaiah University of Applied Sciences, Bengaluru** — B.Tech in Computer Science and Engineering (**CGPA: 8.6 / 10**, Aug 2019 – May 2023).
 
 ---
 
 ## ⚡ Performance Optimization
 
 - **Bundle Size**: Ultra-lean First Load JS with 100% pre-rendered static content.
-- **Optimized Rendering**: Zero heavy canvas loops or GPU fill-rate spikes, smooth CSS and spring-driven transforms.
+- **Micro-Interactions**: 3D interactive cursor-tracking tilt card, sliding `layoutId` category tab pill, floating tech badge physics, and animated timeline indicators.
 - **Font Optimization**: Uses Next.js native `next/font/google` with `display: swap`.
 
 ---

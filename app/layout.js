@@ -16,28 +16,35 @@ const inter = Inter({
 });
 
 export const metadata = {
-  title: 'Anubhav Adhikari | Software Engineer & Full-Stack Systems Architect',
+  title: 'Anubhav Adhikari | Software Engineer — Java, Spring Boot, Kafka, Python RAG, Next.js',
   description:
-    'Software Engineer at HCLTech. Building high-scale web platforms, distributed systems, and aerospace avionics software for Airbus A350-1000F.',
+    'Software Engineer at HCLTech with 3 years of experience building scalable event-driven systems with Java, Spring Boot, Apache Kafka, Python RAG assistants with LangChain, test automation across 1,000+ workflows, and full-stack applications with React and Next.js.',
   keywords: [
     'Anubhav Adhikari',
     'Software Engineer',
-    'Full-Stack Developer',
+    'HCLTech',
+    'Java',
+    'Spring Boot',
+    'Apache Kafka',
+    'Python',
+    'LangChain',
+    'RAG',
+    'Vector Database',
     'Next.js',
     'React',
-    'Node.js',
-    'Python',
-    'Systems Engineering',
-    'Aerospace Avionics',
+    'SQL',
+    'PostgreSQL',
+    'Ramaiah University of Applied Sciences',
+    'IEEE Xplore',
     'Portfolio',
   ],
   authors: [{ name: 'Anubhav Adhikari' }],
   creator: 'Anubhav Adhikari',
   openGraph: {
     type: 'website',
-    title: 'Anubhav Adhikari | Software Engineer & Systems Architect',
+    title: 'Anubhav Adhikari | Software Engineer — Java, Spring Boot, Kafka, Python RAG, Next.js',
     description:
-      'Explore projects, engineering blogs, and career milestones of Anubhav Adhikari — Software Engineer at HCLTech.',
+      'Software Engineer at HCLTech building scalable, event-driven systems using Java, Spring Boot, Apache Kafka, Python RAG assistants, and modern full-stack web applications.',
     siteName: 'Anubhav Adhikari Portfolio',
   },
   icons: {

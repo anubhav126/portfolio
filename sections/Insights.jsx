@@ -27,7 +27,7 @@ const Insights = () => {
               Engineering Deep Dives & Articles.
             </h2>
             <p className="font-body-lg text-neutral-600 mt-2 max-w-xl">
-              Exploring low-level internals, scalable system designs, and computer networking concepts published on Hashnode.
+              Published research on IEEE Xplore (97.5% prediction accuracy) alongside in-depth distributed system design and network engineering analyses.
             </p>
           </div>
 
@@ -102,7 +102,7 @@ const Insights = () => {
               <div className="px-6 py-4 bg-neutral-50/70 border-t border-neutral-100 flex items-center justify-between">
                 <span className="text-xs text-neutral-500 flex items-center gap-1.5">
                   <BookOpen className="w-3.5 h-3.5 text-primary-500" />
-                  Hashnode Publication
+                  {art.category.includes('IEEE') ? 'IEEE Xplore (2024)' : 'Hashnode Publication'}
                 </span>
 
                 <a
@@ -111,7 +111,7 @@ const Insights = () => {
                   rel="noopener noreferrer"
                   className="btn-text font-semibold text-xs flex items-center gap-1 group/btn"
                 >
-                  <span>Read Full Article</span>
+                  <span>{art.category.includes('IEEE') ? 'View Research Paper' : 'Read Full Article'}</span>
                   <ArrowUpRight className="w-4 h-4 transform group-hover/btn:translate-x-1 group-hover/btn:-translate-y-1 transition-transform" />
                 </a>
               </div>

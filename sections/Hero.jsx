@@ -8,21 +8,22 @@ import {
   MapPin,
   CheckCircle2,
   ExternalLink,
-  ShieldCheck,
+  Cpu,
   Sparkles,
-  Plane,
+  Layers,
+  GraduationCap,
 } from 'lucide-react';
 import { personalInfo, stats } from '../constants';
 
 const techBadges = [
-  { name: 'React 19 & Next.js', color: '#F97316' },
+  { name: 'Java & Spring Boot', color: '#6DB33F' },
+  { name: 'Apache Kafka', color: '#E535AB' },
+  { name: 'Python & LangChain', color: '#3776AB' },
+  { name: 'Vector Databases (RAG)', color: '#8B5CF6' },
+  { name: 'React.js & Next.js', color: '#F97316' },
+  { name: 'SQL & PostgreSQL', color: '#336791' },
+  { name: 'Docker', color: '#2496ED' },
   { name: 'TypeScript', color: '#3178C6' },
-  { name: 'Node.js & Express', color: '#68A063' },
-  { name: 'Python Automation', color: '#3776AB' },
-  { name: 'C Systems', color: '#659AD2' },
-  { name: 'Tailwind CSS', color: '#06B6D4' },
-  { name: 'Appwrite & Cloud', color: '#FD366E' },
-  { name: 'MongoDB', color: '#47A248' },
 ];
 
 const Hero = () => {
@@ -65,7 +66,7 @@ const Hero = () => {
       {/* Subtle interactive background grid */}
       <div className="absolute inset-0 grid-bg-pattern opacity-35 pointer-events-none" />
 
-      {/* Creative floating background orb */}
+      {/* Floating background aura */}
       <motion.div
         animate={{
           x: [0, 25, -20, 0],
@@ -81,7 +82,7 @@ const Hero = () => {
       />
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Availability Badge */}
+        {/* Availability & Education Badges */}
         <motion.div
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
@@ -96,8 +97,13 @@ const Hero = () => {
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
               <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
             </span>
-            <span>Available for high-impact engineering roles</span>
+            <span>Software Engineer @ HCLTech (3 Yrs Experience)</span>
           </motion.div>
+
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white border border-neutral-200 text-neutral-600 text-xs font-medium shadow-sm">
+            <GraduationCap className="w-3.5 h-3.5 text-primary-500" />
+            <span>Ramaiah University (CGPA 8.6/10)</span>
+          </div>
 
           <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white border border-neutral-200 text-neutral-600 text-xs font-medium shadow-sm">
             <MapPin className="w-3.5 h-3.5 text-primary-500" />
@@ -114,9 +120,9 @@ const Hero = () => {
               transition={{ duration: 0.5, delay: 0.1 }}
               className="font-display-1 text-neutral-900 tracking-tight mb-5"
             >
-              Engineering scalable systems with{' '}
+              Architecting scalable event-driven systems &{' '}
               <span className="relative inline-block text-primary-500">
-                <span className="relative z-10">clarity</span>
+                <span className="relative z-10">intelligent RAG</span>
                 <motion.span
                   initial={{ width: 0 }}
                   animate={{ width: '100%' }}
@@ -124,7 +130,7 @@ const Hero = () => {
                   className="absolute bottom-1.5 left-0 h-3 bg-primary-100 -z-0 rounded-sm"
                 />
               </span>
-              , precision & speed.
+              {' '}pipelines.
             </motion.h1>
 
             <motion.p
@@ -133,15 +139,14 @@ const Hero = () => {
               transition={{ duration: 0.5, delay: 0.2 }}
               className="font-body-lg text-neutral-700 leading-relaxed mb-8 max-w-2xl"
             >
-              Hello! I'm <strong className="text-neutral-900 font-semibold">{personalInfo.name}</strong>, a Software Engineer at{' '}
+              Hello! I'm <strong className="text-neutral-900 font-semibold">{personalInfo.name}</strong>, a Software Engineer with 3 years of experience at{' '}
               <motion.span
                 whileHover={{ scale: 1.05 }}
                 className="inline-flex items-center gap-1 font-semibold text-primary-600 bg-primary-100/90 px-2.5 py-0.5 rounded-md cursor-default transition-all shadow-sm shadow-primary-500/10"
               >
                 HCLTech
               </motion.span>
-              . I architect production-grade web applications, reverse proxies, and mission-critical avionics control software for the{' '}
-              <strong className="text-neutral-900 font-semibold">Airbus A350-1000F</strong>.
+              . I specialize in building high-throughput event-driven systems using <strong className="text-neutral-900 font-semibold">Java, Spring Boot, and Apache Kafka</strong>, Python-based <strong className="text-neutral-900 font-semibold">RAG assistants with LangChain & vector databases</strong>, test automation across 1,000+ workflows, and modern full-stack web applications with <strong className="text-neutral-900 font-semibold">React & Next.js</strong>.
             </motion.p>
 
             {/* CTA Action Buttons */}
@@ -175,7 +180,7 @@ const Hero = () => {
             {/* Quick Tech Highlights with playful physics */}
             <div>
               <p className="text-xs uppercase tracking-wider text-neutral-400 font-semibold mb-3">
-                Core Engineering Stack
+                Core Technical Skills (From Resume)
               </p>
               <div className="flex flex-wrap gap-2">
                 {techBadges.map((t, idx) => (
@@ -238,69 +243,71 @@ const Hero = () => {
                     <h3 className="text-sm font-semibold text-neutral-900 leading-tight">
                       Software Engineer
                     </h3>
-                    <p className="text-xs text-neutral-500">HCLTech • Full-Stack & Systems</p>
+                    <p className="text-xs text-neutral-500">HCLTech • Event-Driven & AI Systems</p>
                   </div>
                 </div>
                 <span className="badge-orange flex items-center gap-1">
                   <Sparkles className="w-3 h-3 animate-spin" />
-                  Active 2026
+                  3 Yrs Exp
                 </span>
               </div>
 
-              {/* Aerospace Focus Box with subtle floating aircraft icon */}
+              {/* Event-Driven Architecture Highlight Box */}
               <motion.div
                 whileHover={{ scale: 1.02 }}
                 className="bg-neutral-50 rounded-xl p-4 border border-neutral-200/80 mb-5 relative z-10 overflow-hidden"
               >
                 <div className="flex items-start gap-3">
                   <div className="w-8 h-8 rounded-lg bg-primary-500 text-white flex items-center justify-center flex-shrink-0 mt-0.5 shadow-sm">
-                    <Plane className="w-4 h-4 animate-bounce" />
+                    <Layers className="w-4 h-4 animate-pulse" />
                   </div>
                   <div>
                     <h4 className="text-xs font-bold uppercase tracking-wider text-primary-600 mb-0.5">
-                      Aerospace Highlight
+                      Production Impact @ HCLTech
                     </h4>
                     <p className="text-xs font-semibold text-neutral-900">
-                      Airbus A350-1000F Cargo Avionics
+                      Kafka & Spring Boot Distributed Pipelines
                     </p>
                     <p className="text-xs text-neutral-600 mt-1 leading-relaxed">
-                      Engineered embedded C modules for automated cargo loading/unloading control panels under strict aviation safety compliance.
+                      Architected Kafka consumers ingesting 3–5 topics into relational SQL databases, boosting data processing speed by 15–25%.
                     </p>
                   </div>
                 </div>
               </motion.div>
 
-              {/* Key Competencies List */}
+              {/* Key Competencies List Directly from Resume */}
               <div className="space-y-2.5 mb-6 text-xs text-neutral-700 relative z-10">
                 <div className="flex items-center gap-2">
                   <CheckCircle2 className="w-4 h-4 text-emerald-500 flex-shrink-0" />
-                  <span>Next.js 15 App Router & React 19 Ecosystem</span>
+                  <span>Java, Spring Boot & Apache Kafka Event Streams</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <CheckCircle2 className="w-4 h-4 text-emerald-500 flex-shrink-0" />
-                  <span>High-Throughput Node.js Cluster Load Balancers</span>
+                  <span>Python RAG Assistant using LangChain & Vector DBs</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <CheckCircle2 className="w-4 h-4 text-emerald-500 flex-shrink-0" />
-                  <span>Python Automated Verification Harness (10x Productivity)</span>
+                  <span>Python Test Automation covering 1,000+ workflows</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <CheckCircle2 className="w-4 h-4 text-emerald-500 flex-shrink-0" />
-                  <span>Technical Author with 10+ Deep-Dive Systems Articles</span>
+                  <span>Full-Stack Web with React.js, Next.js & Appwrite</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-500 flex-shrink-0" />
+                  <span>IEEE Published Author (CKD ML Model: 97.5% Accuracy)</span>
                 </div>
               </div>
 
               {/* Card Footer action */}
               <div className="pt-4 border-t border-neutral-100 flex items-center justify-between relative z-10">
-                <span className="text-xs text-neutral-500">Hashnode Engineering Blog</span>
+                <span className="text-xs text-neutral-500">IEEE & Hashnode Publications</span>
                 <a
-                  href="https://anubhav1206.hashnode.dev"
-                  target="_blank"
-                  rel="noopener noreferrer"
+                  href="#articles"
                   className="btn-text group/link"
                 >
-                  <span>Read Articles</span>
-                  <ExternalLink className="w-3.5 h-3.5 group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5 transition-transform" />
+                  <span>View Research & Articles</span>
+                  <ArrowRight className="w-3.5 h-3.5 group-hover/link:translate-x-1 transition-transform" />
                 </a>
               </div>
             </motion.div>
