@@ -6,6 +6,7 @@ import NewFeatures from './NewFeatures';
 import InsightCard from './InsightCard';
 import Footer from './Footer';
 import ThemeToggle from './ThemeToggle';
+import ArchitectureTerminal from './ArchitectureTerminal';
 
 export {
   Navbar,
@@ -17,4 +18,5 @@ export {
   InsightCard,
   Footer,
   ThemeToggle,
+  ArchitectureTerminal,
 };

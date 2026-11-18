@@ -8,7 +8,6 @@ import {
   Clock,
   ArrowUpRight,
   ExternalLink,
-  Sparkles,
 } from 'lucide-react';
 import { articles } from '../constants';
 
@@ -19,14 +18,14 @@ const Insights = () => {
         {/* Section Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 sm:mb-12 gap-6">
           <div>
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary-100 dark:bg-primary-950/60 text-primary-500 dark:text-primary-400 text-xs font-semibold uppercase tracking-wider mb-3">
-              <Sparkles className="w-3.5 h-3.5" />
-              <span>03 • Technical Publications</span>
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary-100 dark:bg-primary-950/60 text-primary-600 dark:text-primary-400 text-xs font-medium uppercase tracking-wider mb-3">
+              <BookOpen className="w-3.5 h-3.5" />
+              <span>Research & Publications</span>
             </div>
-            <h2 className="font-display-2 text-neutral-900 dark:text-white tracking-tight text-2xl sm:text-3xl lg:text-4xl">
+            <h2 className="font-serif text-neutral-900 dark:text-white tracking-tight text-2xl sm:text-3xl lg:text-4xl">
               Engineering Deep Dives & Articles.
             </h2>
-            <p className="font-body-lg text-neutral-600 dark:text-neutral-300 mt-2 max-w-xl text-sm sm:text-base">
+            <p className="font-sans text-neutral-600 dark:text-neutral-300 mt-2 max-w-xl text-sm sm:text-base">
               Published research on IEEE Xplore (97.5% prediction accuracy) alongside in-depth distributed system design and network engineering analyses.
             </p>
           </div>

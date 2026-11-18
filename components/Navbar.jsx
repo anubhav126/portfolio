@@ -9,7 +9,7 @@ import {
   FileText,
   Code2,
   ExternalLink,
-  Sparkles,
+  User,
   Milestone,
   BookOpen,
   ChevronRight,
@@ -21,7 +21,7 @@ import { personalInfo } from '../constants';
 import ThemeToggle from './ThemeToggle';
 
 const navItems = [
-  { label: 'About', href: '#about', icon: Sparkles, desc: 'Overview & Technical Creed' },
+  { label: 'About', href: '#about', icon: User, desc: 'Overview & Systems Architecture' },
   { label: 'Projects', href: '#projects', icon: Code2, desc: 'Production Systems & Architecture' },
   { label: 'Journey', href: '#journey', icon: Milestone, desc: 'Timeline & IEEE Publication' },
   { label: 'Articles', href: '#articles', icon: BookOpen, desc: 'Technical Writing & System Design' },

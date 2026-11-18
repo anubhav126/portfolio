@@ -10,7 +10,7 @@ import {
   X,
   CheckCircle2,
   Maximize2,
-  Sparkles,
+  Layers,
 } from 'lucide-react';
 import { projects } from '../constants';
 
@@ -41,14 +41,14 @@ const Explore = () => {
         {/* Section Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 sm:mb-12 gap-6">
           <div>
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary-100 dark:bg-primary-950/60 text-primary-500 dark:text-primary-400 text-xs font-semibold uppercase tracking-wider mb-3">
-              <Sparkles className="w-3.5 h-3.5" />
-              <span>01 • Production Architecture & Systems</span>
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary-100 dark:bg-primary-950/60 text-primary-600 dark:text-primary-400 text-xs font-medium uppercase tracking-wider mb-3">
+              <Layers className="w-3.5 h-3.5" />
+              <span>Selected Systems & Projects</span>
             </div>
-            <h2 className="font-display-2 text-neutral-900 dark:text-white tracking-tight text-2xl sm:text-3xl lg:text-4xl">
-              Featured Projects & Systems.
+            <h2 className="font-serif text-neutral-900 dark:text-white tracking-tight text-2xl sm:text-3xl lg:text-4xl">
+              Featured Engineering Work.
             </h2>
-            <p className="font-body-lg text-neutral-600 dark:text-neutral-300 mt-2 max-w-xl text-sm sm:text-base">
+            <p className="font-sans text-neutral-600 dark:text-neutral-300 mt-2 max-w-xl text-sm sm:text-base">
               From Apache Kafka distributed pipelines and Python RAG assistants to full-stack Next.js cloud applications and IEEE research.
             </p>
           </div>

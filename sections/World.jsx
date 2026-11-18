@@ -10,9 +10,9 @@ import {
   GraduationCap,
   GitPullRequest,
   BookOpen,
-  Sparkles,
   Layers,
   Award,
+  Milestone,
 } from 'lucide-react';
 import { journeyTimeline } from '../constants';
 
@@ -29,14 +29,14 @@ const World = () => {
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-12 sm:mb-16">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary-100 dark:bg-primary-950/60 text-primary-500 dark:text-primary-400 text-xs font-semibold uppercase tracking-wider mb-3">
-            <Sparkles className="w-3.5 h-3.5" />
-            <span>02 • Career Timeline & Milestones</span>
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary-100 dark:bg-primary-950/60 text-primary-600 dark:text-primary-400 text-xs font-medium uppercase tracking-wider mb-3">
+            <Milestone className="w-3.5 h-3.5" />
+            <span>Career Timeline & Experience</span>
           </div>
-          <h2 className="font-display-2 text-neutral-900 dark:text-white tracking-tight text-2xl sm:text-3xl lg:text-4xl">
-            The Engineering Journey.
+          <h2 className="font-serif text-neutral-900 dark:text-white tracking-tight text-2xl sm:text-3xl lg:text-4xl">
+            Experience & Education.
           </h2>
-          <p className="font-body-lg text-neutral-600 dark:text-neutral-300 mt-2 text-sm sm:text-base">
+          <p className="font-sans text-neutral-600 dark:text-neutral-300 mt-2 text-sm sm:text-base">
             From academic excellence at Ramaiah University (CGPA 8.6/10) to distributed enterprise event streaming and published IEEE research.
           </p>
         </div>
