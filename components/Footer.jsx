@@ -70,11 +70,13 @@ const Footer = () => {
               <span>Resume</span>
               <ExternalLink className="w-3 h-3 opacity-75" />
             </motion.a>
+
+            <ThemeToggle />
           </div>
         </div>
 
         {/* Social Channels Row */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 py-6 sm:py-8">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 pt-6 sm:pt-8">
           {socials.map((s) => {
             const Icon = socialIcons[s.name] || ExternalLink;
             return (
@@ -104,26 +106,6 @@ const Footer = () => {
               </motion.a>
             );
           })}
-        </div>
-
-        {/* Bottom Bar with Theme Toggle */}
-        <div className="pt-6 border-t border-neutral-200/80 dark:border-neutral-800 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-neutral-500 dark:text-neutral-400">
-          <div className="flex items-center gap-4">
-            <p>
-              © {new Date().getFullYear()} {personalInfo.name}. All rights reserved.
-            </p>
-            <div className="sm:hidden">
-              <ThemeToggle />
-            </div>
-          </div>
-          <div className="flex items-center gap-3">
-            <span className="text-[11px] text-neutral-400 dark:text-neutral-500">
-              Engineered with Next.js 15 & Tailwind CSS
-            </span>
-            <div className="hidden sm:block">
-              <ThemeToggle />
-            </div>
-          </div>
         </div>
       </div>
     </footer>

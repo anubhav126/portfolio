@@ -31,6 +31,7 @@ module.exports = {
           700: '#C2410C',
           800: '#9A3412',
           900: '#7C2D12',
+          950: '#431407',
         },
         neutral: {
           50: '#FAFAFC',
@@ -43,6 +44,7 @@ module.exports = {
           700: '#334155',
           800: '#1E293B',
           900: '#0F172A',
+          950: '#090D16',
         },
         'primary-black': '#FAFAFC',
         'secondary-white': '#334155',

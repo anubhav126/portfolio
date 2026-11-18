@@ -12,15 +12,19 @@ import {
   Sparkles,
   Milestone,
   BookOpen,
+  ChevronRight,
+  Github,
+  Linkedin,
+  Mail,
 } from 'lucide-react';
 import { personalInfo } from '../constants';
 import ThemeToggle from './ThemeToggle';
 
 const navItems = [
-  { label: 'About', href: '#about', icon: Sparkles },
-  { label: 'Projects', href: '#projects', icon: Code2 },
-  { label: 'Journey', href: '#journey', icon: Milestone },
-  { label: 'Articles', href: '#articles', icon: BookOpen },
+  { label: 'About', href: '#about', icon: Sparkles, desc: 'Overview & Technical Creed' },
+  { label: 'Projects', href: '#projects', icon: Code2, desc: 'Production Systems & Architecture' },
+  { label: 'Journey', href: '#journey', icon: Milestone, desc: 'Timeline & IEEE Publication' },
+  { label: 'Articles', href: '#articles', icon: BookOpen, desc: 'Technical Writing & System Design' },
 ];
 
 const Navbar = ({ onOpenSearch }) => {
@@ -33,14 +37,12 @@ const Navbar = ({ onOpenSearch }) => {
       setScrolled(window.scrollY > 15);
 
       const sections = navItems.map((item) => item.href.substring(1));
-      for (const section of sections) {
-        const el = document.getElementById(section);
-        if (el) {
-          const rect = el.getBoundingClientRect();
-          if (rect.top <= 140 && rect.bottom >= 140) {
-            setActiveSection(section);
-            break;
-          }
+      const scrollPos = window.scrollY + 180;
+      for (let i = sections.length - 1; i >= 0; i -= 1) {
+        const el = document.getElementById(sections[i]);
+        if (el && el.offsetTop <= scrollPos) {
+          setActiveSection(sections[i]);
+          break;
         }
       }
     };
@@ -49,8 +51,42 @@ const Navbar = ({ onOpenSearch }) => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // Close mobile drawer on Escape key or desktop resize
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape' && mobileMenuOpen) {
+        setMobileMenuOpen(false);
+      }
+    };
+    const handleResize = () => {
+      if (window.innerWidth >= 768 && mobileMenuOpen) {
+        setMobileMenuOpen(false);
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    window.addEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+      window.removeEventListener('resize', handleResize);
+    };
+  }, [mobileMenuOpen]);
+
   const openResume = () => {
     window.open(personalInfo.resumeUrl, '_blank', 'noopener,noreferrer');
+  };
+
+  const handleNavClick = (href) => {
+    setMobileMenuOpen(false);
+    const element = document.querySelector(href);
+    if (element) {
+      const topOffset = 80;
+      const elementPosition = element.getBoundingClientRect().top + window.pageYOffset;
+      window.scrollTo({
+        top: elementPosition - topOffset,
+        behavior: 'smooth',
+      });
+    }
   };
 
   return (
@@ -149,18 +185,18 @@ const Navbar = ({ onOpenSearch }) => {
             {/* Dark Mode Toggle */}
             <ThemeToggle />
 
-            {/* Resume Button with energetic hover */}
+            {/* Resume Button (Desktop & Tablet only in header; Mobile gets dedicated CTA in menu) */}
             <motion.button
               whileHover={{ scale: 1.04, y: -1 }}
               whileTap={{ scale: 0.96 }}
               transition={{ type: 'spring', stiffness: 400, damping: 15 }}
               onClick={openResume}
               type="button"
-              className="btn-primary !h-[38px] !px-3 sm:!px-4 !text-xs font-semibold relative overflow-hidden group shadow-sm shadow-primary-500/20"
+              className="hidden sm:inline-flex btn-primary !h-[38px] !px-3.5 !text-xs font-semibold relative overflow-hidden group shadow-sm shadow-primary-500/20"
             >
               <FileText className="w-3.5 h-3.5 group-hover:rotate-6 transition-transform" />
               <span>Resume</span>
-              <ExternalLink className="w-3 h-3 opacity-70 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform hidden xs:inline-block" />
+              <ExternalLink className="w-3 h-3 opacity-70 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
             </motion.button>
 
             {/* Mobile Menu Toggle Button */}
@@ -168,59 +204,140 @@ const Navbar = ({ onOpenSearch }) => {
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               type="button"
               className="md:hidden p-2 rounded-xl text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors focus:outline-none"
-              aria-label="Toggle menu"
+              aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
+              aria-expanded={mobileMenuOpen}
             >
               {mobileMenuOpen ? <X className="w-5 h-5 sm:w-6 sm:h-6" /> : <Menu className="w-5 h-5 sm:w-6 sm:h-6" />}
             </button>
           </div>
         </div>
 
-        {/* Mobile Dropdown Menu */}
+        {/* Mobile Dropdown Menu Drawer */}
         <AnimatePresence>
           {mobileMenuOpen && (
-            <motion.div
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: 'auto' }}
-              exit={{ opacity: 0, height: 0 }}
-              transition={{ duration: 0.18 }}
-              className="md:hidden border-t border-neutral-200 dark:border-neutral-800 bg-white/95 dark:bg-[#0F172A]/95 backdrop-blur-md px-4 pt-3 pb-5 shadow-lg overflow-hidden"
-            >
-              <div className="flex flex-col gap-1 mb-3">
-                {navItems.map((item) => {
-                  const Icon = item.icon;
-                  const isActive = activeSection === item.href.substring(1);
-                  return (
-                    <a
-                      key={item.href}
-                      href={item.href}
-                      onClick={() => setMobileMenuOpen(false)}
-                      className={`flex items-center gap-2.5 p-2.5 rounded-xl text-xs font-medium transition-colors ${
-                        isActive
-                          ? 'bg-primary-100 dark:bg-primary-950/60 text-primary-600 dark:text-primary-400 font-semibold'
-                          : 'text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800'
-                      }`}
-                    >
-                      <Icon className="w-4 h-4 text-primary-500" />
-                      <span>{item.label}</span>
-                    </a>
-                  );
-                })}
-              </div>
+            <>
+              {/* Dimmed backdrop to close on outside click */}
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.15 }}
+                onClick={() => setMobileMenuOpen(false)}
+                className="fixed inset-0 bg-neutral-900/30 dark:bg-black/60 backdrop-blur-sm -z-10 md:hidden"
+              />
 
-              <div className="space-y-2 pt-2 border-t border-neutral-100 dark:border-neutral-800">
-                <ThemeToggle showLabel className="w-full !h-10" />
+              {/* Elevated Modern Drawer */}
+              <motion.div
+                initial={{ opacity: 0, y: -8 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -8 }}
+                transition={{ duration: 0.18, ease: 'easeOut' }}
+                className="md:hidden border-t border-neutral-200/80 dark:border-neutral-800 bg-white/98 dark:bg-[#0B0F19]/98 backdrop-blur-xl px-4 pt-3.5 pb-6 shadow-2xl overflow-hidden"
+              >
+                {/* Navigation items list */}
+                <div className="space-y-1.5 mb-4">
+                  {navItems.map((item) => {
+                    const Icon = item.icon;
+                    const isActive = activeSection === item.href.substring(1);
+                    return (
+                      <a
+                        key={item.href}
+                        href={item.href}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          handleNavClick(item.href);
+                        }}
+                        className={`flex items-center justify-between p-3 rounded-2xl transition-all duration-200 group ${
+                          isActive
+                            ? 'bg-primary-50 dark:bg-primary-950/40 border border-primary-200/80 dark:border-primary-800/60 shadow-sm'
+                            : 'hover:bg-neutral-100/80 dark:hover:bg-neutral-800/50 border border-transparent'
+                        }`}
+                      >
+                        <div className="flex items-center gap-3 min-w-0">
+                          <div
+                            className={`w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0 transition-colors ${
+                              isActive
+                                ? 'bg-primary-500 text-white shadow-sm shadow-primary-500/30'
+                                : 'bg-neutral-100 dark:bg-neutral-800 text-neutral-600 dark:text-neutral-400 group-hover:text-primary-500 group-hover:bg-primary-50 dark:group-hover:bg-neutral-700'
+                            }`}
+                          >
+                            <Icon className="w-4 h-4" />
+                          </div>
+                          <div className="text-left">
+                            <div
+                              className={`text-sm font-semibold leading-tight ${
+                                isActive
+                                  ? 'text-primary-600 dark:text-primary-400'
+                                  : 'text-neutral-800 dark:text-neutral-200 group-hover:text-primary-600 dark:group-hover:text-primary-400'
+                              }`}
+                            >
+                              {item.label}
+                            </div>
+                            <div className="text-[11px] text-neutral-500 dark:text-neutral-400 mt-0.5">
+                              {item.desc}
+                            </div>
+                          </div>
+                        </div>
 
-                <button
-                  onClick={openResume}
-                  type="button"
-                  className="btn-secondary !h-10 !w-full !text-xs justify-center dark:bg-neutral-800 dark:text-neutral-200 dark:border-neutral-700"
-                >
-                  <FileText className="w-4 h-4" />
-                  <span>View Full Resume</span>
-                  <ExternalLink className="w-3.5 h-3.5 opacity-60" />
-                </button>
-              </div>
-            </motion.div>
+                        <div className="flex items-center pl-2">
+                          {isActive ? (
+                            <span className="w-2 h-2 rounded-full bg-primary-500 animate-pulse" />
+                          ) : (
+                            <ChevronRight className="w-4 h-4 text-neutral-400 group-hover:text-primary-500 group-hover:translate-x-0.5 transition-all" />
+                          )}
+                        </div>
+                      </a>
+                    );
+                  })}
+                </div>
+
+                {/* Drawer Footer Actions */}
+                <div className="pt-3 border-t border-neutral-200/80 dark:border-neutral-800/80 space-y-3">
+                  {/* Primary View Full Resume CTA Button */}
+                  <button
+                    onClick={openResume}
+                    type="button"
+                    className="btn-primary !h-11 !w-full !rounded-xl !text-sm font-semibold justify-center shadow-md shadow-primary-500/20"
+                  >
+                    <FileText className="w-4 h-4" />
+                    <span>View Full Resume</span>
+                    <ExternalLink className="w-3.5 h-3.5 opacity-80" />
+                  </button>
+
+                  {/* Quick Connect Channels in Drawer */}
+                  <div className="flex items-center justify-between pt-1 px-1 text-xs text-neutral-500 dark:text-neutral-400">
+                    <span>Connect & Links</span>
+                    <div className="flex items-center gap-2">
+                      <a
+                        href={personalInfo.githubUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="w-8 h-8 rounded-lg bg-neutral-100 dark:bg-neutral-800 flex items-center justify-center text-neutral-600 dark:text-neutral-300 hover:text-primary-500 transition-colors"
+                        title="GitHub"
+                      >
+                        <Github className="w-3.5 h-3.5" />
+                      </a>
+                      <a
+                        href={personalInfo.linkedinUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="w-8 h-8 rounded-lg bg-neutral-100 dark:bg-neutral-800 flex items-center justify-center text-neutral-600 dark:text-neutral-300 hover:text-primary-500 transition-colors"
+                        title="LinkedIn"
+                      >
+                        <Linkedin className="w-3.5 h-3.5" />
+                      </a>
+                      <a
+                        href={`mailto:${personalInfo.email}`}
+                        className="w-8 h-8 rounded-lg bg-neutral-100 dark:bg-neutral-800 flex items-center justify-center text-neutral-600 dark:text-neutral-300 hover:text-primary-500 transition-colors"
+                        title="Email"
+                      >
+                        <Mail className="w-3.5 h-3.5" />
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+            </>
           )}
         </AnimatePresence>
       </div>
